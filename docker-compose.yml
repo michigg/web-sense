@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./frontend
+      target: 'develop-stage'
+    command: /bin/sh -c "yarn serve"
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 8080:8080
+  taskApi:
+    image: nginx:1.21.6-alpine
+    ports:
+      - "8888:80"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    volumes:
+      - ./backend/nginx.conf:/etc/nginx/nginx.conf
+      - ./backend/api:/api
