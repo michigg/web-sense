@@ -52,7 +52,7 @@ export class MicAnalyzer {
       console.info('[AudioDBAnalyzer]: Analyzer started')
     } catch (e) {
       console.error('[AudioDBAnalyzer]: Analyzer start failed', e)
-      throw new SensorError('Aufnahme konnte nicht gestartet werden. Bitte versuchen Sie es erneut.', [e as Error])
+      throw new SensorError('Aufnahme konnte nicht gestartet werden. Bitte versuchen Sie es erneut.', e as Error)
     }
   }
 
@@ -68,7 +68,7 @@ export class MicAnalyzer {
       console.info('[AudioDBAnalyzer]: ANALYZER STOP')
     } catch (e) {
       console.error('[AudioDBAnalyzer]: Analyzer stop failed', e)
-      throw new SensorError('Aufnahme konnte nicht gestoppt werden. Bitte versuchen Sie es erneut.', [e as Error])
+      throw new SensorError('Aufnahme konnte nicht gestoppt werden. Bitte versuchen Sie es erneut.', e as Error)
     }
   }
 

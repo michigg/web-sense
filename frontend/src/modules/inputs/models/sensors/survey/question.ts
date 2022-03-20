@@ -1,6 +1,5 @@
 import { toRaw } from 'vue'
 import { QuestionType } from '@/modules/inputs/models/sensors/survey/questionType'
-import { InputType } from '@/modules/inputs/models/inputType'
 
 export interface ApiQuestion {
   id: string,

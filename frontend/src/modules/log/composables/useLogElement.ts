@@ -3,7 +3,6 @@ import { useStore } from '@/store'
 import { useRoute } from 'vue-router'
 import { LogTask } from '@/modules/log/models/logTask'
 import { logDB } from '@/modules/log/models/logIDB'
-import { unwrap } from 'idb'
 
 export function useLogElement (): { logElement: ComputedRef<LogTask>, deleteLogElement: () => Promise<void> } {
   const store = useStore()

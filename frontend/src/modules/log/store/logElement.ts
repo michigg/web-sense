@@ -1,8 +1,6 @@
 import { Commit } from 'vuex'
 import { logDB } from '@/modules/log/models/logIDB'
 import { LogTask } from '@/modules/log/models/logTask'
-import { useInflux } from '@/shared/composables/services/useInflux'
-import { useThingsBoard } from '@/shared/composables/services/useThingsBoard'
 import { useContribute } from '@/modules/log/composables/useContribute'
 
 interface LogElementState {

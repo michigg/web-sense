@@ -2,7 +2,6 @@ import { ITaskStepInstruction } from '@/modules/tasks/models/taskStepInstruction
 import { ApiQuestion, Question } from '@/modules/inputs/models/sensors/survey/question'
 import { InputType } from '@/modules/inputs/models/inputType'
 import { TaskError } from '@/modules/tasks/exceptions'
-import { Input } from 'postcss'
 
 export interface APITaskStep {
   id: string
