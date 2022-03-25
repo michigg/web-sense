@@ -1,0 +1,85 @@
+@startuml
+component Inputs {
+    enum InputType {
+      SURVEY,
+      MIC,
+      GEOLOCATION
+    }
+}
+
+component Tasks {
+    class Task {
+      +readonly id: number
+      +readonly title: string
+      +readonly description: string
+      +readonly inputDescriptions: { [inputType: string]: string }
+      +readonly steps: Array<TaskStep>
+      +readonly resultActivityComponentName?: string
+      +approved: boolean
+
+      +getInputs (): Array<InputType>
+    }
+
+    class TaskStep {
+      +readonly id: string
+      +readonly title: string
+      +readonly description: string
+      +readonly instructions: Array<ITaskStepInstruction>
+      +readonly activityComponentName: string
+      +readonly inputTypes: Array<InputType>
+      +readonly resultActivityComponentName: string
+    }
+
+    class SurveyTaskStep extends TaskStep {
+      +readonly questions: Map<string, Question>
+    }
+
+    class Question {
+      +readonly id: string
+      +readonly type: QuestionType
+      +readonly title: string
+      +readonly question: string
+      +readonly options?: any
+      +answer?: object | number | string | boolean
+    }
+
+    enum QuestionType {
+      TEXT,
+      LARGE_TEXT,
+      SINGLE_CHOICE,
+      MULTIPLE_CHOICE,
+      ORDINAL_SCALE'
+    }
+
+    class SensorTaskStep  extends TaskStep {}
+
+    interface ITaskStepInstruction {
+      title: string,
+      image?: IImage,
+      description: string
+    }
+
+    Task --> TaskStep
+    Task --> InputType
+    TaskStep --> InputType
+    SurveyTaskStep --> Question
+    Question --> QuestionType
+    TaskStep --> ITaskStepInstruction
+
+    class Result {
+      +readonly measurements: Map<string, number | string | boolean>
+      +readonly metas: Map<string, number | string | boolean>
+
+      +addMeta (key: string, value: number | string | boolean)
+      +addMeasurement (key: string, value: number | string | boolean)
+    }
+
+    class TaskStepResult {
+      +readonly taskStep: TaskStep
+      +readonly results: Array<Result>
+      +readonly timestamp: number
+    }
+    TaskStepResult -left-> TaskStep
+    TaskStepResult --> Result
+}
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+interface IMicCalibrationConfigPreConditions {
+    durationInSeconds: number
+    maximalBackgroundNoise?: number
+}
+
+interface IMicCalibrationConfigAnalysis {
+    durationInSeconds: number
+}
+
+interface IMicCalibrationConfigPostConditions {}
+
+interface InstructionStep {
+  image: string
+  description: string
+}
+
+interface IMicCalibrationConfigInstructions {
+    steps: Array<InstructionStep>
+}
+IMicCalibrationConfigInstructions --> InstructionStep
+
+interface IMicCalibrationConfig {
+  preConditions: IMicCalibrationConfigPreConditions
+  analysis: IMicCalibrationConfigAnalysis
+  postConditions: IMicCalibrationConfigPostConditions,
+  instructions: IMicCalibrationConfigInstructions
+}
+IMicCalibrationConfig --> IMicCalibrationConfigInstructions
+IMicCalibrationConfig --> IMicCalibrationConfigPostConditions
+IMicCalibrationConfig --> IMicCalibrationConfigAnalysis
+IMicCalibrationConfig --> IMicCalibrationConfigPreConditions
+
+
+interface IMicCalibrationData {
+ audioContext: AudioContext,
+ sourceNode: MediaStreamAudioSourceNode,
+ config: IMicCalibrationConfig,
+}
+IMicCalibrationData --> AudioContext
+IMicCalibrationData --> MediaStreamAudioSourceNode
+IMicCalibrationData --> IMicCalibrationConfig
+
+
+interface IMicCalibrationService {
+  calibration(config: IMicCalibrationConfig): IMicCalibrationData
+}
+
+class MicCalibrationService implements IMicCalibrationService {
+}
+@enduml

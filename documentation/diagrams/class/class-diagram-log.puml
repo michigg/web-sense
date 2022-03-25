@@ -1,0 +1,56 @@
+@startuml
+component shared {
+    interface InfluxDBConvertable {
+      toInfluxPoints (): Array<Point>
+    }
+
+    interface ThingsboardConvertable {
+      toTBTelemetries (): Array<TBPoint>
+    }
+
+    interface LogDBConvertable {
+      toIDB (): IIDBLogTask
+    }
+}
+
+component Log {
+    class LogTask implements InfluxDBConvertable, ThingsboardConvertable, LogDBConvertable {
+        +readonly pKey?: number
+        +readonly id: number
+        +readonly title: string
+        +readonly checkInTimestamp: number
+        +readonly steps: Array<LogTaskStep>
+        +readonly resultActivityComponentName: string | undefined
+        +transmitted: boolean
+
+        +static fromResults (task: Task, stepsResults: Array<TaskStepResult>): LogTask
+        +static fromIDB (idbLog: IIDBLogTask | undefined): LogTask | undefined
+    }
+
+    class LogTaskStep {
+      +readonly id: string
+      +readonly title: string
+      +readonly timestamp: number
+      +readonly inputTypes: Array<InputType>
+      +readonly results: Array<LogTaskStepResult>
+      +readonly resultActivityComponentName?: string
+
+      +static fromResults (taskStep: TaskStep, taskStepResult: TaskStepResult): LogTaskStep
+      +static fromIDB (idbLogTaskStep: IIDBLogTaskStep): LogTaskStep
+      +toInfluxPoints (taskId: string): Array<Point>
+      +toTBTelemetries (taskId: string): Array<TBPoint>
+      +toIDB (): IIDBLogTaskStep
+    }
+    LogTask --> LogTaskStep
+
+    class LogTaskStepResult {
+      +readonly metas: Map<string, number | string | boolean>
+      +readonly measurements: Map<any, number | string | boolean>
+
+      +static fromTaskResult (taskResult: Result)
+      +static fromIDB (idbResult: IIDBLogTaskStepResult): LogTaskStepResult
+      +toIDB (): IIDBLogTaskStepResult
+    }
+    LogTaskStep --> LogTaskStepResult
+}
+@enduml

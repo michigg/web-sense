@@ -1,0 +1,19 @@
+@startuml
+start
+-> start app;
+:Task selection;
+:Task start;
+-> execute task;
+:Task execution;
+repeat
+    :Task step;
+repeat while(all task steps not done?) is (yes) not (no)
+:Task finished;
+if (donate?) then
+-> Yes;
+else
+-> No;
+endif
+:Log element;
+stop
+@enduml

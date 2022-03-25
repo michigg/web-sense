@@ -1,0 +1,25 @@
+@startuml
+component Inputs {
+    enum InputType {
+      SURVEY,
+      MIC,
+      GEOLOCATION
+    }
+
+    interface Sensor {
+      +readonly key: InputType
+      +readonly availableIconKey: string
+      +readonly unavailableIconKey: string
+      +isAvailable: boolean
+      +isActive: boolean
+      +isCalibrated: boolean
+
+      +checkAvailability (): Promise<void>
+    }
+    Sensor --> InputType
+
+    class GeolocationSensor implements Sensor
+    class MicSensor implements Sensor
+    class SurveySensor implements Sensor
+}
+@enduml

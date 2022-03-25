@@ -1,0 +1,12 @@
+@startuml
+
+(*) --> Input
+Input --> Preprocessor
+Preprocessor --> Preprocessor
+Preprocessor --> Log
+Log --> "Local Store"
+Log --> "Remote Store"
+"Local Store" --> (*)
+"Remote Store" --> (*)
+
+@enduml

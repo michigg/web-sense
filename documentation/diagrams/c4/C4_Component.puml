@@ -1,0 +1,41 @@
+@startuml PWA
+!define ICONURL https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.4.0
+!include ICONURL/common.puml
+!include ICONURL/devicons2/vuejs.puml
+!include ICONURL/devicons2/nginx_original.puml
+!include ICONURL/font-awesome-5/map.puml
+!include ICONURL/govicons/user.puml
+!include ICONURL/govicons/user_suit.puml
+!include ICONURL/govicons/database.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+Container_Boundary(mcs, "PWA") {
+   Component(inputs, "Inputs Controller", "Component", "Manages sensors; Prove the availability; Controls access to them; Manages sensor calibration")
+   Component(tasks, "Tasks Controller", "Component", "Manages tasks and their execution")
+   Component(log, "Log Controller", "Component", "Manages task log elements")
+   Component(setting, "Settings Controller", "Component", "Manages settings; Updates settings on user input")
+
+   Component(store, "Store", "Vuex", "Central store that controls transmission to backends and the local persistent storage")
+   Component(persistent_store, "Persistent Store", "IndexedDB", "Browser storage", $sprite=database)
+}
+'Container(mcs_web_server, "Application Server", "Web Server", "Delivers the web app", $sprite=nginx_original)
+Container(mcs_backend, "API Server", "Web Server", "Delivers the task configuration", $sprite=nginx_original)
+
+System_Ext(osm, "OSM", "Provides map data", $sprite=map)
+System_Ext(datastore, "Crowd sensed data systems", "ThingsBoard or InfluxDB; Stores crowd sensed data and provide UI to display them")
+
+Rel(tasks, store, "Gets tasks")
+Rel(log, store, "Gets log data")
+Rel(setting, store, "Gets settings")
+Rel(inputs, store, "Gets sensor")
+Rel_L(store, persistent_store, "Persists data")
+
+Rel(store, datastore, "Sends donated data", "HTTPS")
+Rel_R(log, osm, "Requests map data", "HTTPS")
+
+'Rel_D(mcs, mcs_web_server, "request app data", "HTTPS")
+Rel(store, mcs_backend, "Requests task data", "HTTPS")
+@enduml

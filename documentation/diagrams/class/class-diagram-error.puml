@@ -1,0 +1,16 @@
+@startuml
+
+class Error {
+    +name: string
+    +message: string
+    +trace: Array
+}
+
+class BaseError extends Error {
+    +cause: Array<Error> | Error | undefined
+}
+
+class SensorRepositoryError extends BaseError {}
+class SensorServiceError extends BaseError {}
+
+@enduml
