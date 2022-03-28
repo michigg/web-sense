@@ -15,7 +15,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  coverageReporters: ['html', 'json', 'lcov', 'cobertura'],
+  coverageReporters: ['lcovonly', 'cobertura'],
   collectCoverageFrom: [
     '<rootDir>/src/**/*.vue',
     '<rootDir>/src/**/*.ts'
