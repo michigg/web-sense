@@ -153,8 +153,6 @@ steps:
       event:
         - tag
         - push
-    depends_on:
-      - build
 
   - name: notify
     image: plugins/matrix
@@ -181,7 +179,6 @@ steps:
         - failure
     depends_on:
       - deploy
-      - build
 
 trigger:
   event:
