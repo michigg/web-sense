@@ -80,9 +80,73 @@ steps:
       target: production-stage
       repo: michigg/web-sense
       auto_tag: true
-      auto_tag_suffix: frontend
       dockerfile: frontend/Dockerfile
       context: frontend
+    when:
+      branch:
+        - main
+      event:
+        - tag
+        - push
+    depends_on:
+      - build
+
+  - name: notify
+    image: plugins/matrix
+    settings:
+      homeserver:
+        from_secret: matrix_homeserver
+      roomid:
+        from_secret: matrix_roomid
+      userid:
+        from_secret: matrix_userid
+      accesstoken:
+        from_secret: matrix_accesstoken
+      template: >
+        {{#success build.status}}
+        ✅ {{repo.owner}}/{{repo.name}}  {{build.number}}
+        {{else}}
+        ❌ {{repo.owner}}/{{repo.name}} {{build.number}}
+        {{/success}}
+        depends_on:
+        - deploy
+    when:
+      status:
+        - success
+        - failure
+    depends_on:
+      - deploy
+      - build
+
+trigger:
+  event:
+    - cron
+    - custom
+    - push
+    - pull_request
+    - tag
+
+---
+kind: pipeline
+type: docker
+name: task-manager-api
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: deploy
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: michigg/web-sense-task-manager-api
+      auto_tag: true
+      dockerfile: backend/Dockerfile
+      context: backend
     when:
       branch:
         - main

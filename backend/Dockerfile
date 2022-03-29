@@ -12,13 +12,3 @@ FROM nginx as production-stage
 WORKDIR /app
 COPY --from=build-stage /app/dist /app
 COPY nginx.conf /etc/nginx/nginx.conf
-  taskApi:
-    image: michigg/masterthesis:working-draft-backend-0.18.4
-    ports:
-      - "8888:80"
-    environment:
-      - NGINX_HOST=localhost
-      - NGINX_PORT=80
-    volumes:
-      - ./prototype-backend/nginx.conf:/etc/nginx/nginx.conf
-      - ./prototype-backend/api:/api
