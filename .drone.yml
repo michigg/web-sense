@@ -78,14 +78,14 @@ steps:
       password:
         from_secret: docker_password
       target: production-stage
-      repo: michigg/masterthesis
+      repo: michigg/web-sense
       auto_tag: true
       auto_tag_suffix: frontend
       dockerfile: frontend/Dockerfile
       context: frontend
     when:
       branch:
-        - master
+        - main
       event:
         - tag
         - push
@@ -125,8 +125,4 @@ trigger:
     - custom
     - push
     - pull_request
-    - tag
-    - promote
-    - rollback
-
     - tag
