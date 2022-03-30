@@ -1,8 +1,9 @@
 # WebSense
 [![Build Status](https://github.drone.michigg.de/api/badges/michigg/web-sense/status.svg)](https://github.drone.michigg.de/michigg/web-sense) [![Quality Gate Status](https://sonarqube.michigg.de/api/project_badges/measure?project=michigg%3Aweb-sense&metric=alert_status)](https://sonarqube.michigg.de/dashboard?id=michigg%3Aweb-sense) [![Coverage](https://sonarqube.michigg.de/api/project_badges/measure?project=michigg%3Aweb-sense&metric=coverage)](https://sonarqube.michigg.de/dashboard?id=michigg%3Aweb-sense)
 
-With this project we want to evaluate a web based approach
-for mobile crowd sensing frameworks. Currently, the noise measurement use case is implemented as an application example. Usually, crowd sensing
+This project was created during a master thesis.
+
+With this project we want to evaluate a web based approach for mobile crowd sensing frameworks. Currently, the noise measurement use case is implemented as an application example. Usually, crowd sensing
 frameworks use native applications for their clients. For example [Medusa](https://github.com/USC-NSL/Medusa) and [AWARE](https://awareframework.com/).
 
 This would lead to a high implementation effort because both iOS and Android applications need to be implemented. Therefore, a progressive web app is used as an alternative way to create a crowd sensing application that runs on any device with a browser. This is a prototype to evaluate the possibilities of a web based crowd sensing framework. The prototype was evaluated by experts and thereafter by a qualitative user study. The implementation process shows that a web based approach cannot offer opportunistic crowd sensing use cases because sensors cannot run in the background yet. An implementation using the PWA approach does not have the capabilities of a native app because some sensors of the mobile device that native applications can access are not accessible using web technologies.
