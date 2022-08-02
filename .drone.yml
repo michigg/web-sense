@@ -9,13 +9,13 @@ platform:
 
 steps:
   - name: install
-    image: node:latest
+    image: node:lts
     commands:
       - cd frontend
       - yarn ci
 
   - name: lint
-    image: node:latest
+    image: node:lts
     commands:
       - cd frontend
       - yarn lint
@@ -23,7 +23,7 @@ steps:
       - install
 
   - name: unit-test
-    image: node:latest
+    image: node:lts
     commands:
       - cd frontend
       - yarn test:unit --ci --coverage
@@ -63,7 +63,7 @@ steps:
       - e2e-test-firefox
 
   - name: build
-    image: node:latest
+    image: node:lts
     commands:
       - cd frontend
       - yarn build
