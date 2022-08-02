@@ -1,10 +1,21 @@
-import { computed, ComputedRef, onMounted, Ref, ref } from 'vue'
-import { useStore } from '@/store'
-import { Task } from '@/modules/tasks/models/task'
-import { useRoute } from 'vue-router'
+import { computed, onMounted, ref } from "vue"
+import type { ComputedRef, Ref } from "vue"
+import type { Task } from "@/modules/tasks/models/task"
+import { useRoute } from "vue-router"
+import { useTasksStore } from "@/modules/tasks/store/tasks"
+import { useSensorStore } from "@/modules/inputs/store"
 
-export function useTask (): { busy: Ref<boolean>, error: Ref<Error | undefined>, tasks: ComputedRef<Task[]>, task: ComputedRef<Task>, approveTask: () => Promise<void>, refuseTask: () => Promise<void>, taskExecutionPossible: ComputedRef<boolean> } {
-  const store = useStore()
+export function useTask (): {
+  busy: Ref<boolean>
+  error: Ref<Error | undefined>
+  tasks: ComputedRef<Map<number, Task>>
+  task: ComputedRef<Task | undefined>
+  approveTask: () => Promise<void>
+  refuseTask: () => Promise<void>
+  taskExecutionPossible: ComputedRef<boolean>
+} {
+  const tasksStore = useTasksStore()
+  const sensorStore = useSensorStore()
   const route = useRoute()
   const taskId = +route.params.taskId
   const busy = ref(false)
@@ -14,7 +25,7 @@ export function useTask (): { busy: Ref<boolean>, error: Ref<Error | undefined>,
     try {
       busy.value = true
       error.value = undefined
-      await store.dispatch('tasks/fetchTasks')
+      await tasksStore.fetchTasks()
     } catch (e) {
       error.value = e as Error
     } finally {
@@ -22,22 +33,31 @@ export function useTask (): { busy: Ref<boolean>, error: Ref<Error | undefined>,
     }
   })
 
-  const tasks = computed(() => store.getters['tasks/getTasks'])
-  const task = computed(() => store.getters['tasks/getTasks'].get(taskId))
+  const tasks = computed(() => tasksStore.getTasks)
+  const task = computed(() => tasksStore.getTasks.get(taskId))
 
   const taskExecutionPossible = computed(() => {
-    return store.getters['sensors/sensorsAvailable'](task.value.getInputs())
+    if (task.value == null) {
+      throw new Error("Es wurde leider keine Aufgabe gefunden.")
+    }
+    return sensorStore.sensorsAvailable(task.value.getInputs())
   })
 
   const approveTask = async () => {
-    await store.dispatch('tasks/setApprovedState', {
+    if (task.value == null) {
+      throw new Error("Es wurde leider keine Aufgabe gefunden.")
+    }
+    await tasksStore.setApproved({
       taskId: task.value.id,
       approved: true
     })
   }
 
   const refuseTask = async () => {
-    await store.dispatch('tasks/setApprovedState', {
+    if (task.value == null) {
+      throw new Error("Es wurde leider keine Aufgabe gefunden.")
+    }
+    await tasksStore.setApprovedState({
       taskId: task.value.id,
       approved: false
     })

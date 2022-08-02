@@ -15,15 +15,15 @@
       :sensors="currentTaskStepSensors"
       class="page-task-execute"
       @submit="submit"
-    ></component>
+    />
   </LayoutBase>
 </template>
 
 <script lang="ts" setup>
-import LayoutBase from '@/shared/components/LayoutBase.vue'
-import { useTaskRoutes } from '@/modules/tasks/composables/useTaskRoutes'
-import { useTask } from '@/modules/tasks/composables/useTaskExecute'
-import { Result } from '@/modules/tasks/models/result'
+import LayoutBase from "@/shared/components/LayoutBase.vue"
+import { useTaskRoutes } from "@/modules/tasks/composables/useTaskRoutes"
+import { useTask } from "@/modules/tasks/composables/useTaskExecute"
+import type { Result } from "@/modules/tasks/models/result"
 
 const { routeToTaskFinished } = useTaskRoutes()
 const {
@@ -40,7 +40,7 @@ const submit = async (result: Array<Result>) => {
   try {
     await addTaskStepResults(result)
 
-    if (isLastTaskStep.value) {
+    if (isLastTaskStep.value && task.value) {
       await routeToTaskFinished(task.value.id)
       return
     }

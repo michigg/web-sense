@@ -12,25 +12,39 @@
     :title="`Messung ${logElement.title}`"
   >
     <small>MId: {{ logElement.pKey }}. TId: {{ logElement.id }}</small>
-    <LogTransmissionAction :transmitted="logElement.transmitted"/>
-    <DynamicResult v-if="logElement" :log-task="logElement"/>
-    <WarnCard title="Messung löschen" class="delete-box">
-      <p>Mit dem Klick auf <strong>Messung löschen</strong> wird diese Messung lokal von Ihrem Gerät gelöscht. Falls Sie
-        diese Messung bereits gespendet haben, bleibt diese Messung veröffentlicht.</p>
-      <ButtonBase @click="deleteLogAndRouteToMeasurements" class="delete-button">Messung löschen</ButtonBase>
+    <LogTransmissionAction :transmitted="logElement.transmitted" />
+    <DynamicResult
+      v-if="logElement"
+      :log-task="logElement"
+    />
+    <WarnCard
+      title="Messung löschen"
+      class="delete-box"
+    >
+      <p>
+        Mit dem Klick auf <strong>Messung löschen</strong> wird diese Messung
+        lokal von Ihrem Gerät gelöscht. Falls Sie diese Messung bereits
+        gespendet haben, bleibt diese Messung veröffentlicht.
+      </p>
+      <ButtonBase
+        class="delete-button"
+        @click="deleteLogAndRouteToMeasurements"
+      >
+        Messung löschen
+      </ButtonBase>
     </WarnCard>
   </LayoutBase>
 </template>
 
 <script lang="ts" setup>
-import LayoutBase from '@/shared/components/LayoutBase.vue'
-import { useLogElement } from '@/modules/log/composables/useLogElement'
-import LogTransmissionAction from '@/modules/log/components/LogTransmissionAction.vue'
-import ButtonBase from '@/shared/components/ButtonBase.vue'
-import { useLogRoutes } from '@/modules/log/composables/useLogRoutes'
-import DynamicResult from '@/modules/log/components/DynamicResult.vue'
-import WarnCard from '@/shared/components/cards/WarnCard.vue'
-import LoadingCard from '@/shared/components/cards/LoadingCard.vue'
+import LayoutBase from "@/shared/components/LayoutBase.vue"
+import { useLogElement } from "@/modules/log/composables/useLogElement"
+import LogTransmissionAction from "@/modules/log/components/LogTransmissionAction.vue"
+import ButtonBase from "@/shared/components/ButtonBase.vue"
+import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
+import DynamicResult from "@/modules/log/components/DynamicResult.vue"
+import WarnCard from "@/shared/components/cards/WarnCard.vue"
+import LoadingCard from "@/shared/components/cards/LoadingCard.vue"
 
 const {
   logElement,
@@ -46,7 +60,7 @@ const deleteLogAndRouteToMeasurements = async () => {
 <style scoped>
 small {
   align-self: flex-end;
-  padding: .25rem 1rem;
+  padding: 0.25rem 1rem;
   width: auto;
 }
 

@@ -8,15 +8,18 @@
     >
       <span>{{ toDateTime(log.checkInTimestamp) }}</span>
       <span>{{ log.title }}</span>
-      <span><BaseIcon icon-key="bi-chevron-right" class="icon"/></span>
+      <span><BaseIcon
+        icon-key="bi-chevron-right"
+        class="icon"
+      /></span>
     </li>
   </ul>
 </template>
 <script lang="ts" setup>
-import BaseIcon from '@/shared/components/BaseIcon.vue'
-import { useLogRoutes } from '@/modules/log/composables/useLogRoutes'
-import { useDateTime } from '@/shared/composables/useDateTime'
-import { LogTask } from '@/modules/log/models/logTask'
+import BaseIcon from "@/shared/components/BaseIcon.vue"
+import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
+import { useDateTime } from "@/shared/composables/useDateTime"
+import type { LogTask } from "@/modules/log/models/logTask"
 
 defineProps<{ logs: Array<LogTask> }>()
 
@@ -40,7 +43,8 @@ const { routeToMeasurementDetail } = useLogRoutes()
   border-radius: var(--card-radius);
 }
 
-.log-element:hover, .log-element:active {
+.log-element:hover,
+.log-element:active {
   background-color: var(--color-focus);
 }
 

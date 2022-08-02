@@ -1,13 +1,13 @@
 <template>
-  <button v-bind="$attrs" :class="[active ? 'active' : '']">
-    <slot/>
+  <button
+    v-bind="$attrs"
+    :class="[active ? 'active' : '']"
+  >
+    <slot />
   </button>
 </template>
 <script lang="ts" setup>
-withDefaults(
-  defineProps<{ active?: boolean }>(),
-  { active: false }
-)
+withDefaults(defineProps<{ active?: boolean }>(), { active: false })
 </script>
 <style scoped>
 button {
@@ -22,7 +22,9 @@ button {
   font-weight: bold;
 }
 
-button:hover, button:active, button.active {
+button:hover,
+button:active,
+button.active {
   box-shadow: inset 0.25rem 0.25rem 0.5rem hsl(var(--hue), 100%, 20%);
 }
 </style>

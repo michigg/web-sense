@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-import NavigationMainItem from '@/shared/components/navigation/NavigationMainItem.vue'
+import NavigationMainItem from "@/shared/components/navigation/NavigationMainItem.vue"
 </script>
 
 <template>
   <nav>
     <NavigationMainItem
-      :to="{name: 'Tasks'}"
+      :to="{ name: 'Tasks' }"
       icon-key="bi-activity"
       label="Aktivitäten"
     />
     <NavigationMainItem
-      :to="{name: 'Measurements'}"
+      :to="{ name: 'Measurements' }"
       icon-key="bi-save2"
       label="Messungen"
     />
     <NavigationMainItem
-      :to="{name: 'Settings'}"
+      :to="{ name: 'Settings' }"
       icon-key="bi-sliders"
       label="Einstellungen"
     />

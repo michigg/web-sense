@@ -1,5 +1,5 @@
 <template>
   <ul class="text-left">
-    <slot/>
+    <slot />
   </ul>
 </template>

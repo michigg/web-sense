@@ -7,13 +7,13 @@
       </span>
       <span>
         <span>{{ logTaskStep.title }}</span>
-        <InputIcons :input-types="logTaskStep.inputTypes"/>
+        <InputIcons :input-types="logTaskStep.inputTypes" />
       </span>
     </p>
     <BaseList class="list-task-step-result">
       <LogListTaskStepResultItem
-        v-for="taskStepResult of logTaskStep.results"
-        :key="taskStepResult"
+        v-for="(taskStepResult, index) of logTaskStep.results"
+        :key="index"
         :result="taskStepResult"
       />
     </BaseList>
@@ -21,14 +21,14 @@
 </template>
 
 <script lang="ts" setup>
-import InputIcons from '@/modules/inputs/components/InputIcons.vue'
-import { useDateTime } from '@/shared/composables/useDateTime'
-import LogListTaskStepResultItem from '@/modules/log/components/LogListTaskStepResultItem.vue'
-import { LogTaskStep } from '@/modules/log/models/logTaskStep'
-import BaseList from '@/shared/components/BaseList.vue'
+import InputIcons from "@/modules/inputs/components/InputIcons.vue"
+import { useDateTime } from "@/shared/composables/useDateTime"
+import LogListTaskStepResultItem from "@/modules/log/components/LogListTaskStepResultItem.vue"
+import type { LogTaskStep } from "@/modules/log/models/logTaskStep"
+import BaseList from "@/shared/components/BaseList.vue"
 
 defineProps<{
-  logTaskStep: LogTaskStep
+  logTaskStep: LogTaskStep;
 }>()
 
 const { toDateTime } = useDateTime()
@@ -55,11 +55,11 @@ p {
 .log-list-task-item .row-1 {
   display: flex;
   flex-flow: column;
-  gap: .5rem;
+  gap: 0.5rem;
   justify-content: space-between;
 }
 
-.log-list-task-item .row-1 > span{
+.log-list-task-item .row-1 > span {
   display: flex;
   justify-content: space-between;
 }

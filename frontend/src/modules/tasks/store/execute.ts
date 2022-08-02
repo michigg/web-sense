@@ -1,19 +1,21 @@
-import { Task } from '@/modules/tasks/models/task'
-import { Commit, Dispatch } from 'vuex'
-import { TaskStepResult } from '@/modules/tasks/models/result'
-import { Sensor } from '@/modules/inputs/models/Sensor'
-import { LogTask } from '@/modules/log/models/logTask'
-import { SensorTaskStep, TaskStep } from '@/modules/tasks/models/taskStep'
-import { InputType } from '@/modules/inputs/models/inputType'
+import type { Task } from "@/modules/tasks/models/task"
+import type { TaskStepResult } from "@/modules/tasks/models/result"
+import type { Sensor } from "@/modules/inputs/models/Sensor"
+import { LogTask } from "@/modules/log/models/logTask"
+import type { SensorTaskStep, TaskStep } from "@/modules/tasks/models/taskStep"
+import type { InputType } from "@/modules/inputs/models/inputType"
+import { defineStore } from "pinia"
+import { useLogStore } from "@/modules/log/store/log"
+import { useSensorStore } from "@/modules/inputs/store"
+import { useTasksStore } from "@/modules/tasks/store/tasks"
 
 interface TaskExecuteState {
-  task: Task | undefined
-  currentTaskStepPosition: number,
-  taskStepResults: Array<TaskStepResult>
+  task: Task | undefined;
+  currentTaskStepPosition: number;
+  taskStepResults: Array<TaskStepResult>;
 }
 
-export const taskExecuteStore = {
-  namespaced: true,
+export const useTaskExecuteStore = defineStore("taskExecuteStore", {
   state: (): TaskExecuteState => ({
     task: undefined,
     currentTaskStepPosition: 0,
@@ -22,78 +24,75 @@ export const taskExecuteStore = {
   getters: {
     getTask: (state: TaskExecuteState): Task | undefined => state.task,
     getCurrentTaskStep: (state: TaskExecuteState): TaskStep | undefined => {
-      if (!state.task || state.currentTaskStepPosition >= state.task.steps.length) {
+      if (
+        !state.task ||
+        state.currentTaskStepPosition >= state.task.steps.length
+      ) {
         return undefined
       }
       return state.task.steps[state.currentTaskStepPosition]
     },
-    getCurrentTaskStepSensors: (state: TaskExecuteState, getters: any, rootState: any, rootGetters: any): Map<InputType, Sensor> => {
-      const taskStep = getters.getCurrentTaskStep as SensorTaskStep
+    getCurrentTaskStepSensors (): Map<InputType, Sensor> {
+      const taskStep = this.getCurrentTaskStep as SensorTaskStep
       if (!taskStep) {
         return new Map<InputType, Sensor>()
       }
-      return rootGetters['sensors/getSensorsFromKeys'](taskStep.inputTypes)
+      const sensorStore = useSensorStore()
+      return sensorStore.getSensorsFromKeys(taskStep.inputTypes)
     },
-    isLastTaskStep: (state: TaskExecuteState) => state.task && state.currentTaskStepPosition + 1 === state.task.steps.length,
-    getLogTask: (state: TaskExecuteState) => state.task ? LogTask.fromResults(state.task, state.taskStepResults) : undefined
-  },
-  mutations: {
-    INIT (state: TaskExecuteState) {
-      state.taskStepResults = []
-      state.currentTaskStepPosition = 0
-      state.task = undefined
-    },
-    SET_TASK (state: TaskExecuteState, task: Task) {
-      state.task = task
-    },
-    SET_CURRENT_TASK_STEP_POSITION (state: TaskExecuteState, position: number) {
-      state.currentTaskStepPosition = position
-    },
-    ADD_RESULT (state: TaskExecuteState, taskStepResult: TaskStepResult) {
-      state.taskStepResults.push(taskStepResult)
-    }
+    isLastTaskStep: (state: TaskExecuteState) =>
+      state.task &&
+      state.currentTaskStepPosition + 1 === state.task.steps.length,
+    getLogTask: (state: TaskExecuteState) =>
+      state.task
+        ? LogTask.fromResults(state.task, state.taskStepResults)
+        : undefined
   },
   actions: {
-    init ({
-      rootGetters,
-      commit
-    }: { rootGetters: any, commit: Commit }, taskId: number) {
-      const task = rootGetters['tasks/getTask'](taskId)
-      commit('INIT')
-      commit('SET_TASK', task)
+    init () {
+      this.$reset()
     },
-    nextTaskStep ({
-      state,
-      commit
-    }: { state: TaskExecuteState, commit: Commit }) {
-      if (!state.task) {
-        // TODO: improve error handling
-        throw Error('No task given.')
-      }
-      if (state.currentTaskStepPosition === state.task.steps.length - 1) {
-        // TODO: improve error handling
-        throw Error('Current Step is already the last one.')
-      }
-      commit('SET_CURRENT_TASK_STEP_POSITION', state.currentTaskStepPosition + 1)
+    initTask (taskId: number) {
+      const tasksStore = useTasksStore()
+      const task = tasksStore.getTask(taskId)
+
+      this.init()
+      this.setTask(task)
     },
-    addResult ({
-      state,
-      commit
-    }: { state: TaskExecuteState, commit: Commit }, taskStepResult: TaskStepResult) {
-      if (!state.task) {
-        // TODO: improve error handling
-        throw Error('No task given.')
-      }
-      commit('ADD_RESULT', taskStepResult)
+    setTask (task: Task | undefined) {
+      this.task = task
     },
-    async save ({
-      getters,
-      dispatch
-    }: { getters: any, dispatch: Dispatch }, { contribute }: { contribute: boolean }): Promise<number> {
-      return await dispatch('logs/addTaskResults', {
-        log: getters.getLogTask,
+    setCurrentTaskStepPosition (position: number) {
+      this.currentTaskStepPosition = position
+    },
+    nextTaskStep () {
+      if (!this.task) {
+        // TODO: improve error handling
+        throw Error("No task given.")
+      }
+      if (this.currentTaskStepPosition === this.task.steps.length - 1) {
+        // TODO: improve error handling
+        throw Error("Current Step is already the last one.")
+      }
+      this.setCurrentTaskStepPosition(this.currentTaskStepPosition + 1)
+    },
+    addResult (taskStepResult: TaskStepResult) {
+      if (this.task == null) {
+        // TODO: improve error handling
+        throw Error("No task given.")
+      }
+      this.taskStepResults.push(taskStepResult)
+    },
+    async save ({ contribute }: { contribute: boolean }): Promise<number> {
+      const logStore = useLogStore()
+      const log = this.getLogTask
+      if (log == null) {
+        throw Error("Log task missing")
+      }
+      return await logStore.addTaskResults({
+        log,
         contribute
-      }, { root: true })
+      })
     }
   }
-}
+})

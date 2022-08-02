@@ -1,6 +1,9 @@
 <template>
   <li>
-    <BaseCard :title="instruction.title" class="task-step-instruction-list-item">
+    <BaseCard
+      :title="instruction.title"
+      class="task-step-instruction-list-item"
+    >
       <img
         v-if="instruction.image"
         :src="instruction.image.src"
@@ -12,11 +15,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ITaskStepInstruction } from '@/modules/tasks/models/taskStepInstruction'
-import BaseCard from '@/shared/components/cards/BaseCard.vue'
+import type { ITaskStepInstruction } from "@/modules/tasks/models/taskStepInstruction"
+import BaseCard from "@/shared/components/cards/BaseCard.vue"
 
 defineProps<{
-  instruction: ITaskStepInstruction,
+  instruction: ITaskStepInstruction;
 }>()
 </script>
 
@@ -25,9 +28,8 @@ defineProps<{
   display: flex;
   flex-flow: column;
   background-color: var(--color-surface-3);
-  padding: .5rem 1rem;
-  gap: .5rem;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
   margin: 0;
 }
-
 </style>

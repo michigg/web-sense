@@ -12,21 +12,20 @@
       </slot>
     </header>
     <main v-bind="$attrs">
-      <slot/>
+      <slot />
     </main>
-    <NavigationMain/>
+    <NavigationMain />
   </div>
 </template>
 <script lang="ts" setup>
-
-import NavigationMain from '@/shared/components/navigation/NavigationMain.vue'
+import NavigationMain from "@/shared/components/navigation/NavigationMain.vue"
 
 withDefaults(
   defineProps<{
-    title: string,
-    subtitle?: string
+    title: string;
+    subtitle?: string;
   }>(),
-  { subtitle: '' }
+  { subtitle: "" }
 )
 </script>
 
@@ -34,19 +33,21 @@ withDefaults(
 .layout-base {
   height: 100%;
   display: grid;
-  gap: .5rem;
-  grid-template-areas:  "header"
-                        "main"
-                        "navigation";
+  gap: 0.5rem;
+  grid-template-areas:
+    "header"
+    "main"
+    "navigation";
   grid-template-columns: 100%;
   grid-template-rows: auto 1fr 45px;
 }
 
 @media screen and (min-width: 500px) {
   .layout-base {
-    grid-template-areas:  "navigation"
-                          "header"
-                          "main";
+    grid-template-areas:
+      "navigation"
+      "header"
+      "main";
     grid-template-rows: 40px auto 1fr;
   }
 }
@@ -66,7 +67,7 @@ main {
   padding-inline: 1rem;
 }
 
-main::v-deep > * {
+main > :deep(*) {
   width: 100%;
   max-width: 50ch;
 }

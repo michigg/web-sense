@@ -7,19 +7,17 @@
     >
       {{ title }}
     </h2>
-    <slot/>
+    <slot />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
-
 withDefaults(
   defineProps<{
-    title?: string
+    title?: string;
   }>(),
   {
-    title: ''
+    title: ""
   }
 )
 </script>
@@ -28,9 +26,9 @@ withDefaults(
 .card {
   display: flex;
   flex-flow: column;
-  gap: .5rem;
+  gap: 0.5rem;
   background-color: var(--color-surface-2);
   border-radius: var(--card-radius);
-  padding: .75rem 1rem;
+  padding: 0.75rem 1rem;
 }
 </style>

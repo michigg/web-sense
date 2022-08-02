@@ -1,29 +1,29 @@
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router"
 
 export function useTaskRoutes () {
   const router = useRouter()
 
   const routeToTasks = async () => {
-    await router.push({ name: 'Tasks' })
+    await router.push({ name: "Tasks" })
   }
 
   const routeToTask = async (taskId: number) => {
     await router.push({
-      name: 'Task',
+      name: "Task",
       params: { taskId }
     })
   }
 
   const routeToTaskExecute = async (taskId: number) => {
     await router.push({
-      name: 'TaskExecute',
+      name: "TaskExecute",
       params: { taskId }
     })
   }
 
   const routeToTaskFinished = async (taskId: number) => {
     await router.push({
-      name: 'TaskFinished',
+      name: "TaskFinished",
       params: { taskId }
     })
   }

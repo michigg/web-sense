@@ -1,4 +1,4 @@
-import { AnalysisConfig } from './analysisConfig'
+import { AnalysisConfig } from "./analysisConfig"
 
 export class AnalysisData {
   readonly config: AnalysisConfig
@@ -27,11 +27,14 @@ export class AnalysisData {
   }
 
   public getAmplitudeSpectrumList (): number[][] {
-    return this.amplitudeSpectrumList.map(spectrum => Array.from(spectrum))
+    return this.amplitudeSpectrumList.map((spectrum) => Array.from(spectrum))
   }
 
   toString () {
-    const duration = ((this.stopTimestamp - this.startTimestamp) / 1000).toFixed(0)
+    const duration = (
+      (this.stopTimestamp - this.startTimestamp) /
+      1000
+    ).toFixed(0)
     return `AnalyzeData:\nDuration: ${duration}\tEntries: ${this.timestamps.length}`
   }
 }

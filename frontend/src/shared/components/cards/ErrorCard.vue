@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import BaseCard from '@/shared/components/cards/BaseCard.vue'
-import ButtonBase from '@/shared/components/ButtonBase.vue'
-import { computed, ref } from 'vue'
-import { BaseError } from '@/shared/exceptions'
+import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import ButtonBase from "@/shared/components/ButtonBase.vue"
+import { computed, ref } from "vue"
+import { BaseError } from "@/shared/exceptions"
 
 const props = defineProps<{
-  error: BaseError | Error | undefined
+  error: BaseError | Error | undefined;
 }>()
 const showMoreInfos = ref(false)
 const causes = computed(() => {
@@ -23,20 +23,24 @@ const causes = computed(() => {
 })
 </script>
 <template>
-  <BaseCard v-if="error" :title="error.name" class="danger-box">
+  <BaseCard
+    v-if="error"
+    :title="error.name"
+    class="danger-box"
+  >
     <p>{{ error.message }}</p>
     <ButtonBase
       v-if="error instanceof BaseError"
       :active="showMoreInfos"
-      @click="showMoreInfos = !showMoreInfos"
       class="info-button"
+      @click="showMoreInfos = !showMoreInfos"
     >
       Weitere Informationen
     </ButtonBase>
     <div v-if="showMoreInfos">
       <p
         v-for="childError in causes"
-        :key="childError.code"
+        :key="childError.name"
       >
         {{ childError.name }}: {{ childError.message }}
       </p>

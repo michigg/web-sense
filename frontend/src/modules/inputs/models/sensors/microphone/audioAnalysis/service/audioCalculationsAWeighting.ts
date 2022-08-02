@@ -26,7 +26,7 @@ export const AudioCalculationsAWeighting = {
       +Math.sqrt(fSquared + dSquared).toFixed(8)
     const a = +(numerator / denominator).toFixed(8)
     const aWeight = 20 * Math.log10(a) + 2
-    return Number((aWeight).toFixed(1))
+    return Number(aWeight.toFixed(1))
   },
   calcAWeightings (frequencies: Array<number>, minDB = -80.0): Array<number> {
     /**
@@ -37,7 +37,7 @@ export const AudioCalculationsAWeighting = {
      * @param minDB - the minimum decibel value (defaults to -80 dB(A))
      * @returns the calculated a weightings
      */
-    return frequencies.map(frequency => {
+    return frequencies.map((frequency) => {
       const weight = this._calcAWeighting(frequency)
       return weight > minDB ? weight : minDB
     })
@@ -54,7 +54,10 @@ export const AudioCalculationsAWeighting = {
     // return dba < 0 ? 0 : +(dba.toFixed(2))
     return Number(dba.toFixed(4))
   },
-  convertDBSpectrumToDBAsSpectrum (dbs: number[], aWeightings: number[]): number[] {
+  convertDBSpectrumToDBAsSpectrum (
+    dbs: number[],
+    aWeightings: number[]
+  ): number[] {
     /**
      * calculates the dba values using the db values and the a-weighting values.
      *

@@ -15,27 +15,37 @@
       {{ task.description }}
     </BaseCard>
     <BaseCard title="Sensoren">
-      <LogInputTypeList :task="task"/>
+      <LogInputTypeList :task="task" />
     </BaseCard>
     <BaseCard title="">
-      <p v-if="!taskExecutionPossible">Leider besitzt dein Gerät nicht alle der geforderten Sensoren. Probiers mit einer anderen Aktivität</p>
+      <p v-if="!taskExecutionPossible">
+        Leider besitzt dein Gerät nicht alle der geforderten Sensoren. Probiers
+        mit einer anderen Aktivität
+      </p>
       <ButtonGroup>
-        <ButtonBase @click="routeToTasks">Aktivitäten</ButtonBase>
-        <ButtonBase v-if="taskExecutionPossible" @click="startTask">Mission starten</ButtonBase>
+        <ButtonBase @click="routeToTasks">
+          Aktivitäten
+        </ButtonBase>
+        <ButtonBase
+          v-if="taskExecutionPossible"
+          @click="startTask"
+        >
+          Mission starten
+        </ButtonBase>
       </ButtonGroup>
     </BaseCard>
   </LayoutBase>
 </template>
 
-<script setup>
-import BaseCard from '@/shared/components/cards/BaseCard'
-import LayoutBase from '@/shared/components/LayoutBase'
-import ButtonGroup from '@/shared/components/ButtonGroup'
-import ButtonBase from '@/shared/components/ButtonBase'
-import { useTask } from '@/modules/tasks/composables/useTask'
-import { useTaskRoutes } from '@/modules/tasks/composables/useTaskRoutes'
-import LogInputTypeList from '@/modules/log/components/LogInputTypeList'
-import LoadingCard from '@/shared/components/cards/LoadingCard'
+<script lang="ts" setup>
+import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import LayoutBase from "@/shared/components/LayoutBase.vue"
+import ButtonGroup from "@/shared/components/ButtonGroup.vue"
+import ButtonBase from "@/shared/components/ButtonBase.vue"
+import { useTask } from "@/modules/tasks/composables/useTask"
+import { useTaskRoutes } from "@/modules/tasks/composables/useTaskRoutes"
+import LogInputTypeList from "@/modules/log/components/LogInputTypeList.vue"
+import LoadingCard from "@/shared/components/cards/LoadingCard.vue"
 
 const {
   task,
@@ -48,10 +58,11 @@ const {
 } = useTaskRoutes()
 const startTask = () => {
   approveTask()
+  if (task.value == null) {
+    throw new Error('no task to start found.')
+  }
   routeToTaskExecute(task.value.id)
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

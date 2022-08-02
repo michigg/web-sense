@@ -14,15 +14,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ITaskStepInstruction } from '@/modules/tasks/models/taskStepInstruction'
-import BaseList from '@/shared/components/BaseList.vue'
-import TaskStepInstructionListItem from '@/modules/tasks/components/TaskStepInstructionListItem.vue'
-import BaseCard from '@/shared/components/cards/BaseCard.vue'
+import type { ITaskStepInstruction } from "@/modules/tasks/models/taskStepInstruction"
+import BaseList from "@/shared/components/BaseList.vue"
+import TaskStepInstructionListItem from "@/modules/tasks/components/TaskStepInstructionListItem.vue"
+import BaseCard from "@/shared/components/cards/BaseCard.vue"
 
 defineProps<{
-  title: string,
-  description: string,
-  instructions: Array<ITaskStepInstruction>,
+  title: string;
+  description: string;
+  instructions: Array<ITaskStepInstruction>;
 }>()
 </script>
 
@@ -36,7 +36,6 @@ defineProps<{
 .instruction-list {
   display: flex;
   flex-flow: column;
-  gap: 1rem
+  gap: 1rem;
 }
-
 </style>

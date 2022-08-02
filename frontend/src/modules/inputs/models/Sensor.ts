@@ -1,4 +1,4 @@
-import { InputType } from '@/modules/inputs/models/inputType'
+import type { InputType } from "@/modules/inputs/models/inputType"
 
 export interface Sensor {
   readonly key: InputType

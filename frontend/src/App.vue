@@ -1,14 +1,11 @@
 <template>
-  <RouterView/>
+  <RouterView />
 </template>
 
-<script setup>
-import { useStore } from '@/store'
+<script lang="ts" setup>
+import { useSensorStore } from "@/modules/inputs/store"
 
-const store = useStore()
-store.dispatch('sensors/checkAvailability')
-
+const sensorStore = useSensorStore()
+sensorStore.checkAvailability()
 </script>
-<style lang="css">
-
-</style>
+<style lang="css"></style>

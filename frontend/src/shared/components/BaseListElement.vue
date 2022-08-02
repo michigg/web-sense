@@ -1,6 +1,6 @@
 <template>
   <li class="shadow mb-1 px-4 py-2">
-    <slot/>
+    <slot />
   </li>
 </template>
 

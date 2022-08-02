@@ -1,59 +1,61 @@
-import { Commit } from 'vuex'
-import { logDB } from '@/modules/log/models/logIDB'
-import { LogTask } from '@/modules/log/models/logTask'
-import { useContribute } from '@/modules/log/composables/useContribute'
+import { logDB } from "@/modules/log/models/logIDB"
+import { LogTask } from "@/modules/log/models/logTask"
+import { useContribute } from "@/modules/log/composables/useContribute"
+import { defineStore } from "pinia"
 
 interface LogState {
-  logs: Array<LogTask>
+  logs: Array<LogTask>;
 }
 
-export const logsStore = {
-  namespaced: true,
+export const useLogStore = defineStore("log", {
   state: (): LogState => ({
     logs: []
   }),
   getters: {
     getLogs: (state: LogState): Array<LogTask> => state.logs
   },
-  mutations: {
-    ADD_LOG (state: LogState, log: LogTask) {
-      state.logs.push(log)
-    },
-    SET_LOG (state: LogState, logs: Array<LogTask>) {
-      state.logs = logs
-    }
-  },
   actions: {
-    async init ({ commit }: { commit: Commit }) {
+    async init () {
       const logs = await logDB.getTaskLogs()
-      commit('SET_LOG', logs)
+      this.setLog(
+        logs
+          .map((idbLog) => LogTask.fromIDB(idbLog))
+          .filter((log) => log != null) as LogTask[]
+      )
     },
-    async addTaskResults (
-      { commit }: { commit: Commit },
-      {
-        log,
-        contribute
-      }: { log: LogTask, contribute: boolean }): Promise<number> {
+    async addTaskResults ({
+      log,
+      contribute
+    }: {
+      log: LogTask;
+      contribute: boolean;
+    }): Promise<number> {
       const idbLogTask = await logDB.putTaskLog(log.toIDB())
       const savedLogTask = LogTask.fromIDB(idbLogTask)
       if (!savedLogTask || savedLogTask.pKey === undefined) {
-        throw Error('Messung konnte nicht gespeichert werden!')
+        throw Error("Messung konnte nicht gespeichert werden!")
       }
-      commit('ADD_LOG', log)
+
+      this.addLog(log)
       if (contribute) {
         try {
           const contribute = useContribute()
           await contribute(log)
         } catch (e) {
-          console.error(e)
-          throw Error('Messung konnte nicht übermittelt werden.')
+          throw Error("Messung konnte nicht übermittelt werden.")
         } finally {
-          commit('ADD_LOG', savedLogTask)
+          this.addLog(savedLogTask)
         }
       } else {
-        commit('ADD_LOG', savedLogTask)
+        this.addLog(savedLogTask)
       }
       return savedLogTask.pKey
+    },
+    addLog (log: LogTask) {
+      this.logs.push(log)
+    },
+    setLog (logs: Array<LogTask>) {
+      this.logs = logs
     }
   }
-}
+})

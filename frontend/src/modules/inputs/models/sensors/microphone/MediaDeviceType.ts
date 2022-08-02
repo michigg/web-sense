@@ -1,4 +1,4 @@
 export enum MediaDeviceType {
-  AUDIO = 'audioinput',
-  VIDEO = 'videoinput'
+  AUDIO = "audioinput",
+  VIDEO = "videoinput",
 }

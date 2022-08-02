@@ -1,10 +1,10 @@
-import { RouteRecordRaw } from 'vue-router'
-import Sensors from '@/modules/inputs/pages/PageSensors.vue'
+import type { RouteRecordRaw } from "vue-router"
+import PageSensors from "@/modules/inputs/pages/PageSensors.vue"
 
 export const sensorsRoutes: Array<RouteRecordRaw> = [
   {
-    path: '/inputs',
-    name: 'Sensors',
-    component: Sensors
+    path: "/inputs",
+    name: "Sensors",
+    component: PageSensors
   }
 ]

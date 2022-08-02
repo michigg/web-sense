@@ -22,7 +22,10 @@ export const AudioCalculationsFrequency = {
      */
     return Number((binIndex * frequencyResolution).toFixed(4))
   },
-  _frequenciesUsingFrequencyResolution (frequencyResolution: number, bufferSize: number): Array<number> {
+  _frequenciesUsingFrequencyResolution (
+    frequencyResolution: number,
+    bufferSize: number
+  ): Array<number> {
     /**
      * Calculates the frequencies based on the frequency resolution and buffer size
      *
@@ -36,7 +39,10 @@ export const AudioCalculationsFrequency = {
     }
     return frequencies
   },
-  frequenciesUsingSampleRateBufferSize (sampleRate: number, bufferSize: number): Array<number> {
+  frequenciesUsingSampleRateBufferSize (
+    sampleRate: number,
+    bufferSize: number
+  ): Array<number> {
     /**
      * Calculates the frequencies based on the sample rate and buffer size
      *
@@ -44,27 +50,53 @@ export const AudioCalculationsFrequency = {
      * @param bufferSize - the buffer size that is used to calculate the frequencies
      * @returns the frequency spectrum of the fft
      */
-    const frequencyResolution = this._frequencyResolution(sampleRate, bufferSize)
-    return this._frequenciesUsingFrequencyResolution(frequencyResolution, bufferSize)
+    const frequencyResolution = this._frequencyResolution(
+      sampleRate,
+      bufferSize
+    )
+    return this._frequenciesUsingFrequencyResolution(
+      frequencyResolution,
+      bufferSize
+    )
   },
-  lowestAudibleBin (frequencyResolution: number, lowestAudibleFrequency = LOWEST_AUDIBLE_FREQUENCY): number {
-    const calculatedLowestAudibleBin = lowestAudibleFrequency / frequencyResolution
+  lowestAudibleBin (
+    frequencyResolution: number,
+    lowestAudibleFrequency = LOWEST_AUDIBLE_FREQUENCY
+  ): number {
+    const calculatedLowestAudibleBin =
+      lowestAudibleFrequency / frequencyResolution
     const lowestAudibleBin = Math.floor(calculatedLowestAudibleBin)
     if (lowestAudibleBin !== calculatedLowestAudibleBin) {
       return lowestAudibleBin + 1
     }
     return lowestAudibleBin
   },
-  highestAudibleBin (frequencyResolution: number, highestAudibleFrequency = HIGHEST_AUDIBLE_FREQUENCY): number {
+  highestAudibleBin (
+    frequencyResolution: number,
+    highestAudibleFrequency = HIGHEST_AUDIBLE_FREQUENCY
+  ): number {
     return Math.trunc(highestAudibleFrequency / frequencyResolution)
   },
-  audibleBins (input: Array<number>, lowestAudibleBin: number, highestAudibleBin: number): Array<number> {
+  audibleBins (
+    input: Array<number>,
+    lowestAudibleBin: number,
+    highestAudibleBin: number
+  ): Array<number> {
     return input.slice(lowestAudibleBin, highestAudibleBin)
   },
-  removeInaudibleBinsFromSpectrumList (spectrumList: number[][], sampleRate: number, bufferSize: number): number[][] {
-    const frequencyResolution = this._frequencyResolution(sampleRate, bufferSize)
+  removeInaudibleBinsFromSpectrumList (
+    spectrumList: number[][],
+    sampleRate: number,
+    bufferSize: number
+  ): number[][] {
+    const frequencyResolution = this._frequencyResolution(
+      sampleRate,
+      bufferSize
+    )
     const lowestAudibleBin = this.lowestAudibleBin(frequencyResolution)
     const highestAudibleBin = this.highestAudibleBin(frequencyResolution)
-    return spectrumList.map(spectrum => this.audibleBins(spectrum, lowestAudibleBin, highestAudibleBin))
+    return spectrumList.map((spectrum) =>
+      this.audibleBins(spectrum, lowestAudibleBin, highestAudibleBin)
+    )
   }
 }

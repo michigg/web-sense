@@ -1,14 +1,29 @@
 <template>
   <button
-    :class="['busy-record', busy ? 'busy': '']"
+    :class="['busy-record', busy ? 'busy' : '']"
     v-bind="$attrs"
     :disabled="busy"
   >
-    <span v-if="busy" class="circle animation"></span>
-    <span v-if="busy" class="circle animation"></span>
-    <span v-if="busy" class="circle animation"></span>
-    <span v-if="busy" class="circle animation"></span>
-    <span v-if="busy" class="circle animation"></span>
+    <span
+      v-if="busy"
+      class="circle animation"
+    />
+    <span
+      v-if="busy"
+      class="circle animation"
+    />
+    <span
+      v-if="busy"
+      class="circle animation"
+    />
+    <span
+      v-if="busy"
+      class="circle animation"
+    />
+    <span
+      v-if="busy"
+      class="circle animation"
+    />
     <span class="circle main">
       <span class="info">{{ info }}</span>
     </span>
@@ -18,11 +33,11 @@
 <script lang="ts" setup>
 withDefaults(
   defineProps<{
-    info?: string,
-    busy?: boolean
+    info?: string;
+    busy?: boolean;
   }>(),
   {
-    info: 'Recording...',
+    info: "Recording...",
     busy: false
   }
 )
@@ -41,7 +56,7 @@ withDefaults(
   height: auto;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  --animation-duration: 8s
+  --animation-duration: 8s;
 }
 
 .busy-record .circle {
@@ -53,7 +68,7 @@ withDefaults(
 }
 
 .busy-record .circle.main {
-  transform: scale(.8);
+  transform: scale(0.8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,13 +79,13 @@ withDefaults(
 .busy-record .circle.main .info {
   font-size: 1.2rem;
   font-weight: bold;
-  color: var(--color-text-button)
+  color: var(--color-text-button);
 }
 
 .busy-record .circle.animation {
   background-color: hsl(var(--hue), 100%, 30%);
   transform-origin: 45%;
-  transform: rotateZ(0deg) scaleY(.8) scaleX(.85);
+  transform: rotateZ(0deg) scaleY(0.8) scaleX(0.85);
 }
 
 .busy-record .circle.animation:nth-child(1) {
@@ -96,15 +111,15 @@ withDefaults(
 @keyframes record {
   0% {
     transform-origin: 45%;
-    transform: rotateZ(0deg) scaleY(.8) scaleX(.85);
+    transform: rotateZ(0deg) scaleY(0.8) scaleX(0.85);
   }
   50% {
     transform-origin: 55%;
-    transform: rotateZ(360deg) scaleY(.1) scaleX(.85);
+    transform: rotateZ(360deg) scaleY(0.1) scaleX(0.85);
   }
   100% {
     transform-origin: 45%;
-    transform: rotateZ(720deg) scaleY(.8) scaleX(.85);
+    transform: rotateZ(720deg) scaleY(0.8) scaleX(0.85);
   }
 }
 </style>

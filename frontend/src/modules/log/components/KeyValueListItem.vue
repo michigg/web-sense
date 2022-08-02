@@ -6,8 +6,8 @@
 
 <script lang="ts" setup>
 defineProps<{
-  keyData: string,
-  valueData: number | string | boolean
+  keyData: string;
+  valueData: number | string | boolean;
 }>()
 </script>
 
@@ -15,7 +15,7 @@ defineProps<{
 .key-value-list-item {
   display: flex;
   justify-content: space-between;
-  gap: .5rem
+  gap: 0.5rem;
 }
 
 .key-value-list-item .value {

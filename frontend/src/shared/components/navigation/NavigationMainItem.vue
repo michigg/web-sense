@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import BaseIcon from '@/shared/components/BaseIcon.vue'
+import BaseIcon from "@/shared/components/BaseIcon.vue"
 
 defineProps<{
-  iconKey: string,
-  label: string
+  iconKey: string;
+  label: string;
 }>()
-
 </script>
 
 <template>
   <RouterLink
+    :to="$attrs.to"
     v-bind="$attrs"
     class="navigation-icon-item"
   >
-    <BaseIcon :icon-key="iconKey"/>
+    <BaseIcon :icon-key="iconKey" />
     {{ label }}
   </RouterLink>
 </template>
@@ -24,7 +24,7 @@ defineProps<{
   align-items: center;
   flex-flow: column;
   line-height: 1;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: bold;
   padding: 0 1rem;
   height: 100%;
@@ -38,12 +38,13 @@ defineProps<{
   .navigation-icon-item {
     display: flex;
     flex-flow: row;
-    gap: .5rem;
+    gap: 0.5rem;
     font-size: 1rem;
   }
 }
 
-a:hover, nav a:active {
+a:hover,
+nav a:active {
   background-color: var(--color-surface-1);
 }
 
