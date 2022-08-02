@@ -30,14 +30,6 @@ steps:
     depends_on:
       - lint
 
-  - name: build
-    image: node:lts
-    commands:
-      - cd frontend
-      - yarn build
-    depends_on:
-      - code-analysis
-
   - name: e2e-test-chrome
     image: cypress/included:10.4.0
     commands:
