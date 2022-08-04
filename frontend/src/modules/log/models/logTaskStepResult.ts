@@ -1,10 +1,10 @@
-import { Result } from '@/modules/tasks/models/result'
-import { toRaw, unref } from 'vue'
-import { IIDBLogTaskStepResult } from '@/modules/log/models/logIDB'
+import type { Result } from "@/modules/tasks/models/result"
+import { toRaw, unref } from "vue"
+import type { IIDBLogTaskStepResult } from "@/modules/log/models/logIDB"
 
 export class LogTaskStepResult {
   readonly metas: Map<string, number | string | boolean>
-  readonly measurements: Map<any, number | string | boolean>
+  readonly measurements: Map<string, number | string | boolean>
 
   constructor (
     metas: Map<string, number | string | boolean>,
@@ -20,7 +20,7 @@ export class LogTaskStepResult {
       unwrappedMetas.set(key, toRaw(unref(value)))
     }
 
-    const unwrappedMeasurements = new Map<string, any>()
+    const unwrappedMeasurements = new Map<string, number | string | boolean>()
     for (const [key, value] of taskResult.measurements) {
       toRaw(unref(value))
       unwrappedMeasurements.set(key, toRaw(unref(value)))
@@ -29,10 +29,7 @@ export class LogTaskStepResult {
   }
 
   static fromIDB (idbResult: IIDBLogTaskStepResult): LogTaskStepResult {
-    return new LogTaskStepResult(
-      idbResult.metas,
-      idbResult.measurements
-    )
+    return new LogTaskStepResult(idbResult.metas, idbResult.measurements)
   }
 
   toIDB (): IIDBLogTaskStepResult {

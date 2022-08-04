@@ -1,14 +1,13 @@
-import { Task } from '@/modules/tasks/models/task'
-import { Commit } from 'vuex'
-import { taskDB } from '@/modules/tasks/models/taskIDB'
-import { useTaskRepository } from '@/modules/tasks/repositories/tasks'
+import { taskDB } from "@/modules/tasks/models/taskIDB"
+import { useTaskRepository } from "@/modules/tasks/repositories/tasks"
+import { defineStore } from "pinia"
+import type { Task } from "@/modules/tasks/models/task"
 
 interface TasksState {
-  tasks: Map<number, Task>
+  tasks: Map<number, Task>;
 }
 
-export const tasksStore = {
-  namespaced: true,
+export const useTasksStore = defineStore("tasksStore", {
   state: (): TasksState => ({
     tasks: new Map<number, Task>()
   }),
@@ -16,23 +15,21 @@ export const tasksStore = {
     getTasks: (state: TasksState) => new Map(state.tasks),
     getTask: (state: TasksState) => (taskId: number) => state.tasks.get(taskId)
   },
-  mutations: {
-    SET_TASKS (state: TasksState, tasks: Map<number, Task>) {
-      state.tasks = tasks
+  actions: {
+    setTasks (tasks: Map<number, Task>) {
+      this.tasks = tasks
     },
-    SET_APPROVED (state: TasksState, {
+    setApproved ({
       taskId,
       approved
-    }: { taskId: number, approved: boolean }) {
-      const task = state.tasks.get(taskId)
+    }: { taskId: number; approved: boolean }) {
+      const task = this.tasks.get(taskId)
       if (!task) {
-        throw Error('Task not found!')
+        throw Error("Task not found!")
       }
       task.approved = approved
-    }
-  },
-  actions: {
-    async fetchTasks ({ commit }: { commit: Commit }) {
+    },
+    async fetchTasks () {
       const tasksMap = new Map<number, Task>()
       const { getTasks } = useTaskRepository()
       const tasks = await getTasks()
@@ -43,20 +40,23 @@ export const tasksStore = {
         }
         tasksMap.set(task.id, task)
       }
-      commit('SET_TASKS', tasksMap)
+      this.setTasks(tasksMap)
     },
-    async setApprovedState ({ commit }: { commit: Commit }, {
+    async setApprovedState ({
       taskId,
       approved
-    }: { taskId: number, approved: boolean }) {
+    }: {
+      taskId: number;
+      approved: boolean;
+    }) {
       await taskDB.addTaskOrUpdate({
         id: taskId,
         approved: approved
       })
-      commit('SET_APPROVED', {
+      this.setApproved({
         taskId,
         approved
       })
     }
   }
-}
+})

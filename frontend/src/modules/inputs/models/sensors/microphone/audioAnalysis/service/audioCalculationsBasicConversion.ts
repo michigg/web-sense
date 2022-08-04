@@ -14,7 +14,9 @@ export const AudioCalculationBasicConversion = {
     if (magnitude < 0.000000002) {
       return -80
     }
-    const result = Number((20.0 * Math.log10(magnitude / AUDITORY_THRESHOLD)).toFixed(4))
+    const result = Number(
+      (20.0 * Math.log10(magnitude / AUDITORY_THRESHOLD)).toFixed(4)
+    )
     // negative zero fix
     if (result === 0) {
       return 0
@@ -27,7 +29,7 @@ export const AudioCalculationBasicConversion = {
      *  @param {number} db - decibel value
      *  @returns {number} inverse log of db value
      */
-    return Number(Math.pow(10, (db / 10)).toFixed(4))
+    return Number(Math.pow(10, db / 10).toFixed(4))
   },
   powerRatioToDB (pressureRatio: number): number {
     /**
@@ -52,14 +54,28 @@ export const AudioCalculationBasicConversion = {
     if (db < -45) {
       return 0.000000002
     }
-    return Number(Math.sqrt(this.dbToPowerRatio(db) * Math.pow(AUDITORY_THRESHOLD, 2)).toFixed(9))
+    return Number(
+      Math.sqrt(
+        this.dbToPowerRatio(db) * Math.pow(AUDITORY_THRESHOLD, 2)
+      ).toFixed(9)
+    )
   },
   _getMeasurementDurationInMs (sampleRate: number, bufferSize: number): number {
     return Number(((bufferSize / sampleRate) * 1000).toFixed(0))
   },
-  removeFirstMeasurementsByDuration (array: number[] | number[][], sampleRate: number, bufferSize: number, durationMs = 1500): number[] | number[][] {
-    const measurementDurationMs = this._getMeasurementDurationInMs(sampleRate, bufferSize)
-    const entriesToRemove = Number((durationMs / measurementDurationMs).toFixed(0))
+  removeFirstMeasurementsByDuration (
+    array: number[] | number[][],
+    sampleRate: number,
+    bufferSize: number,
+    durationMs = 1500
+  ): number[] | number[][] {
+    const measurementDurationMs = this._getMeasurementDurationInMs(
+      sampleRate,
+      bufferSize
+    )
+    const entriesToRemove = Number(
+      (durationMs / measurementDurationMs).toFixed(0)
+    )
     return array.slice(entriesToRemove)
   }
 }

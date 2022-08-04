@@ -1,13 +1,14 @@
-import { GeolocationSensor } from './Sensor'
+import { GeolocationSensor } from "./Sensor"
+import { describe, beforeEach, it, expect, vi } from "vitest"
 
-describe('GeolocationSensor', () => {
+describe("GeolocationSensor", () => {
   let sensor: GeolocationSensor
 
   beforeEach(() => {
-    Object.defineProperty(window.navigator, 'geolocation', {
+    Object.defineProperty(window.navigator, "geolocation", {
       value: {
-        getCurrentPosition: jest.fn(),
-        watchPosition: jest.fn()
+        getCurrentPosition: vi.fn(),
+        watchPosition: vi.fn()
       },
       configurable: true
     })
@@ -15,14 +16,14 @@ describe('GeolocationSensor', () => {
     sensor = new GeolocationSensor()
   })
 
-  it('returns true if sensors is available', async () => {
+  it("returns true if sensors is available", async () => {
     expect(sensor.isAvailable).toBe(false)
     await sensor.checkAvailability()
     expect(sensor.isAvailable).toBe(true)
   })
 
-  it('returns false if sensors is available', async () => {
-    Object.defineProperty(window, 'navigator', {
+  it("returns false if sensors is available", async () => {
+    Object.defineProperty(window, "navigator", {
       value: {},
       configurable: true
     })

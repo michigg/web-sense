@@ -1,20 +1,23 @@
-import { APITaskStep, TaskStep } from '@/modules/tasks/models/taskStep'
-import { InputType } from '@/modules/inputs/models/inputType'
+import { TaskStep } from "@/modules/tasks/models/taskStep"
+import type { APITaskStep } from "@/modules/tasks/models/taskStep"
+import type { InputType } from "@/modules/inputs/models/inputType"
 
 export interface APITask {
-  id: number
-  title: string
-  description: string
-  inputDescriptions: { [inputType: string]: string }
-  steps: Array<APITaskStep>
-  resultActivityComponentName?: string
+  id: number;
+  title: string;
+  description: string;
+  inputDescriptions: { [inputType: string]: string };
+  steps: Array<APITaskStep>;
+  resultActivityComponentName?: string;
 }
 
 export class Task {
   readonly id: number
   readonly title: string
   readonly description: string
-  readonly inputDescriptions: { [inputType: string]: string }
+  readonly inputDescriptions: {
+    [inputType in keyof typeof InputType]?: string;
+  }
   readonly steps: Array<TaskStep>
   readonly resultActivityComponentName?: string
   approved: boolean
@@ -23,7 +26,7 @@ export class Task {
     id: number,
     title: string,
     description: string,
-    inputDescription: { [inputType: string]: string },
+    inputDescription: { [inputType in keyof typeof InputType]?: string },
     steps: Array<TaskStep>,
     resultActivityComponentName?: string
   ) {
@@ -37,12 +40,19 @@ export class Task {
   }
 
   static fromApi (data: APITask): Task {
+    // eslint-disable-next-line
+    const typedInputDescriptions: any = {}
+    for (const [key, value] of Object.entries(data.inputDescriptions)) {
+      const typedKey = key as keyof typeof InputType
+      typedInputDescriptions[typedKey] = value
+    }
+
     return new Task(
       data.id,
       data.title,
       data.description,
-      data.inputDescriptions,
-      data.steps.map(apiTaskStep => TaskStep.fromApi(apiTaskStep)),
+      typedInputDescriptions,
+      data.steps.map((apiTaskStep) => TaskStep.fromApi(apiTaskStep)),
       data.resultActivityComponentName
     )
   }

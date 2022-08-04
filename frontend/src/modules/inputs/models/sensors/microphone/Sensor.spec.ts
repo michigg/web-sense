@@ -1,15 +1,16 @@
-import { MicSensor } from './Sensor'
-import { EmptyEnumerateDeviceMock, EnumerateAudioDeviceMock, GetUserMediaMock } from '../__mocks__/media'
+import { MicSensor } from "./Sensor"
+import { EmptyEnumerateDeviceMock, EnumerateAudioDeviceMock, GetUserMediaMock } from "../__mocks__/media"
+import { beforeEach, describe, expect, it } from "vitest"
 
-describe('MicSensor', () => {
+describe("MicSensor", () => {
   let sensor: MicSensor
 
   beforeEach(() => {
     sensor = new MicSensor()
   })
 
-  it('returns true if sensors is available', async () => {
-    Object.defineProperty(window.navigator, 'mediaDevices', {
+  it("returns true if sensors is available", async () => {
+    Object.defineProperty(window.navigator, "mediaDevices", {
       value: {
         enumerateDevices: EnumerateAudioDeviceMock,
         getUserMedia: GetUserMediaMock
@@ -22,8 +23,8 @@ describe('MicSensor', () => {
     expect(sensor.isAvailable).toBe(true)
   })
 
-  it('returns false if sensors is available', async () => {
-    Object.defineProperty(window.navigator, 'mediaDevices', {
+  it("returns false if sensors is available", async () => {
+    Object.defineProperty(window.navigator, "mediaDevices", {
       value: {
         enumerateDevices: EmptyEnumerateDeviceMock,
         getUserMedia: GetUserMediaMock

@@ -1,18 +1,19 @@
-import { DBSchema, IDBPDatabase, openDB } from 'idb'
+import { openDB } from "idb"
+import type { DBSchema, IDBPDatabase } from "idb"
 
 interface ITaskState {
-  id: number
-  approved: boolean
+  id: number;
+  approved: boolean;
 }
 
-const DATABASE_KEY = 'crowd_sensing_app_tasks'
-const STORE_KEY = 'tasks'
+const DATABASE_KEY = "crowd_sensing_app_tasks"
+const STORE_KEY = "tasks"
 
 interface TaskDB extends DBSchema {
   [STORE_KEY]: {
-    value: ITaskState
-    key: number
-  }
+    value: ITaskState;
+    key: number;
+  };
 }
 
 export const taskDB = {
@@ -20,7 +21,7 @@ export const taskDB = {
     return await openDB<TaskDB>(DATABASE_KEY, 1, {
       upgrade (db) {
         db.createObjectStore(STORE_KEY, {
-          keyPath: 'id'
+          keyPath: "id"
         })
       }
     })

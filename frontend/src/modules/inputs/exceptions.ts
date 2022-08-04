@@ -1,22 +1,22 @@
-import { BaseError } from '@/shared/exceptions'
+import { BaseError } from "@/shared/exceptions"
 
 export class SensorRepositoryError extends BaseError {
   constructor (message: string, error: Error | undefined = undefined) {
     super(message, error)
-    this.name = 'SensorRepositoryError'
+    this.name = "SensorRepositoryError"
   }
 }
 
 export class SensorServiceError extends BaseError {
   constructor (message: string, error: Error | undefined = undefined) {
     super(message, error)
-    this.name = 'SensorServiceError'
+    this.name = "SensorServiceError"
   }
 }
 
 export class SensorError extends BaseError {
   constructor (message: string, error: Error | undefined = undefined) {
     super(message, error)
-    this.name = 'SensorError'
+    this.name = "SensorError"
   }
 }

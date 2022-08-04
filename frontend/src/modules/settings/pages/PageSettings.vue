@@ -1,9 +1,12 @@
 <template>
   <LayoutBase title="Einstellungen">
     <InfoCard title="Information">
-      <p>Alle Einstellungen werden lokal gespeichert und sind standardmäßig privat. Um uns bei der Verbesserung der
-      Datenqualität zu helfen, können Sie mit einem Klick auf <strong>freigeben</strong> die Daten freigeben. Diese
-      werden daraufhin bei jeder Messung mitgesendet.</p>
+      <p>
+        Alle Einstellungen werden lokal gespeichert und sind standardmäßig
+        privat. Um uns bei der Verbesserung der Datenqualität zu helfen, können
+        Sie mit einem Klick auf <strong>freigeben</strong> die Daten freigeben.
+        Diese werden daraufhin bei jeder Messung mitgesendet.
+      </p>
     </InfoCard>
     <SettingItem
       settings-key="smartphone-model"
@@ -28,13 +31,9 @@
 </template>
 
 <script lang="ts" setup>
-import LayoutBase from '@/shared/components/LayoutBase.vue'
-import SettingItem from '@/modules/settings/components/SettingItem.vue'
-import InfoCard from '@/shared/components/cards/InfoCard.vue'
+import LayoutBase from "@/shared/components/LayoutBase.vue"
+import SettingItem from "@/modules/settings/components/SettingItem.vue"
+import InfoCard from "@/shared/components/cards/InfoCard.vue"
 
-const appVersion = process.env.VUE_APP_VERSION
+const appVersion = import.meta.env.VITE_VERSION
 </script>
-
-<style scoped>
-
-</style>

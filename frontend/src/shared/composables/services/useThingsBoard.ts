@@ -1,19 +1,19 @@
-import axios from 'axios'
+import axios from "axios"
 
 export interface TBPoint {
-  ts: number,
-  values: { [key: string]: number | string | boolean }
+  ts: number;
+  values: { [key: string]: number | string | boolean };
 }
 
 export interface ThingsboardConvertable {
-  toTBTelemetries (): Array<TBPoint>
+  toTBTelemetries (): Array<TBPoint>;
 }
 
 export function useThingsBoard (): {
-  sendTelemetry: (data: ThingsboardConvertable) => Promise<void>
-  } {
-  const baseUrl = process.env.VUE_APP_THINGSBOARD_ENDPOINT
-  const key = process.env.VUE_APP_THINGSBOARD_AUTHORIZATION_TOKEN
+  sendTelemetry: (data: ThingsboardConvertable) => Promise<void>;
+} {
+  const baseUrl = import.meta.env.VITE_THINGSBOARD_ENDPOINT
+  const key = import.meta.env.VITE_THINGSBOARD_AUTHORIZATION_TOKEN
 
   const sendTelemetry = async (data: ThingsboardConvertable) => {
     const url = `${baseUrl}/api/v1/${key}/telemetry`

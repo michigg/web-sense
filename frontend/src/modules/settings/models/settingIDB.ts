@@ -1,18 +1,19 @@
-import { DBSchema, IDBPDatabase, openDB } from 'idb'
+import { openDB } from "idb"
+import type { DBSchema, IDBPDatabase } from "idb"
 
 export interface IIDBSetting {
-  readonly settingKey?: string
-  value: number | string
-  contribute: boolean
+  readonly settingKey?: string;
+  value: number | string;
+  contribute: boolean;
 }
 
-const DATABASE_KEY = 'crowd_sensing_app_settings'
-const STORE_KEY = 'settings'
+const DATABASE_KEY = "crowd_sensing_app_settings"
+const STORE_KEY = "settings"
 
 interface SettingDB extends DBSchema {
   [STORE_KEY]: {
-    value: IIDBSetting,
-    key: string
+    value: IIDBSetting;
+    key: string;
   };
 }
 
@@ -22,7 +23,7 @@ export const settingsDB = {
       async upgrade (db, oldVersion) {
         if (oldVersion < 1) {
           db.createObjectStore(STORE_KEY, {
-            keyPath: 'settingKey'
+            keyPath: "settingKey"
           })
         }
       }

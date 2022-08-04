@@ -9,13 +9,13 @@ platform:
 
 steps:
   - name: install
-    image: node:latest
+    image: node:lts
     commands:
       - cd frontend
       - yarn ci
 
   - name: lint
-    image: node:latest
+    image: node:lts
     commands:
       - cd frontend
       - yarn lint
@@ -23,28 +23,28 @@ steps:
       - install
 
   - name: unit-test
-    image: node:latest
+    image: node:lts
     commands:
       - cd frontend
-      - yarn test:unit --ci --coverage
+      - yarn test:unit --coverage
     depends_on:
       - lint
 
   - name: e2e-test-chrome
-    image: cypress/included:9.5.2
+    image: cypress/included:10.4.0
     commands:
       - cd frontend
       - cypress info
-      - yarn test:e2e --headless --browser chrome
+      - yarn test:e2e:ci:chrome
     depends_on:
       - lint
 
   - name: e2e-test-firefox
-    image: cypress/included:9.5.2
+    image: cypress/included:10.4.0
     commands:
       - cd frontend
       - cypress info
-      - yarn test:e2e --headless --browser firefox
+      - yarn test:e2e:ci:firefox
     depends_on:
       - lint
 
@@ -63,7 +63,7 @@ steps:
       - e2e-test-firefox
 
   - name: build
-    image: node:latest
+    image: node:lts
     commands:
       - cd frontend
       - yarn build

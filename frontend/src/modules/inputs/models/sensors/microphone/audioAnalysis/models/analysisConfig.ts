@@ -1,9 +1,9 @@
 // eslint-disable-next-line
 // @ts-ignore
-import { MeydaAnalyzerOptions } from 'meyda'
+import { MeydaAnalyzerOptions } from "meyda"
 import {
   AudioCalculationsFrequency
-} from '@/modules/inputs/models/sensors/microphone/audioAnalysis/service/audioCalculationsFrequency'
+} from "@/modules/inputs/models/sensors/microphone/audioAnalysis/service/audioCalculationsFrequency"
 
 export class AnalysisConfig implements MeydaAnalyzerOptions {
   durationSeconds: number
@@ -26,10 +26,13 @@ export class AnalysisConfig implements MeydaAnalyzerOptions {
     sampleRate = 44100,
     bufferSize = 8192,
     numberOfInputChannels = 1,
-    windowingFunction = 'hanning',
+    windowingFunction = "hanning",
     lowestPerceptibleFrequency = 20, // Lowest Hz human can hear
     highestPerceptibleFrequency = 20000, // Highest Hz human can hear
-    frequencies: Array<number> = AudioCalculationsFrequency.frequenciesUsingSampleRateBufferSize(sampleRate, bufferSize)
+    frequencies: Array<number> = AudioCalculationsFrequency.frequenciesUsingSampleRateBufferSize(
+      sampleRate,
+      bufferSize
+    )
   ) {
     this.durationSeconds = durationSeconds
     this.sampleRate = sampleRate

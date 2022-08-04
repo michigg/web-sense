@@ -1,6 +1,8 @@
 <template>
   <li>
-    <h3 class="text-xl font-bold">Metadaten</h3>
+    <h3 class="text-xl font-bold">
+      Metadaten
+    </h3>
     <BaseList>
       <KeyValueListItem
         v-for="[key, value] of result.metas"
@@ -10,8 +12,12 @@
       />
     </BaseList>
 
-    <h3 class="text-xl font-bold">Messergebnisse</h3>
-    <p v-if="result.measurements.size === 0">Keine Daten vorhanden.</p>
+    <h3 class="text-xl font-bold">
+      Messergebnisse
+    </h3>
+    <p v-if="result.measurements.size === 0">
+      Keine Daten vorhanden.
+    </p>
     <BaseList v-else>
       <KeyValueListItem
         v-for="[key, value] of result.measurements"
@@ -24,12 +30,12 @@
 </template>
 
 <script lang="ts" setup>
-import { LogTaskStepResult } from '@/modules/log/models/logTaskStepResult'
-import KeyValueListItem from '@/modules/log/components/KeyValueListItem.vue'
-import BaseList from '@/shared/components/BaseList.vue'
+import type { LogTaskStepResult } from "@/modules/log/models/logTaskStepResult"
+import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
+import BaseList from "@/shared/components/BaseList.vue"
 
 defineProps<{
-  result: LogTaskStepResult
+  result: LogTaskStepResult;
 }>()
 </script>
 

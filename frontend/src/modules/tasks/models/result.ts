@@ -1,5 +1,5 @@
-import { toRaw } from 'vue'
-import { TaskStep } from '@/modules/tasks/models/taskStep'
+import { toRaw } from "vue"
+import type { TaskStep } from "@/modules/tasks/models/taskStep"
 
 export class Result {
   readonly measurements: Map<string, number | string | boolean>

@@ -1,15 +1,19 @@
-import { Task } from '@/modules/tasks/models/task'
-import { TaskStepResult } from '@/modules/tasks/models/result'
-import { Point } from '@influxdata/influxdb-client-browser'
-import {
+import type { Task } from "@/modules/tasks/models/task"
+import type { TaskStepResult } from "@/modules/tasks/models/result"
+import type { Point } from "@influxdata/influxdb-client-browser"
+import type {
   IIDBLogTask,
   LogDBConvertable
-} from '@/modules/log/models/logIDB'
-import { LogTaskStep } from '@/modules/log/models/logTaskStep'
-import { InfluxDBConvertable } from '@/shared/composables/services/useInflux'
-import { TBPoint, ThingsboardConvertable } from '@/shared/composables/services/useThingsBoard'
+} from "@/modules/log/models/logIDB"
+import { LogTaskStep } from "@/modules/log/models/logTaskStep"
+import type { InfluxDBConvertable } from "@/shared/composables/services/useInflux"
+import type {
+  TBPoint,
+  ThingsboardConvertable
+} from "@/shared/composables/services/useThingsBoard"
 
-export class LogTask implements InfluxDBConvertable, ThingsboardConvertable, LogDBConvertable {
+export class LogTask
+  implements InfluxDBConvertable, ThingsboardConvertable, LogDBConvertable {
   readonly pKey?: number
   readonly id: number
   readonly title: string
@@ -63,14 +67,14 @@ export class LogTask implements InfluxDBConvertable, ThingsboardConvertable, Log
       idbLog.id,
       idbLog.title,
       idbLog.checkInTimestamp,
-      idbLog.steps.map(step => LogTaskStep.fromIDB(step)),
+      idbLog.steps.map((step) => LogTaskStep.fromIDB(step)),
       idbLog.resultActivityComponentName,
       idbLog.transmitted
     )
   }
 
   toIDB (): IIDBLogTask {
-    // TODO: refractor
+    // TODO: refactor
     if (this.pKey === undefined) {
       return {
         id: this.id,
@@ -117,7 +121,7 @@ export class LogTask implements InfluxDBConvertable, ThingsboardConvertable, Log
       this.id,
       this.title,
       this.checkInTimestamp,
-      this.steps.map(step => step.clone()),
+      this.steps.map((step) => step.clone()),
       this.resultActivityComponentName
     )
   }

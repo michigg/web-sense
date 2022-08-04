@@ -1,8 +1,9 @@
-import { DBSchema, IDBPDatabase, openDB } from 'idb'
-import { InputType } from '@/modules/inputs/models/inputType'
+import { openDB } from "idb"
+import type { DBSchema, IDBPDatabase } from "idb"
+import type { InputType } from "@/modules/inputs/models/inputType"
 
 export interface IIDBLogTaskStepResult {
-  readonly metas: Map<string, number | string | boolean>,
+  readonly metas: Map<string, number | string | boolean>
   readonly measurements: Map<string, number | string | boolean>
 }
 
@@ -11,7 +12,7 @@ export interface IIDBLogTaskStep {
   readonly title: string
   readonly timestamp: number
   readonly inputTypes: Array<InputType>
-  readonly results: Array<IIDBLogTaskStepResult>,
+  readonly results: Array<IIDBLogTaskStepResult>
   readonly resultActivityComponentName: string | undefined
 }
 
@@ -31,17 +32,17 @@ export interface LogDBConvertable {
 
 interface LogDB extends DBSchema {
   logs: {
-    value: IIDBLogTask,
-    key: number,
+    value: IIDBLogTask
+    key: number
     indexes: {
-      'checkInTimestamp': number,
-      'byTask': number
-    };
-  };
+      checkInTimestamp: number
+      byTask: number
+    }
+  }
 }
 
-const DATABASE_KEY = 'crowd_sensing_app_logs'
-const LOGS_STORE_KEY = 'logs'
+const DATABASE_KEY = "crowd_sensing_app_logs"
+const LOGS_STORE_KEY = "logs"
 
 export const logDB = {
   async getLogDB (): Promise<IDBPDatabase<LogDB>> {
@@ -49,11 +50,11 @@ export const logDB = {
       async upgrade (db, oldVersion, newVersion, transaction) {
         if (oldVersion < 1) {
           const logStore = db.createObjectStore(LOGS_STORE_KEY, {
-            keyPath: 'pKey',
+            keyPath: "pKey",
             autoIncrement: true
           })
-          logStore.createIndex('checkInTimestamp', 'checkInTimestamp')
-          logStore.createIndex('byTask', 'id')
+          logStore.createIndex("checkInTimestamp", "checkInTimestamp")
+          logStore.createIndex("byTask", "id")
         }
         if (oldVersion < 2) {
           const logStore = transaction.objectStore(LOGS_STORE_KEY)
@@ -82,7 +83,7 @@ export const logDB = {
   },
   async getTaskLogs (): Promise<Array<IIDBLogTask>> {
     const db = await this.getLogDB()
-    const logs = await db.getAllFromIndex(LOGS_STORE_KEY, 'checkInTimestamp')
+    const logs = await db.getAllFromIndex(LOGS_STORE_KEY, "checkInTimestamp")
     return logs.reverse()
   },
   async getTaskLog (pKey: number): Promise<IIDBLogTask | undefined> {

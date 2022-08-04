@@ -1,12 +1,17 @@
-import { toRaw } from 'vue'
-import { QuestionType } from '@/modules/inputs/models/sensors/survey/questionType'
+import { toRaw } from "vue"
+import { QuestionType } from "@/modules/inputs/models/sensors/survey/questionType"
+
+export interface ApiQuestionOption {
+  text: string
+  value: string
+}
 
 export interface ApiQuestion {
-  id: string,
-  type: string,
-  title: string,
-  question: string,
-  options?: any
+  id: string
+  type: string
+  title: string
+  question: string
+  options?: ApiQuestionOption[]
 }
 
 export class Question {
@@ -14,7 +19,7 @@ export class Question {
   readonly type: QuestionType
   readonly title: string
   readonly question: string
-  readonly options?: any
+  readonly options?: ApiQuestionOption[]
   answer?: object | number | string | boolean
 
   constructor (
@@ -22,7 +27,7 @@ export class Question {
     type: QuestionType,
     title: string,
     question: string,
-    options: any = undefined,
+    options: ApiQuestionOption[] | undefined = undefined,
     answer: object | number | string | boolean | undefined = undefined
   ) {
     this.id = id
@@ -34,14 +39,16 @@ export class Question {
   }
 
   clone (): Question {
-    return toRaw(new Question(
-      this.id,
-      this.type,
-      toRaw(this.title),
-      toRaw(this.question),
-      toRaw(this.options),
-      toRaw(this.answer)
-    ))
+    return toRaw(
+      new Question(
+        this.id,
+        this.type,
+        toRaw(this.title),
+        toRaw(this.question),
+        toRaw(this.options),
+        toRaw(this.answer)
+      )
+    )
   }
 
   static fromApi (data: ApiQuestion): Question {

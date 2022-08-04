@@ -1,20 +1,22 @@
-import { computed, ComputedRef } from 'vue'
-import { useStore } from '@/store'
-import { Task } from '@/modules/tasks/models/task'
-import { LogTask } from '@/modules/log/models/logTask'
+import { computed } from "vue"
+import type { ComputedRef } from "vue"
+import type { Task } from "@/modules/tasks/models/task"
+import type { LogTask } from "@/modules/log/models/logTask"
+import { useTaskExecuteStore } from "@/modules/tasks/store/execute"
 
 export function useTaskFinished (): {
-  task: ComputedRef<Task>,
-  preview: ComputedRef<LogTask>
-  contributeTask: () => Promise<number>,
+  task: ComputedRef<Task | undefined>
+  preview: ComputedRef<LogTask | undefined>
+  contributeTask: () => Promise<number>
   saveTask: () => Promise<number>
-  } {
-  const store = useStore()
+} {
+  const taskExecute = useTaskExecuteStore()
 
-  const task = computed(() => store.getters['taskExecute/getTask'])
-  const contributeTask = async () => await store.dispatch('taskExecute/save', { contribute: true })
-  const saveTask = async () => await store.dispatch('taskExecute/save', { contribute: false })
-  const preview = computed(() => store.getters['taskExecute/getLogTask'])
+  const task = computed(() => taskExecute.getTask)
+  const contributeTask = async () =>
+    await taskExecute.save({ contribute: true })
+  const saveTask = async () => await taskExecute.save({ contribute: false })
+  const preview = computed(() => taskExecute.getLogTask)
 
   return {
     task,

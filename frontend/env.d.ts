@@ -1,9 +1,5 @@
-/* eslint-disable */
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
-  const component: DefineComponent<{}, {}, any>
-  export default component
-}
+/// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/client" />
 
 // Source https://github.com/vue-leaflet/vue-leaflet/issues/1
 declare module '@vue-leaflet/vue-leaflet' {

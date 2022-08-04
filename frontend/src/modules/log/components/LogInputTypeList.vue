@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts" setup>
-import BaseList from '@/shared/components/BaseList.vue'
-import LogInputTypeListElement from '@/modules/log/components/LogInputTypeListElement.vue'
-import { Task } from '@/modules/tasks/models/task'
+import BaseList from "@/shared/components/BaseList.vue"
+import LogInputTypeListElement from "@/modules/log/components/LogInputTypeListElement.vue"
+import type { Task } from "@/modules/tasks/models/task"
 
-defineProps<{task: Task}>()
+defineProps<{ task: Task }>()
 </script>
 
 <style scoped>
@@ -22,6 +22,6 @@ defineProps<{task: Task}>()
   display: flex;
   flex-flow: column;
   align-items: flex-start;
-  gap: 1rem
+  gap: 1rem;
 }
 </style>

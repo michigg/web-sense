@@ -3,25 +3,13 @@
     class="leading-4"
     data-test="badge"
   >
-    <Icon :icon-key="iconKey"/>
+    <Icon :icon-key="iconKey" />
   </Badge>
 </template>
 
-<script>
-import Icon from '@/shared/components/BaseIcon'
-import Badge from '@/shared/components/BaseBadge'
+<script lang="ts" setup>
+import Icon from "@/shared/components/BaseIcon.vue"
+import Badge from "@/shared/components/BaseBadge.vue"
 
-export default {
-  name: 'IconBadge',
-  components: {
-    Badge,
-    Icon
-  },
-  props: {
-    iconKey: {
-      type: String,
-      required: true
-    }
-  }
-}
+defineProps<{ iconKey: string }>()
 </script>

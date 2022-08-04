@@ -1,48 +1,43 @@
-import { Commit } from 'vuex'
-import { logDB } from '@/modules/log/models/logIDB'
-import { LogTask } from '@/modules/log/models/logTask'
-import { useContribute } from '@/modules/log/composables/useContribute'
+import { logDB } from "@/modules/log/models/logIDB"
+import { LogTask } from "@/modules/log/models/logTask"
+import { useContribute } from "@/modules/log/composables/useContribute"
+import { defineStore } from "pinia"
 
 interface LogElementState {
-  logElement: LogTask | undefined
+  logElement: LogTask | undefined;
 }
 
-export const logElementStore = {
-  namespaced: true,
+export const useLogElementStore = defineStore("logElement", {
   state: (): LogElementState => ({
     logElement: undefined
   }),
   getters: {
-    getLogElement: (state: LogElementState): LogTask | undefined => state.logElement
-  },
-  mutations: {
-    SET_LOG_ELEMENT (state: LogElementState, logElement: LogTask | undefined) {
-      state.logElement = logElement
-    }
+    getLogElement: (state: LogElementState): LogTask | undefined =>
+      state.logElement
   },
   actions: {
-    async init ({ commit }: { commit: Commit }, taskLogPKey: number) {
-      const logElement = await logDB.getTaskLog(taskLogPKey)
-      commit('SET_LOG_ELEMENT', LogTask.fromIDB(logElement))
+    setLogElement (logElement: LogTask | undefined) {
+      this.logElement = logElement
     },
-    async contribute ({
-      state,
-      commit
-    }: { state: LogElementState, commit: Commit }) {
-      if (!state.logElement) {
-        throw Error('Die Messung wurde nicht gefunden.')
+    async init (taskLogPKey: number) {
+      const logElement = await logDB.getTaskLog(taskLogPKey)
+      this.setLogElement(LogTask.fromIDB(logElement))
+    },
+    async contribute () {
+      if (!this.logElement) {
+        throw Error("Die Messung wurde nicht gefunden.")
       }
-      if (state.logElement.transmitted) {
-        throw Error('Die Messung wurde bereits übermittelt.')
+      if (this.logElement.transmitted) {
+        throw Error("Die Messung wurde bereits übermittelt.")
       }
       try {
-        let log = state.logElement.clone()
+        let log = this.logElement.clone()
         const contribute = useContribute()
         log = await contribute(log)
-        commit('SET_LOG_ELEMENT', log)
+        this.setLogElement(log)
       } catch (e) {
-        throw Error('Daten konnten nicht übermittelt werden.')
+        throw Error("Daten konnten nicht übermittelt werden.")
       }
     }
   }
-}
+})

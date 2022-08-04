@@ -1,11 +1,11 @@
-import { toRaw } from 'vue'
-import { TaskStepResult } from '@/modules/tasks/models/result'
-import { IIDBLogTaskStep } from '@/modules/log/models/logIDB'
-import { LogTaskStepResult } from '@/modules/log/models/logTaskStepResult'
-import { Point } from '@influxdata/influxdb-client-browser'
-import { TaskStep } from '@/modules/tasks/models/taskStep'
-import { InputType } from '@/modules/inputs/models/inputType'
-import { TBPoint } from '@/shared/composables/services/useThingsBoard'
+import { toRaw } from "vue"
+import type { TaskStepResult } from "@/modules/tasks/models/result"
+import type { IIDBLogTaskStep } from "@/modules/log/models/logIDB"
+import { LogTaskStepResult } from "@/modules/log/models/logTaskStepResult"
+import { Point } from "@influxdata/influxdb-client-browser"
+import type { TaskStep } from "@/modules/tasks/models/taskStep"
+import type { InputType } from "@/modules/inputs/models/inputType"
+import type { TBPoint } from "@/shared/composables/services/useThingsBoard"
 
 export class LogTaskStep {
   readonly id: string
@@ -31,13 +31,18 @@ export class LogTaskStep {
     this.resultActivityComponentName = resultActivityComponentName
   }
 
-  static fromResults (taskStep: TaskStep, taskStepResult: TaskStepResult): LogTaskStep {
+  static fromResults (
+    taskStep: TaskStep,
+    taskStepResult: TaskStepResult
+  ): LogTaskStep {
     return new LogTaskStep(
       taskStepResult.taskStep.id,
       taskStepResult.taskStep.title,
       taskStepResult.timestamp,
       taskStepResult.taskStep.inputTypes,
-      taskStepResult.results.map(result => LogTaskStepResult.fromTaskResult(result)),
+      taskStepResult.results.map((result) =>
+        LogTaskStepResult.fromTaskResult(result)
+      ),
       taskStep.resultActivityComponentName
     )
   }
@@ -48,7 +53,7 @@ export class LogTaskStep {
       idbLogTaskStep.title,
       idbLogTaskStep.timestamp,
       idbLogTaskStep.inputTypes,
-      idbLogTaskStep.results.map(result => LogTaskStepResult.fromIDB(result)),
+      idbLogTaskStep.results.map((result) => LogTaskStepResult.fromIDB(result)),
       idbLogTaskStep.resultActivityComponentName
     )
   }
@@ -59,7 +64,7 @@ export class LogTaskStep {
       title: this.title,
       timestamp: this.timestamp,
       inputTypes: toRaw(this.inputTypes),
-      results: this.results.map(result => result.toIDB()),
+      results: this.results.map((result) => result.toIDB()),
       resultActivityComponentName: this.resultActivityComponentName
     }
   }
@@ -68,15 +73,15 @@ export class LogTaskStep {
     const points = []
     for (const taskStepResult of this.results) {
       const point = new Point(`task_${taskId}_step_${this.id.toString()}`)
-        .tag('taskId', taskId)
-        .tag('taskStepId', this.id.toString())
+        .tag("taskId", taskId)
+        .tag("taskStepId", this.id.toString())
         .timestamp(this.timestamp)
       for (const [key, value] of taskStepResult.metas) {
         point.tag(key, value.toString())
       }
       for (const [key, value] of taskStepResult.measurements) {
         switch (typeof value) {
-          case 'number':
+          case "number":
             point.floatField(key, value)
             // if (key === 'accuracy') {
             //   point.floatField(key, value)
@@ -88,13 +93,13 @@ export class LogTaskStep {
             //   point.floatField(key, value)
             // }
             break
-          case 'string':
+          case "string":
             point.stringField(key, value)
             break
-          case 'boolean':
+          case "boolean":
             point.booleanField(key, value)
             break
-          case 'bigint':
+          case "bigint":
             point.intField(key, value)
             break
           default:
@@ -132,7 +137,7 @@ export class LogTaskStep {
       this.title,
       this.timestamp,
       this.inputTypes,
-      this.results.map(result => result.clone())
+      this.results.map((result) => result.clone())
     )
   }
 }

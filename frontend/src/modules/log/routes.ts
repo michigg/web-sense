@@ -1,16 +1,16 @@
-import { RouteRecordRaw } from 'vue-router'
-import PageMeasurements from '@/modules/log/pages/PageLog.vue'
-import PageMeasurementDetail from '@/modules/log/pages/PageLogElement.vue'
+import type { RouteRecordRaw } from "vue-router"
+import PageLog from "@/modules/log/pages/PageLog.vue"
+import PageLogElement from "@/modules/log/pages/PageLogElement.vue"
 
 export const measurementsRoutes: Array<RouteRecordRaw> = [
   {
-    path: '/log',
-    name: 'Measurements',
-    component: PageMeasurements
+    path: "/log",
+    name: "Measurements",
+    component: PageLog
   },
   {
-    path: '/log/:taskLogPKey',
-    name: 'MeasurementDetail',
-    component: PageMeasurementDetail
+    path: "/log/:taskLogPKey",
+    name: "MeasurementDetail",
+    component: PageLogElement
   }
 ]

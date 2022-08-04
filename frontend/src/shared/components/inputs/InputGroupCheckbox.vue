@@ -1,30 +1,30 @@
 <template>
   <div class="input-group">
     <input
-        :id="id"
-        v-model="localValue"
-        v-bind="$attrs"
-        type="checkbox"
+      :id="id"
+      v-model="localValue"
+      v-bind="$attrs"
+      type="checkbox"
     >
     <label :for="id">{{ label }}</label>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed } from "vue"
 
 const props = defineProps<{
-  modelValue?: boolean,
-  id: string,
-  label: string,
+  modelValue?: boolean;
+  id: string;
+  label: string;
 }>()
 // eslint-disable-next-line
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean | undefined): void
+  (e: "update:modelValue", value: boolean | undefined): void;
 }>()
 const localValue = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
+  set: (value) => emit("update:modelValue", value)
 })
 </script>
 
@@ -32,7 +32,7 @@ const localValue = computed({
 .input-group {
   position: relative;
   flex-flow: column;
-  row-gap: .1rem;
+  row-gap: 0.1rem;
 }
 
 input {
@@ -48,7 +48,7 @@ input[type="checkbox"] + label:before {
   height: 1rem;
   border: 2px solid var(--color-primary-border);
   display: inline-block;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   margin-inline-end: 0.5em;
 }
 

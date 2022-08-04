@@ -3,7 +3,7 @@ export class BaseError extends Error {
 
   constructor (message: string, cause: Error | undefined = undefined) {
     super(message)
-    this.name = 'BaseError'
+    this.name = "BaseError"
     this.cause = cause
   }
 }

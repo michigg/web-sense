@@ -1,22 +1,23 @@
 <template>
   <LayoutBase title="Sensoren">
     <BaseCard title="Sensorstatus">
-      <InputList :input-types="inputTypes"/>
+      <InputList :input-types="inputTypes" />
     </BaseCard>
   </LayoutBase>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import BaseCard from '@/shared/components/cards/BaseCard.vue'
-import LayoutBase from '@/shared/components/LayoutBase.vue'
-import { useStore } from '@/store'
-import InputList from '@/modules/inputs/components/InputList.vue'
+import { onMounted, ref } from "vue"
+import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import LayoutBase from "@/shared/components/LayoutBase.vue"
+import InputList from "@/modules/inputs/components/InputList.vue"
+import { useSensorStore } from "@/modules/inputs/store"
+import type { InputType } from "../models/inputType"
 
-const inputTypes = ref([])
-const store = useStore()
+const inputTypes = ref<InputType[]>([])
+const sensorStore = useSensorStore()
 onMounted(async () => {
-  await store.dispatch('sensors/checkAvailability')
-  inputTypes.value = store.getters['sensors/getSensorTypes']
+  await sensorStore.checkAvailability()
+  inputTypes.value = sensorStore.getSensorTypes
 })
 </script>

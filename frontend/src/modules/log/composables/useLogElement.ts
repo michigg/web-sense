@@ -1,22 +1,24 @@
-import { computed, ComputedRef, onMounted } from 'vue'
-import { useStore } from '@/store'
-import { useRoute } from 'vue-router'
-import { LogTask } from '@/modules/log/models/logTask'
-import { logDB } from '@/modules/log/models/logIDB'
+import { computed, onMounted } from "vue"
+import type { ComputedRef } from "vue"
+import { useRoute } from "vue-router"
+import type { LogTask } from "@/modules/log/models/logTask"
+import { logDB } from "@/modules/log/models/logIDB"
+import { useLogElementStore } from "@/modules/log/store/logElement"
 
-export function useLogElement (): { logElement: ComputedRef<LogTask>, deleteLogElement: () => Promise<void> } {
-  const store = useStore()
+export function useLogElement (): {
+  logElement: ComputedRef<LogTask | undefined>
+  deleteLogElement: () => Promise<void>
+} {
+  const logElementStore = useLogElementStore()
   const route = useRoute()
   const taskLogPKey = +route.params.taskLogPKey
 
   onMounted(async () => {
-    await store.dispatch('logElement/init', taskLogPKey)
+    await logElementStore.init(taskLogPKey)
   })
-  const logElement: ComputedRef<LogTask> = computed(() => {
-    const test = store.getters['logElement/getLogElement']
-    console.log('useLogElement', test)
-    return test
-  })
+  const logElement: ComputedRef<LogTask | undefined> = computed(
+    () => logElementStore.getLogElement
+  )
 
   const deleteLogElement = async () => {
     if (logElement.value && logElement.value.pKey) {
