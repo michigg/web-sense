@@ -27,6 +27,9 @@
       step="1"
     />
     <p>App Version: {{ appVersion }}</p>
+    <RouterLink :to="{name: 'Imprint'}">
+      Impressum
+    </RouterLink>
   </LayoutBase>
 </template>
 
