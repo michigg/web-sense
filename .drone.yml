@@ -99,12 +99,12 @@ steps:
       password:
         from_secret: github_password
       pages_directory: frontend/dist
-#    when:
-#      branch:
-#        - main
-#      event:
-#        - tag
-#        - push
+    when:
+      branch:
+        - main
+      event:
+        - tag
+        - push
     depends_on:
       - build
 
