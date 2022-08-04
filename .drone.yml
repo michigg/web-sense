@@ -70,7 +70,7 @@ steps:
     depends_on:
       - code-analysis
 
-  - name: deploy
+  - name: deploy-docker
     image: plugins/docker
     settings:
       username:
@@ -82,6 +82,23 @@ steps:
       auto_tag: true
       dockerfile: frontend/Dockerfile
       context: frontend
+    when:
+      branch:
+        - main
+      event:
+        - tag
+        - push
+    depends_on:
+      - build
+
+  - name: publish-github
+    image: plugins/gh-pages
+    settings:
+      username:
+        from_secret: github_username
+      password:
+        from_secret: github_password
+      pages_directory: frontend/dist
     when:
       branch:
         - main
@@ -115,7 +132,8 @@ steps:
         - success
         - failure
     depends_on:
-      - deploy
+      - deploy-docker
+      - publish-github
       - build
 
 trigger:
