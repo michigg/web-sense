@@ -1,1 +1,0 @@
-import{_ as e,o as a,c as s,a as c}from"./index.f5ade20c.js";const o={},t={class:"about"},r=c("h1",null,"This is an privacy page",-1),_=[r];function n(i,d){return a(),s("div",t,_)}var f=e(o,[["render",n]]);export{f as default};
