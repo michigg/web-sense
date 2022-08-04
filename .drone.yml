@@ -82,12 +82,12 @@ steps:
       auto_tag: true
       dockerfile: frontend/Dockerfile
       context: frontend
-#    when:
-#      branch:
-#        - main
-#      event:
-#        - tag
-#        - push
+    when:
+      branch:
+        - main
+      event:
+        - tag
+        - push
     depends_on:
       - build
 
@@ -99,12 +99,12 @@ steps:
       ssh_key:
         from_secret: github_ssh_key
       pages_directory: dist
-    when:
-      branch:
-        - main
-      event:
-        - tag
-        - push
+#    when:
+#      branch:
+#        - main
+#      event:
+#        - tag
+#        - push
     depends_on:
       - build
 
