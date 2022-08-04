@@ -98,7 +98,7 @@ steps:
         from_secret: github_username
       ssh_key:
         from_secret: github_ssh_key
-      pages_directory: dist
+      pages_directory: frontend/dist
 #    when:
 #      branch:
 #        - main
