@@ -1,19 +1,21 @@
 import { BaseError } from "@/shared/exceptions"
-import { Task } from "@/modules/tasks/models/task"
+import type { Task } from "@/modules/tasks/models/task"
 import type { APITask } from "@/modules/tasks/models/task"
 import axios, { AxiosError } from "axios"
 import { TaskRepositoryError } from "@/modules/tasks/exceptions"
+import { dummyTasks } from "@/modules/tasks/models/dummyTasks"
 
 export function useTaskRepository () {
   const getTasks = async (): Promise<Array<Task>> => {
     try {
-      const url = import.meta.env.VITE_TASK_ENDPOINT
-      if (!url) {
-        // TODO: fix
-        throw new BaseError("")
-      }
-      const response = await axios.get(url)
-      return response.data.map((apiTask: APITask) => Task.fromApi(apiTask))
+      // const url = import.meta.env.VITE_TASK_ENDPOINT
+      // if (!url) {
+      //   // TODO: fix
+      //   throw new BaseError("")
+      // }
+      // const response = await axios.get(url)
+      // return response.data.map((apiTask: APITask) => Task.fromApi(apiTask))
+      return Promise.resolve(dummyTasks)
     } catch (e) {
       const error = e as Error | AxiosError
       if (axios.isAxiosError(error) && error.response) {
