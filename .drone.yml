@@ -67,6 +67,19 @@ steps:
     commands:
       - cd frontend
       - yarn build
+    environment:
+      VITE_TASK_ENDPOINT:
+        from_secret: VITE_TASK_ENDPOINT
+      VITE_IMPRINT_CITY:
+        from_secret: VITE_IMPRINT_CITY
+      VITE_IMPRINT_EMAIL:
+        from_secret: VITE_IMPRINT_EMAIL
+      VITE_IMPRINT_NAME:
+        from_secret: VITE_IMPRINT_NAME
+      VITE_IMPRINT_POSTAL_CODE:
+        from_secret: VITE_IMPRINT_POSTAL_CODE
+      VITE_IMPRINT_STREET:
+        from_secret: VITE_IMPRINT_STREET
     depends_on:
       - code-analysis
 
