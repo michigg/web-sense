@@ -21,12 +21,12 @@ const props = defineProps<{
 const sensorStore = useSensorStore()
 const sensor = computed(() => sensorStore.getSensor(props.inputType))
 
-const iconKey = () => {
+const iconKey = computed(() => {
   if (sensor.value == null) {
     return "question"
   }
   return sensor.value.isAvailable
     ? sensor.value.availableIconKey
     : sensor.value.unavailableIconKey
-}
+})
 </script>
