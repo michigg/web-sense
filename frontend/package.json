@@ -33,8 +33,7 @@
     "motion-sensors-polyfill": "^0.3.1",
     "pinia": "^2.0.14",
     "vue": "^3.2.37",
-    "vue-router": "^4.1.1",
-    "@michigg/component-library": "file:/home/michigg/GIT/own/component-library/michigg-component-library-0.1.14.tgz"
+    "vue-router": "^4.1.1"
   },
   "devDependencies": {
     "@pinia/testing": "^0.0.13",
