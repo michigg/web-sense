@@ -11,3 +11,7 @@ defineProps<{
   iconKey: string;
 }>()
 </script>
+<style lang="scss" scoped>
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+</style>
