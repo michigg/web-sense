@@ -1,11 +1,11 @@
 <template>
   <div class="dropdown-meta-data">
-    <ButtonBase
+    <BaseButton
       :active="active"
       @click="active = !active"
     >
       Metadaten
-    </ButtonBase>
+    </BaseButton>
     <LogListTaskStepItem
       v-if="active"
       :log-task-step="logTaskStep"
@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import LogListTaskStepItem from "@/modules/log/components/LogListTaskStepItem.vue"
-import ButtonBase from "@/shared/components/ButtonBase.vue"
+import { BaseButton } from "@michigg/component-library"
 import type { LogTaskStep } from "@/modules/log/models/logTaskStep"
 import { ref } from "vue"
 

@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 import type { LogTaskStepResult } from "@/modules/log/models/logTaskStepResult"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
-import BaseList from "@/shared/components/BaseList.vue"
+import { BaseList } from "@michigg/component-library"
 
 defineProps<{
   result: LogTaskStepResult;

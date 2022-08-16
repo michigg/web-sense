@@ -16,7 +16,7 @@
   </ul>
 </template>
 <script lang="ts" setup>
-import BaseIcon from "@/shared/components/BaseIcon.vue"
+import { BaseIcon } from "@michigg/component-library"
 import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
 import { useDateTime } from "@/shared/composables/useDateTime"
 import type { LogTask } from "@/modules/log/models/logTask"

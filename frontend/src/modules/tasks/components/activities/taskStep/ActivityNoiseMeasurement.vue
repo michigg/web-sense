@@ -26,8 +26,8 @@ import type { GeolocationSensor } from "@/modules/inputs/models/sensors/geolocat
 import { AudioCalculations } from "@/modules/inputs/models/sensors/microphone/audioAnalysis/service/audioCalculations"
 import TaskStepInstructionList from "@/modules/tasks/components/TaskStepInstructionList.vue"
 import type { SensorTaskStep } from "@/modules/tasks/models/taskStep"
-import ErrorCard from "@/shared/components/cards/ErrorCard.vue"
 import { InputType } from "@/modules/inputs/models/inputType"
+import { ErrorCard } from "@michigg/component-library"
 
 const props = defineProps<{
   taskStep: SensorTaskStep;

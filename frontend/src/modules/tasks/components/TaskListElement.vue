@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts" setup>
-import BaseListElement from "@/shared/components/BaseListElement.vue"
 import { useTaskRoutes } from "@/modules/tasks/composables/useTaskRoutes"
 import InputIcons from "@/modules/inputs/components/InputIcons.vue"
 import type { InputType } from "@/modules/inputs/models/inputType"
+import { BaseListElement } from "@michigg/component-library"
 
 const props = defineProps<{
   taskId: number;
@@ -34,7 +34,8 @@ const routeToTaskPage = () => {
   align-items: center;
   justify-content: space-between;
   background-color: var(--color-surface-3);
-  border-radius: var(--card-radius);
+  /* TODO: patch in components library*/
+  --radius-sm: var(--card-radius);
 }
 
 .approved {

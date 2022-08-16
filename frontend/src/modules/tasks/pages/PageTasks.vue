@@ -23,11 +23,9 @@
 
 <script lang="ts" setup>
 import TaskListElement from "@/modules/tasks/components/TaskListElement.vue"
-import BaseList from "@/shared/components/BaseList.vue"
 import LayoutBase from "@/shared/components/LayoutBase.vue"
 import { useTask } from "@/modules/tasks/composables/useTask"
-import ErrorCard from "@/shared/components/cards/ErrorCard.vue"
-import LoadingCard from "@/shared/components/cards/LoadingCard.vue"
+import { ErrorCard, LoadingCard, BaseList } from "@michigg/component-library"
 
 const {
   tasks,

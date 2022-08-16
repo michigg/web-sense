@@ -1,24 +1,24 @@
 <template>
   <div class="noise-chart-wrapper">
     <ButtonGroup>
-      <ButtonBase
+      <BaseButton
         :active="overlayData.type === 'references'"
         @click="showReferenceNoises"
       >
         <BaseIcon icon-key="bi-soundwave" />
-      </ButtonBase>
-      <ButtonBase
+      </BaseButton>
+      <BaseButton
         :active="overlayData.type === 'night'"
         @click="showNightNoise"
       >
         <BaseIcon icon-key="bi-moon-stars" />
-      </ButtonBase>
-      <ButtonBase
+      </BaseButton>
+      <BaseButton
         :active="overlayData.type === 'day'"
         @click="showDayNoise"
       >
         <BaseIcon icon-key="bi-brightness-high" />
-      </ButtonBase>
+      </BaseButton>
     </ButtonGroup>
     <h3 class="text-xl">
       {{ overlayData.headline }}
@@ -129,9 +129,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
-import ButtonBase from "@/shared/components/ButtonBase.vue"
-import BaseIcon from "@/shared/components/BaseIcon.vue"
-import ButtonGroup from "@/shared/components/ButtonGroup.vue"
+import { BaseIcon, BaseButton, ButtonGroup } from "@michigg/component-library"
 
 const height = 600
 const chartWidth = 250

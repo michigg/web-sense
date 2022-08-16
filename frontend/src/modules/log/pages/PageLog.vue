@@ -26,7 +26,7 @@
 import LayoutBase from "@/shared/components/LayoutBase.vue"
 import { useLog } from "@/modules/log/composables/useLog"
 import LogList from "@/modules/log/components/LogList.vue"
-import InfoCard from "@/shared/components/cards/InfoCard.vue"
+import { InfoCard } from "@michigg/component-library"
 
 const { logs } = useLog()
 </script>

@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import LayoutBase from "@/shared/components/LayoutBase.vue"
 import SettingItem from "@/modules/settings/components/SettingItem.vue"
-import InfoCard from "@/shared/components/cards/InfoCard.vue"
+import { InfoCard } from "@michigg/component-library"
 
 const appVersion = import.meta.env.VITE_VERSION
 </script>

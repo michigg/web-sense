@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts" setup>
-import BaseList from "@/shared/components/BaseList.vue"
 import LogInputTypeListElement from "@/modules/log/components/LogInputTypeListElement.vue"
 import type { Task } from "@/modules/tasks/models/task"
+import { BaseList } from "@michigg/component-library"
 
 defineProps<{ task: Task }>()
 </script>

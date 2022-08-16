@@ -20,10 +20,8 @@
 <script lang="ts" setup>
 import { QuestionType as questionType } from "@/modules/inputs/models/sensors/survey/questionType"
 import { computed } from "vue"
-import BaseCard from "@/shared/components/cards/BaseCard.vue"
 import type { Question } from "@/modules/inputs/models/sensors/survey/question"
-import InputGroup from "@/shared/components/inputs/InputGroup.vue"
-import SelectGroup from "@/shared/components/inputs/SelectGroup.vue"
+import { BaseCard, InputGroup, SelectGroup } from "@michigg/component-library"
 
 const props = defineProps<{
   question: Question;

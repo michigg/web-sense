@@ -15,15 +15,14 @@
         v-model:answer="questions[key].answer"
         :question="questions[key]"
       />
-      <ButtonBase type="submit">
+      <BaseButton type="submit">
         Weiter
-      </ButtonBase>
+      </BaseButton>
     </form>
   </div>
 </template>
 
 <script lang="ts" setup>
-import ButtonBase from "@/shared/components/ButtonBase.vue"
 import { Result } from "@/modules/tasks/models/result"
 import { ref } from "vue"
 import type { Sensor } from "@/modules/inputs/models/Sensor"
@@ -33,6 +32,7 @@ import type { SurveyTaskStep } from "@/modules/tasks/models/taskStep"
 import type { Question } from "@/modules/inputs/models/sensors/survey/question"
 import QuestionSection from "@/modules/inputs/models/sensors/survey/components/QuestionSection.vue"
 import { InputType } from "@/modules/inputs/models/inputType"
+import { BaseButton } from "@michigg/component-library"
 
 const props = defineProps<{
   taskStep: SurveyTaskStep;

@@ -10,9 +10,9 @@
         <strong>Daten spenden</strong> tun. Ihre Daten bleiben dabei weiterhin
         lokal gespeichert.
       </p>
-      <ButtonBase @click="contributeLog">
+      <BaseButton @click="contributeLog">
         Daten spenden
-      </ButtonBase>
+      </BaseButton>
     </div>
 
     <p v-else>
@@ -21,9 +21,8 @@
   </BaseCard>
 </template>
 <script lang="ts" setup>
-import ButtonBase from "@/shared/components/ButtonBase.vue"
 import { useLog } from "@/modules/log/composables/useLog"
-import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import { BaseCard, BaseButton } from "@michigg/component-library"
 
 const { contributeLog } = useLog()
 

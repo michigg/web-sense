@@ -22,30 +22,27 @@
         Leider besitzt dein Gerät nicht alle der geforderten Sensoren. Probiers
         mit einer anderen Aktivität
       </p>
-      <ButtonGroup>
-        <ButtonBase @click="routeToTasks">
+      <ButtonGroup class="button-group">
+        <BaseButton @click="routeToTasks">
           Aktivitäten
-        </ButtonBase>
-        <ButtonBase
+        </BaseButton>
+        <BaseButton
           v-if="taskExecutionPossible"
           @click="startTask"
         >
           Mission starten
-        </ButtonBase>
+        </BaseButton>
       </ButtonGroup>
     </BaseCard>
   </LayoutBase>
 </template>
 
 <script lang="ts" setup>
-import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import { BaseCard, BaseButton, ButtonGroup, LoadingCard } from "@michigg/component-library"
 import LayoutBase from "@/shared/components/LayoutBase.vue"
-import ButtonGroup from "@/shared/components/ButtonGroup.vue"
-import ButtonBase from "@/shared/components/ButtonBase.vue"
 import { useTask } from "@/modules/tasks/composables/useTask"
 import { useTaskRoutes } from "@/modules/tasks/composables/useTaskRoutes"
 import LogInputTypeList from "@/modules/log/components/LogInputTypeList.vue"
-import LoadingCard from "@/shared/components/cards/LoadingCard.vue"
 
 const {
   task,
@@ -59,10 +56,14 @@ const {
 const startTask = () => {
   approveTask()
   if (task.value == null) {
-    throw new Error('no task to start found.')
+    throw new Error("no task to start found.")
   }
   routeToTaskExecute(task.value.id)
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.button-group {
+  --color-surface-button: var(--color-primary);
+}
+</style>

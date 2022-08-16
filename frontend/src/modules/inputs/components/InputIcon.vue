@@ -5,12 +5,12 @@
       'inputs-icon',
     ]"
   >
-    <IconBadge :icon-key="iconKey" />
+    <BaseIconBadge :icon-key="iconKey" />
   </span>
 </template>
 
 <script lang="ts" setup>
-import IconBadge from "@/shared/components/BaseIconBadge.vue"
+import { BaseIconBadge } from "@michigg/component-library"
 import { computed } from "vue"
 import type { InputType } from "@/modules/inputs/models/inputType"
 import { useSensorStore } from "@/modules/inputs/store"

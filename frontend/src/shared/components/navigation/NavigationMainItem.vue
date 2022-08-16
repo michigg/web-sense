@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import BaseIcon from "@/shared/components/BaseIcon.vue"
+import { BaseIcon } from "@michigg/component-library"
 
 defineProps<{
   iconKey: string;

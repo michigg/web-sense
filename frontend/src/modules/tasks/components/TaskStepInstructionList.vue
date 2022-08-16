@@ -15,9 +15,8 @@
 
 <script lang="ts" setup>
 import type { ITaskStepInstruction } from "@/modules/tasks/models/taskStepInstruction"
-import BaseList from "@/shared/components/BaseList.vue"
 import TaskStepInstructionListItem from "@/modules/tasks/components/TaskStepInstructionListItem.vue"
-import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import { BaseCard, BaseList } from "@michigg/component-library"
 
 defineProps<{
   title: string;

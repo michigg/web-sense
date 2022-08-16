@@ -1,25 +1,24 @@
 <template>
-  <List class="flex gap-2">
+  <BaseInlineList class="flex gap-2">
+    <!-- TODO: patch component library to use better color concept-->
     <li
       v-for="[key, input] in inputs"
       :key="key"
-      :class="[
-        input.isAvailable ? 'text-success' : 'text-danger',
-        'inputs-icon',
-      ]"
+      class="inputs-icon"
+      :style="`--color-badge: var(${input.isAvailable ? '--color-success' : '--color-danger'})`"
     >
-      <IconBadge
+      <BaseIconBadge
+        class="input-icon-badge"
         :icon-key="
           input.isAvailable ? input.availableIconKey : input.unavailableIconKey
         "
       />
     </li>
-  </List>
+  </BaseInlineList>
 </template>
 
 <script lang="ts" setup>
-import IconBadge from "@/shared/components/BaseIconBadge.vue"
-import List from "@/shared/components/BaseList.vue"
+import { BaseIconBadge, BaseInlineList } from "@michigg/component-library"
 import { computed } from "vue"
 import type { InputType } from "@/modules/inputs/models/inputType"
 import { useSensorStore } from "@/modules/inputs/store"
@@ -30,3 +29,8 @@ const props = defineProps<{
 const sensorStore = useSensorStore()
 const inputs = computed(() => sensorStore.getSensorsFromKeys(props.inputTypes))
 </script>
+<style>
+.input-icon-badge {
+  --color-surface-badge: var(--color-surface-1);
+}
+</style>

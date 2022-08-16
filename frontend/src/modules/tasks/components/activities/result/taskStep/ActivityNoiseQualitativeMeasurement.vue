@@ -23,9 +23,9 @@
 </template>
 
 <script lang="ts" setup>
-import BaseList from "@/shared/components/BaseList.vue"
 import type { LogTaskStep } from "@/modules/log/models/logTaskStep"
 import DropdownMetaData from "@/modules/log/components/DropdownMetaData.vue"
+import { BaseList } from "@michigg/component-library"
 
 // Access to task step properties and sensors
 defineProps<{

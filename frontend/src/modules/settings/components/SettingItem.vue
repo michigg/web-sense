@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue"
 import { settingsDB } from "@/modules/settings/models/settingIDB"
-import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import { BaseCard } from "@michigg/component-library"
 
 const props = defineProps<{
   settingsKey: string;
