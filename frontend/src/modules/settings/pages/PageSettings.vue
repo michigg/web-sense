@@ -38,5 +38,5 @@ import LayoutBase from "@/shared/components/LayoutBase.vue"
 import SettingItem from "@/modules/settings/components/SettingItem.vue"
 import { InfoCard } from "@michigg/component-library"
 
-const appVersion = import.meta.env.VITE_VERSION
+const appVersion = import.meta.env.PACKAGE_VERSION
 </script>
