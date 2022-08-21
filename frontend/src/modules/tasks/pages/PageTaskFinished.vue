@@ -3,7 +3,7 @@
     v-if="!task"
     title="Mission fehlgeschlagen"
   >
-    <WarnCard
+    <InfoCard
       title="Oops"
       class="warn-box"
     >
@@ -13,10 +13,10 @@
         Leider können wir so den Missonsstand nicht mehr wiederherstellen. Bitte
         starte die Mission erneut.
       </p>
-      <ButtonBase @click="routeToTasks">
+      <BaseButton @click="routeToTasks">
         Mission neu starten
-      </ButtonBase>
-    </WarnCard>
+      </BaseButton>
+    </InfoCard>
   </LayoutBase>
   <LayoutBase
     v-else
@@ -38,26 +38,23 @@
       :log-task="preview"
     />
     <ButtonGroup>
-      <ButtonBase @click="save">
+      <BaseButton @click="save">
         Lokal sichern
-      </ButtonBase>
-      <ButtonBase @click="contribute">
+      </BaseButton>
+      <BaseButton @click="contribute">
         Daten spenden
-      </ButtonBase>
+      </BaseButton>
     </ButtonGroup>
   </LayoutBase>
 </template>
 
 <script lang="ts" setup>
 import LayoutBase from "@/shared/components/LayoutBase.vue"
-import ButtonGroup from "@/shared/components/ButtonGroup.vue"
-import ButtonBase from "@/shared/components/ButtonBase.vue"
 import { useTaskFinished } from "@/modules/tasks/composables/useTaskFinished"
 import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
 import DynamicResult from "@/modules/log/components/DynamicResult.vue"
 import { useTaskRoutes } from "@/modules/tasks/composables/useTaskRoutes"
-import InfoCard from "@/shared/components/cards/InfoCard.vue"
-import WarnCard from "@/shared/components/cards/WarnCard.vue"
+import { InfoCard, BaseButton, ButtonGroup } from "@michigg/component-library"
 
 const {
   task,

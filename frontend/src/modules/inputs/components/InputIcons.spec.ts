@@ -35,17 +35,17 @@ describe("InputIcons", () => {
   })
 
   it("renders the icons", async () => {
-    const icons = wrapper.findAll(".inputs-icon")
+    const icons = wrapper.findAll(".input-icon")
     expect(icons.length).toBe(3)
   })
 
   it("renders available sensors as success", async () => {
-    const icons = wrapper.findAll(".inputs-icon.text-success")
+    const icons = wrapper.findAll(".input-icon.text-success")
     expect(icons.length).toBe(2)
   })
 
   it("renders available sensors as fail", async () => {
-    const icons = wrapper.findAll(".inputs-icon.text-danger")
+    const icons = wrapper.findAll(".input-icon.text-danger")
     expect(icons.length).toBe(1)
   })
 })

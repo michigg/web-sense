@@ -1,5 +1,5 @@
 <template>
-  <List>
+  <BaseList>
     <IconStateListElement
       v-for="[key, input] in inputs"
       :key="key"
@@ -11,15 +11,15 @@
       :success="input.isAvailable"
       data-test="sensor-list-element"
     />
-  </List>
+  </BaseList>
 </template>
 
 <script lang="ts" setup>
 import IconStateListElement from "@/shared/components/IconStateListElement.vue"
-import List from "@/shared/components/BaseList.vue"
 import { computed } from "vue"
 import type { InputType } from "@/modules/inputs/models/inputType"
 import { useSensorStore } from "@/modules/inputs/store"
+import { BaseList } from "@michigg/component-library"
 
 const props = defineProps<{
   inputTypes: Array<InputType>

@@ -17,7 +17,7 @@
       v-if="logElement"
       :log-task="logElement"
     />
-    <WarnCard
+    <InfoCard
       title="Messung löschen"
       class="delete-box"
     >
@@ -26,13 +26,13 @@
         lokal von Ihrem Gerät gelöscht. Falls Sie diese Messung bereits
         gespendet haben, bleibt diese Messung veröffentlicht.
       </p>
-      <ButtonBase
+      <BaseButton
         class="delete-button"
         @click="deleteLogAndRouteToMeasurements"
       >
         Messung löschen
-      </ButtonBase>
-    </WarnCard>
+      </BaseButton>
+    </InfoCard>
   </LayoutBase>
 </template>
 
@@ -40,11 +40,9 @@
 import LayoutBase from "@/shared/components/LayoutBase.vue"
 import { useLogElement } from "@/modules/log/composables/useLogElement"
 import LogTransmissionAction from "@/modules/log/components/LogTransmissionAction.vue"
-import ButtonBase from "@/shared/components/ButtonBase.vue"
 import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
 import DynamicResult from "@/modules/log/components/DynamicResult.vue"
-import WarnCard from "@/shared/components/cards/WarnCard.vue"
-import LoadingCard from "@/shared/components/cards/LoadingCard.vue"
+import { InfoCard, LoadingCard, BaseButton } from "@michigg/component-library"
 
 const {
   logElement,

@@ -25,7 +25,7 @@ import InputIcons from "@/modules/inputs/components/InputIcons.vue"
 import { useDateTime } from "@/shared/composables/useDateTime"
 import LogListTaskStepResultItem from "@/modules/log/components/LogListTaskStepResultItem.vue"
 import type { LogTaskStep } from "@/modules/log/models/logTaskStep"
-import BaseList from "@/shared/components/BaseList.vue"
+import { BaseList } from "@michigg/component-library"
 
 defineProps<{
   logTaskStep: LogTaskStep;

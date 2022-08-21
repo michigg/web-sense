@@ -1,6 +1,13 @@
+@import "@michigg/component-library/dist/style.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Border Radius */
+:root {
+  --radius-md: .75rem;
+}
 
 :root {
   color-scheme: dark light;

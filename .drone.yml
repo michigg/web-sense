@@ -106,6 +106,8 @@ steps:
 
   - name: publish-github
     image: plugins/gh-pages
+    commands:
+      - touch frontend/dist/.nojekyll
     settings:
       username:
         from_secret: github_username

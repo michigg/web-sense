@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import type { ITaskStepInstruction } from "@/modules/tasks/models/taskStepInstruction"
-import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import { BaseCard } from "@michigg/component-library"
 
 defineProps<{
   instruction: ITaskStepInstruction;

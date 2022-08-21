@@ -1,5 +1,5 @@
 <template>
-  <ListElement
+  <BaseListElement
     :class="[
       'icon-state-list-element',
       success ? 'success' : '',
@@ -10,14 +10,14 @@
     <span class="tw-font-bold">{{ label }}</span>
     <span>
       <slot />
-      <Icon :icon-key="iconKey" />
+      <BaseIcon :icon-key="iconKey" />
     </span>
-  </ListElement>
+  </BaseListElement>
 </template>
 
 <script lang="ts" setup>
-import ListElement from "@/shared/components/BaseListElement.vue"
-import Icon from "@/shared/components/BaseIcon.vue"
+import { BaseIcon } from "@michigg/component-library"
+import { BaseListElement } from "@michigg/component-library"
 
 withDefaults(
   defineProps<{

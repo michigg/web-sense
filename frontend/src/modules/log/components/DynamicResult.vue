@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { useLogResultComponents } from "@/modules/log/composables/useLogResultComponents"
 import type { LogTask } from "@/modules/log/models/logTask"
-import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import { BaseCard } from "@michigg/component-library"
 
 const props = defineProps<{ logTask: LogTask }>()
 

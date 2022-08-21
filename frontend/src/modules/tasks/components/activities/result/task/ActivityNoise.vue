@@ -25,10 +25,10 @@
 
 <script lang="ts" setup>
 import type { LogTask } from "@/modules/log/models/logTask"
-import BaseList from "@/shared/components/BaseList.vue"
 import ChartNoise from "@/shared/components/charts/ChartNoise.vue"
 import MiniMap from "@/shared/components/maps/MiniMap.vue"
 import DropdownMetaData from "@/modules/log/components/DropdownMetaData.vue"
+import { BaseList } from "@michigg/component-library"
 
 // Access to task step properties and sensors
 defineProps<{

@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts" setup>
-import BaseList from "@/shared/components/BaseList.vue"
 import LogListTaskStepItem from "@/modules/log/components/LogListTaskStepItem.vue"
 import type { LogTaskStep } from "@/modules/log/models/logTaskStep"
+import { BaseList } from "@michigg/component-library"
 
 // Access to task step properties and sensors
 defineProps<{

@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
-import BaseCard from "@/shared/components/cards/BaseCard.vue"
+import { BaseCard } from "@michigg/component-library"
 import LayoutBase from "@/shared/components/LayoutBase.vue"
 import InputList from "@/modules/inputs/components/InputList.vue"
 import { useSensorStore } from "@/modules/inputs/store"
