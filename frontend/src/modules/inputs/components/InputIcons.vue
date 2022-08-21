@@ -4,9 +4,12 @@
     <li
       v-for="[key, input] in inputs"
       :key="key"
-      class="inputs-icon"
-      :style="`--color-badge: var(${input.isAvailable ? '--color-success' : '--color-danger'})`"
+      :class="[
+        input != null && input.isAvailable ? 'text-success' : 'text-danger',
+        'input-icon',
+      ]"
     >
+      <!-- TODO: use InputIcon component instead of custom implementation -->
       <BaseIconBadge
         class="input-icon-badge"
         :icon-key="
@@ -29,8 +32,16 @@ const props = defineProps<{
 const sensorStore = useSensorStore()
 const inputs = computed(() => sensorStore.getSensorsFromKeys(props.inputTypes))
 </script>
-<style>
-.input-icon-badge {
-  --color-surface-badge: var(--color-surface-1);
+<style scoped>
+.input-icon {
+  --color-surface-badge: var(--color-surface-1)
+}
+
+.text-success {
+  --color-badge: var(--color-success);
+}
+
+.text-danger {
+  --color-badge: var(--color-danger);
 }
 </style>

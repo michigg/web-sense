@@ -1,12 +1,12 @@
 <template>
-  <span
+  <div
     :class="[
-      sensor != null && sensor.isAvailable ? 'text-success' : 'text-danger',
-      'inputs-icon',
+      input != null && input.isAvailable ? 'text-success' : 'text-danger',
+      'input-icon',
     ]"
   >
     <BaseIconBadge :icon-key="iconKey" />
-  </span>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -18,15 +18,26 @@ import { useSensorStore } from "@/modules/inputs/store"
 const props = defineProps<{
   inputType: InputType
 }>()
-const sensorStore = useSensorStore()
-const sensor = computed(() => sensorStore.getSensor(props.inputType))
+const inputStore = useSensorStore()
+const input = computed(() => inputStore.getSensor(props.inputType))
 
 const iconKey = computed(() => {
-  if (sensor.value == null) {
+  if (input.value === undefined) {
     return "question"
   }
-  return sensor.value.isAvailable
-    ? sensor.value.availableIconKey
-    : sensor.value.unavailableIconKey
+  return input.value.isAvailable
+    ? input.value.availableIconKey
+    : input.value.unavailableIconKey
 })
 </script>
+<style scoped>
+.input-icon {
+  --color-surface-badge: var(--color-surface-1)
+}
+.text-success {
+  --color-badge: var(--color-success);
+}
+.text-danger {
+  --color-badge: var(--color-danger);
+}
+</style>
