@@ -31,7 +31,7 @@ steps:
       - lint
 
   - name: e2e-test-chrome
-    image: cypress/included:10.4.0
+    image: cypress/included:10.11.0
     commands:
       - cd frontend
       - cypress info
@@ -40,7 +40,7 @@ steps:
       - lint
 
   - name: e2e-test-firefox
-    image: cypress/included:10.4.0
+    image: cypress/included:10.11.0
     commands:
       - cd frontend
       - cypress info
