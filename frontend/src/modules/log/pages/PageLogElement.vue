@@ -12,7 +12,10 @@
     :title="`Messung ${logElement.title}`"
   >
     <small>MId: {{ logElement.pKey }}. TId: {{ logElement.id }}</small>
-    <LogTransmissionAction :transmitted="logElement.transmitted" />
+    <LogTransmissionAction
+      v-if="isBackendConfigured"
+      :transmitted="logElement.transmitted"
+    />
     <DynamicResult
       v-if="logElement"
       :log-task="logElement"
@@ -43,6 +46,7 @@ import LogTransmissionAction from "@/modules/log/components/LogTransmissionActio
 import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
 import DynamicResult from "@/modules/log/components/DynamicResult.vue"
 import { BaseCard, LoadingCard, BaseButton } from "@michigg/component-library"
+import { useAppConfig } from "@/modules/settings/composables/useAppConfig"
 
 const {
   logElement,
@@ -54,6 +58,8 @@ const deleteLogAndRouteToMeasurements = async () => {
   await deleteLogElement()
   await routeToMeasurements()
 }
+
+const { isBackendConfigured } = useAppConfig()
 </script>
 <style scoped>
 small {
