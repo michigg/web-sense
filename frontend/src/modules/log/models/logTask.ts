@@ -22,6 +22,7 @@ export class LogTask
   readonly geolocation?: GeolocationData
   readonly steps: Array<LogTaskStep>
   readonly resultActivityComponentName: string | undefined
+  readonly resultAggregationActivityComponentName: string | undefined
   transmitted: boolean
 
   constructor (
@@ -32,6 +33,7 @@ export class LogTask
     geolocation: GeolocationData | undefined,
     steps: Array<LogTaskStep>,
     resultActivityComponentName: string | undefined,
+    resultAggregationActivityComponentName: string | undefined,
     transmitted = false
   ) {
     this.pKey = pKey
@@ -41,6 +43,7 @@ export class LogTask
     this.checkInTimestamp = checkInTimestamp
     this.geolocation = geolocation
     this.resultActivityComponentName = resultActivityComponentName
+    this.resultAggregationActivityComponentName = resultAggregationActivityComponentName
     this.transmitted = transmitted
   }
 
@@ -63,7 +66,8 @@ export class LogTask
       Date.now(),
       geolocation,
       steps,
-      task.resultActivityComponentName
+      task.resultActivityComponentName,
+      task.resultAggregationActivityComponentName
     )
   }
 
@@ -79,6 +83,7 @@ export class LogTask
       GeolocationData.fromIDB(idbLog.geolocation),
       idbLog.steps.map((step) => LogTaskStep.fromIDB(step)),
       idbLog.resultActivityComponentName,
+      idbLog.resultAggregationActivityComponentName,
       idbLog.transmitted
     )
   }
@@ -93,6 +98,7 @@ export class LogTask
         geolocation: this.geolocation,
         steps: this.steps.map((step) => step.toIDB()),
         resultActivityComponentName: this.resultActivityComponentName,
+        resultAggregationActivityComponentName: this.resultAggregationActivityComponentName,
         transmitted: this.transmitted
       }
     } else {
@@ -104,6 +110,7 @@ export class LogTask
         geolocation: this.geolocation,
         steps: this.steps.map((step) => step.toIDB()),
         resultActivityComponentName: this.resultActivityComponentName,
+        resultAggregationActivityComponentName: this.resultAggregationActivityComponentName,
         transmitted: this.transmitted
       }
     }
@@ -135,7 +142,8 @@ export class LogTask
       this.checkInTimestamp,
       this.geolocation?.clone(),
       this.steps.map((step) => step.clone()),
-      this.resultActivityComponentName
+      this.resultActivityComponentName,
+      this.resultAggregationActivityComponentName
     )
   }
 }

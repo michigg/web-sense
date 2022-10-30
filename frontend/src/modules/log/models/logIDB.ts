@@ -25,6 +25,7 @@ export interface IIDBLogTask {
   readonly geolocation: GeolocationData | undefined
   readonly steps: Array<IIDBLogTaskStep>
   readonly resultActivityComponentName: string | undefined
+  readonly resultAggregationActivityComponentName: string | undefined
   transmitted: boolean
 }
 
@@ -81,6 +82,7 @@ export const logDB = {
       geolocation: logTask.geolocation,
       steps: logTask.steps,
       resultActivityComponentName: logTask.resultActivityComponentName,
+      resultAggregationActivityComponentName: logTask.resultAggregationActivityComponentName,
       transmitted: logTask.transmitted
     }
   },
