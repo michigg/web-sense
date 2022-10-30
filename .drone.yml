@@ -114,9 +114,10 @@ steps:
       password:
         from_secret: github_password
       pages_directory: frontend/dist
+      force: true
     when:
-      branch:
-        - main
+#      branch:
+#        - main
       event:
         - tag
         - push
