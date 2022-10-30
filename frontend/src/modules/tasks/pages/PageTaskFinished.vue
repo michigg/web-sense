@@ -37,7 +37,7 @@
       v-if="preview"
       :log-task="preview"
     />
-    <ButtonGroup>
+    <ButtonGroup style="--color-surface-button: var(--color-primary)">
       <BaseButton @click="save">
         Lokal sichern
       </BaseButton>
