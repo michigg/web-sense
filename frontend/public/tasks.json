@@ -204,5 +204,59 @@
       }
     ]
   },
+  {
+    "id": 5,
+    "title": "Störungsmelder",
+    "description": "Mit der Teilnahme bei 'Störungsmelder' wollen wir Probleme in Deutschland finden. Zum Beispiel defekte Straßenlampen, volle Mülleimer, Straßenschäden, etc.",
+    "inputDescriptions": {
+      "GEOLOCATION": "Die Position wird benötigt, damit wir wissen, wo sich das Problem befindet.",
+      "SURVEY": "Mit der Umfrage sammeln wir weitere Informationen über das Problem."
+    },
+    "steps": [
+      {
+        "id": "problems-1",
+        "type": "SurveyTaskStep",
+        "title": "Weitere Informationen",
+        "description": "Falls du möchtest kannst du uns jetzt noch zusätzliche Informationen zu deinem Problem geben.",
+        "instructions": [],
+        "questions": [
+          {
+            "id": "question-1",
+            "type": "SINGLE_CHOICE",
+            "title": "Problemtyp",
+            "question": "Welches Problem möchtest du melden?",
+            "options": [
+              {
+                "value": "street",
+                "text": "Straßenschäden"
+              },
+              {
+                "value": "noise",
+                "text": "Lärm"
+              },
+              {
+                "value": "trashBinOverflow",
+                "text": "Mülleimer voll"
+              },
+              {
+                "value": "trashOnEnvironment",
+                "text": "Herumliegender Müll"
+              },
+              {
+                "value": "other",
+                "text": "Sonstiges"
+              }
+            ]
+          },
+          {
+            "id": "question-2",
+            "type": "TEXT",
+            "title": "Problembeschreibung",
+            "question": "Bitte gebe uns noch weitere Informationen zu deinem Problem."
+          }
+        ]
+      }
+    ]
+  }
 ]
 
