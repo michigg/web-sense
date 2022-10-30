@@ -41,7 +41,10 @@
       <BaseButton @click="save">
         Lokal sichern
       </BaseButton>
-      <BaseButton @click="contribute">
+      <BaseButton
+        v-if="isBackendConfigured"
+        @click="contribute"
+      >
         Daten spenden
       </BaseButton>
     </ButtonGroup>
@@ -55,6 +58,7 @@ import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
 import DynamicResult from "@/modules/log/components/DynamicResult.vue"
 import { useTaskRoutes } from "@/modules/tasks/composables/useTaskRoutes"
 import { InfoCard, BaseButton, ButtonGroup } from "@michigg/component-library"
+import { useAppConfig } from "@/modules/settings/composables/useAppConfig"
 
 const {
   task,
@@ -73,6 +77,8 @@ const save = async () => {
   const logKey = await saveTask()
   await routeToMeasurementDetail(logKey)
 }
+
+const { isBackendConfigured } = useAppConfig()
 </script>
 
 <style scoped>
