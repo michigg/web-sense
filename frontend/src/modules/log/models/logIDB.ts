@@ -81,9 +81,13 @@ export const logDB = {
       transmitted: logTask.transmitted
     }
   },
-  async getTaskLogs (): Promise<Array<IIDBLogTask>> {
+  async getTaskLogs (taskId?: number): Promise<Array<IIDBLogTask>> {
     const db = await this.getLogDB()
-    const logs = await db.getAllFromIndex(LOGS_STORE_KEY, "checkInTimestamp")
+    if (!taskId) {
+      const logs = await db.getAllFromIndex(LOGS_STORE_KEY, "checkInTimestamp")
+      return logs.reverse()
+    }
+    const logs = await db.getAllFromIndex(LOGS_STORE_KEY, 'byTask', taskId)
     return logs.reverse()
   },
   async getTaskLog (pKey: number): Promise<IIDBLogTask | undefined> {

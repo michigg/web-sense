@@ -34,6 +34,12 @@
         </BaseButton>
       </ButtonGroup>
     </BaseCard>
+    <BaseCard
+      v-if="logs && logs.length > 0"
+      title="Gespeicherte Missionen"
+    >
+      <LogList :logs="logs" />
+    </BaseCard>
   </LayoutBase>
 </template>
 
@@ -43,6 +49,9 @@ import LayoutBase from "@/shared/components/LayoutBase.vue"
 import { useTask } from "@/modules/tasks/composables/useTask"
 import { useTaskRoutes } from "@/modules/tasks/composables/useTaskRoutes"
 import LogInputTypeList from "@/modules/log/components/LogInputTypeList.vue"
+import LogList from "@/modules/log/components/LogList.vue"
+import { useLogStore } from "@/modules/log/store/log"
+import { computed, onUnmounted, watch } from "vue"
 
 const {
   task,
@@ -60,6 +69,20 @@ const startTask = () => {
   }
   routeToTaskExecute(task.value.id)
 }
+
+const logStore = useLogStore()
+const logs = computed(() => logStore.logs)
+watch(task, async (newTask) => {
+  if (!newTask) {
+    return
+  }
+  await logStore.loadLog(newTask.id)
+})
+
+onUnmounted(() => {
+  logStore.$reset()
+})
+
 </script>
 
 <style scoped>

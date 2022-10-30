@@ -23,6 +23,14 @@ export const useLogStore = defineStore("log", {
           .filter((log) => log != null) as LogTask[]
       )
     },
+    async loadLog (taskId?: number) {
+      const logs = await logDB.getTaskLogs(taskId)
+      this.setLog(
+        logs
+          .map((idbLog) => LogTask.fromIDB(idbLog))
+          .filter((log) => log != null) as LogTask[]
+      )
+    },
     async addTaskResults ({
       log,
       contribute
