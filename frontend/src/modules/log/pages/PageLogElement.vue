@@ -17,7 +17,7 @@
       v-if="logElement"
       :log-task="logElement"
     />
-    <InfoCard
+    <BaseCard
       title="Messung löschen"
       class="delete-box"
     >
@@ -32,7 +32,7 @@
       >
         Messung löschen
       </BaseButton>
-    </InfoCard>
+    </BaseCard>
   </LayoutBase>
 </template>
 
@@ -42,7 +42,7 @@ import { useLogElement } from "@/modules/log/composables/useLogElement"
 import LogTransmissionAction from "@/modules/log/components/LogTransmissionAction.vue"
 import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
 import DynamicResult from "@/modules/log/components/DynamicResult.vue"
-import { InfoCard, LoadingCard, BaseButton } from "@michigg/component-library"
+import { BaseCard, LoadingCard, BaseButton } from "@michigg/component-library"
 
 const {
   logElement,
