@@ -38,13 +38,19 @@
       v-if="logs && logs.length > 0"
       title="Gespeicherte Missionen"
     >
+      <BaseButton
+        style="--color-surface-button: var(--color-primary)"
+        @click="routeToMeasurementAggregation(task.id)"
+      >
+        Aggregierte Ansicht
+      </BaseButton>
       <LogList :logs="logs" />
     </BaseCard>
   </LayoutBase>
 </template>
 
 <script lang="ts" setup>
-import { BaseCard, BaseButton, ButtonGroup, LoadingCard } from "@michigg/component-library"
+import { BaseButton, BaseCard, ButtonGroup, LoadingCard } from "@michigg/component-library"
 import LayoutBase from "@/shared/components/LayoutBase.vue"
 import { useTask } from "@/modules/tasks/composables/useTask"
 import { useTaskRoutes } from "@/modules/tasks/composables/useTaskRoutes"
@@ -52,6 +58,7 @@ import LogInputTypeList from "@/modules/log/components/LogInputTypeList.vue"
 import LogList from "@/modules/log/components/LogList.vue"
 import { useLogStore } from "@/modules/log/store/log"
 import { computed, onUnmounted, watch } from "vue"
+import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
 
 const {
   task,
@@ -83,6 +90,7 @@ onUnmounted(() => {
   logStore.$reset()
 })
 
+const { routeToMeasurementAggregation } = useLogRoutes()
 </script>
 
 <style scoped>

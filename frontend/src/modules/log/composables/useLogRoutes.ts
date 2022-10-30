@@ -11,8 +11,15 @@ export function useLogRoutes () {
       params: { taskLogPKey }
     })
 
+  const routeToMeasurementAggregation = async (taskId: number) =>
+    await router.push({
+      name: "TaskAggregatedMeasurements",
+      params: { taskId }
+    })
+
   return {
     routeToMeasurements,
-    routeToMeasurementDetail
+    routeToMeasurementDetail,
+    routeToMeasurementAggregation
   }
 }

@@ -1,6 +1,7 @@
 import { openDB } from "idb"
 import type { DBSchema, IDBPDatabase } from "idb"
 import type { InputType } from "@/modules/inputs/models/inputType"
+import type { GeolocationData } from "@/modules/inputs/models/sensors/geolocation/geolocationData"
 
 export interface IIDBLogTaskStepResult {
   readonly metas: Map<string, number | string | boolean>
@@ -21,8 +22,10 @@ export interface IIDBLogTask {
   readonly id: number
   readonly title: string
   readonly checkInTimestamp: number
+  readonly geolocation: GeolocationData | undefined
   readonly steps: Array<IIDBLogTaskStep>
   readonly resultActivityComponentName: string | undefined
+  readonly resultAggregationActivityComponentName: string | undefined
   transmitted: boolean
 }
 
@@ -76,8 +79,10 @@ export const logDB = {
       id: logTask.id,
       title: logTask.title,
       checkInTimestamp: logTask.checkInTimestamp,
+      geolocation: logTask.geolocation,
       steps: logTask.steps,
       resultActivityComponentName: logTask.resultActivityComponentName,
+      resultAggregationActivityComponentName: logTask.resultAggregationActivityComponentName,
       transmitted: logTask.transmitted
     }
   },

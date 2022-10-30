@@ -11,6 +11,7 @@ import type {
   TBPoint,
   ThingsboardConvertable
 } from "@/shared/composables/services/useThingsBoard"
+import { GeolocationData } from "@/modules/inputs/models/sensors/geolocation/geolocationData"
 
 export class LogTask
   implements InfluxDBConvertable, ThingsboardConvertable, LogDBConvertable {
@@ -18,8 +19,10 @@ export class LogTask
   readonly id: number
   readonly title: string
   readonly checkInTimestamp: number
+  readonly geolocation?: GeolocationData
   readonly steps: Array<LogTaskStep>
   readonly resultActivityComponentName: string | undefined
+  readonly resultAggregationActivityComponentName: string | undefined
   transmitted: boolean
 
   constructor (
@@ -27,8 +30,10 @@ export class LogTask
     id: number,
     title: string,
     checkInTimestamp: number,
+    geolocation: GeolocationData | undefined,
     steps: Array<LogTaskStep>,
     resultActivityComponentName: string | undefined,
+    resultAggregationActivityComponentName: string | undefined,
     transmitted = false
   ) {
     this.pKey = pKey
@@ -36,16 +41,22 @@ export class LogTask
     this.title = title
     this.steps = steps
     this.checkInTimestamp = checkInTimestamp
+    this.geolocation = geolocation
     this.resultActivityComponentName = resultActivityComponentName
+    this.resultAggregationActivityComponentName = resultAggregationActivityComponentName
     this.transmitted = transmitted
   }
 
   static fromResults (task: Task, stepsResults: Array<TaskStepResult>): LogTask {
+    let geolocation
     const steps = []
-
     for (const [index, taskStep] of task.steps.entries()) {
       const stepsResult = stepsResults[index]
-      steps.push(LogTaskStep.fromResults(taskStep, stepsResult))
+      geolocation = GeolocationData.fromTaskStepResult(stepsResult)
+
+      stepsResult.results.map(result => result.metas.get)
+      const logTaskStep = LogTaskStep.fromResults(taskStep, stepsResult)
+      steps.push(logTaskStep)
     }
 
     return new LogTask(
@@ -53,8 +64,10 @@ export class LogTask
       task.id,
       task.title,
       Date.now(),
+      geolocation,
       steps,
-      task.resultActivityComponentName
+      task.resultActivityComponentName,
+      task.resultAggregationActivityComponentName
     )
   }
 
@@ -67,8 +80,10 @@ export class LogTask
       idbLog.id,
       idbLog.title,
       idbLog.checkInTimestamp,
+      GeolocationData.fromIDB(idbLog.geolocation),
       idbLog.steps.map((step) => LogTaskStep.fromIDB(step)),
       idbLog.resultActivityComponentName,
+      idbLog.resultAggregationActivityComponentName,
       idbLog.transmitted
     )
   }
@@ -80,8 +95,10 @@ export class LogTask
         id: this.id,
         title: this.title,
         checkInTimestamp: this.checkInTimestamp,
+        geolocation: this.geolocation,
         steps: this.steps.map((step) => step.toIDB()),
         resultActivityComponentName: this.resultActivityComponentName,
+        resultAggregationActivityComponentName: this.resultAggregationActivityComponentName,
         transmitted: this.transmitted
       }
     } else {
@@ -90,8 +107,10 @@ export class LogTask
         id: this.id,
         title: this.title,
         checkInTimestamp: this.checkInTimestamp,
+        geolocation: this.geolocation,
         steps: this.steps.map((step) => step.toIDB()),
         resultActivityComponentName: this.resultActivityComponentName,
+        resultAggregationActivityComponentName: this.resultAggregationActivityComponentName,
         transmitted: this.transmitted
       }
     }
@@ -121,8 +140,10 @@ export class LogTask
       this.id,
       this.title,
       this.checkInTimestamp,
+      this.geolocation?.clone(),
       this.steps.map((step) => step.clone()),
-      this.resultActivityComponentName
+      this.resultActivityComponentName,
+      this.resultAggregationActivityComponentName
     )
   }
 }

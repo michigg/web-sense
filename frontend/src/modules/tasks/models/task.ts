@@ -20,6 +20,7 @@ export class Task {
   }
   readonly steps: Array<TaskStep>
   readonly resultActivityComponentName?: string
+  readonly resultAggregationActivityComponentName?: string
   approved: boolean
 
   constructor (
@@ -28,7 +29,8 @@ export class Task {
     description: string,
     inputDescription: { [inputType in keyof typeof InputType]?: string },
     steps: Array<TaskStep>,
-    resultActivityComponentName?: string
+    resultActivityComponentName?: string,
+    resultAggregationActivityComponentName?: string
   ) {
     this.id = id
     this.title = title
@@ -37,6 +39,7 @@ export class Task {
     this.inputDescriptions = inputDescription
     this.steps = steps
     this.resultActivityComponentName = resultActivityComponentName
+    this.resultAggregationActivityComponentName = resultAggregationActivityComponentName
   }
 
   static fromApi (data: APITask): Task {
