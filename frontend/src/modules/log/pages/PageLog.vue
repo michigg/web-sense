@@ -24,9 +24,16 @@
 
 <script lang="ts" setup>
 import LayoutBase from "@/shared/components/LayoutBase.vue"
-import { useLog } from "@/modules/log/composables/useLog"
 import LogList from "@/modules/log/components/LogList.vue"
 import { InfoCard } from "@michigg/component-library"
+import { useLogStore } from "@/modules/log/store/log"
+import { computed, onMounted } from "vue"
 
-const { logs } = useLog()
+const logStore = useLogStore()
+const logs = computed(() => logStore.logs)
+
+onMounted(async () => {
+  await logStore.init()
+})
+
 </script>
