@@ -15,7 +15,10 @@
         v-model:answer="questions[key].answer"
         :question="questions[key]"
       />
-      <BaseButton type="submit">
+      <BaseButton
+        type="submit"
+        style="--color-surface-button: var(--color-primary)"
+      >
         Weiter
       </BaseButton>
     </form>
