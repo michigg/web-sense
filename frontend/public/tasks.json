@@ -178,5 +178,31 @@
       }
     ]
   },
+  {
+    "id": 4,
+    "title": "Wohlfühlorte",
+    "description": "Mit der Teilnahme bei 'Wohlfühlorte' wollen wir die beliebtesten Orte Deutschlands finden.",
+    "inputDescriptions": {
+      "GEOLOCATION": "Die Position wird benötigt, damit wir wissen, wo sich der Wohlfühlort befindet.",
+      "SURVEY": "Mit der Umfrage sammeln wir weitere Informationen über ihren Wohlfühlort."
+    },
+    "steps": [
+      {
+        "id": "feel-good-1",
+        "type": "SurveyTaskStep",
+        "title": "Weitere Informationen",
+        "description": "Falls du möchtest kannst du uns jetzt noch zusätzliche Informationen zu deinem Wohlfühlort geben.",
+        "instructions": [],
+        "questions": [
+          {
+            "id": "question-1",
+            "type": "TEXT",
+            "title": "Wohlfühlort",
+            "question": "Warum gefällt dir dieser Ort?"
+          }
+        ]
+      }
+    ]
+  },
 ]
 
