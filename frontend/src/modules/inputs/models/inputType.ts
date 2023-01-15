@@ -18,4 +18,6 @@ export enum InputType {
   // Proximity Events API https://www.webondevices.com/9-javascript-apis-accessing-device-sensors/#proximity-events-api
   PROXIMITY = "PROXIMITY",
   CAMERA = "CAMERA",
+  // Uses the https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent
+  DEVICE_MOTION = "DEVICE_MOTION"
 }
