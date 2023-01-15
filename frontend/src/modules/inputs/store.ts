@@ -5,6 +5,7 @@ import { DummySensor } from "@/modules/inputs/models/sensors/dummy/Sensor"
 import { SurveySensor } from "@/modules/inputs/models/sensors/survey/Sensor"
 import { InputType } from "@/modules/inputs/models/inputType"
 import { defineStore } from "pinia"
+import { BatterySensor } from "./models/sensors/battery/Sensor"
 
 interface SensorsState {
   sensors: Map<InputType, Sensor>;
@@ -17,7 +18,8 @@ export const useSensorStore = defineStore("sensorStore", {
         [InputType.DUMMY, new DummySensor()],
         [InputType.SURVEY, new SurveySensor()],
         [InputType.MIC, new MicSensor()],
-        [InputType.GEOLOCATION, new GeolocationSensor()]
+        [InputType.GEOLOCATION, new GeolocationSensor()],
+        [InputType.BATTERY, new BatterySensor()]
       ])
     }
   },
