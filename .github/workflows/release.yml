@@ -85,7 +85,9 @@ jobs:
           VITE_IMPRINT_STREET: ${{ secrets.VITE_IMPRINT_STREET }}
           VITE_IMPRINT_POSTAL_CODE: ${{ secrets.VITE_IMPRINT_POSTAL_CODE }}
           VITE_IMPRINT_CITY: ${{ secrets.VITE_IMPRINT_CITY }}
-        run: yarn build
+        run: |
+          cd frontend
+          yarn build
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./frontend/dist
