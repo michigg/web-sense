@@ -1,0 +1,118 @@
+name: Build
+
+on:
+  pull_request:
+    types:
+        - opened
+        - reopened
+        - synchronize
+        - closed
+    paths:
+        - '.github/workflows/build.yml'
+        - 'frontend/**'
+
+env:
+    NODE_VERSION: '20.x'
+    YARN_LOCK_LOCATION: 'frontend/yarn.lock'
+
+concurrency:
+    group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+    cancel-in-progress: true
+
+jobs:
+  lint:
+    if: ${{ github.event.action != 'closed' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+          cache-dependency-path: ${{ env.YARN_LOCK_LOCATION }}
+      - name: Install Packages
+        run: |
+            cd frontend
+            yarn ci
+      - name: Run Linter
+        run: |
+            cd frontend
+            yarn lint
+
+  unit-testing:
+    if: ${{ github.event.action != 'closed' }}
+    needs: [ lint ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+          cache-dependency-path: ${{ env.YARN_LOCK_LOCATION }}
+      - name: Install Packages
+        run: |
+            cd frontend
+            yarn ci
+      - name: Run Unit Tests
+        run:  |
+            cd frontend
+            yarn test:unit --coverage
+
+  e2e-testing:
+    if: ${{ github.event.action != 'closed' }}
+    needs: [ lint ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+          cache-dependency-path: ${{ env.YARN_LOCK_LOCATION }}
+      - name: Install Packages
+        run: |
+            cd frontend
+            yarn ci
+      - name: Run Unit Tests
+        uses: cypress-io/github-action@v6
+        with:
+            browser: chrome
+            build: yarn build
+            start: yarn preview
+            working-directory: frontend
+            wait-on: http://localhost:4173/
+
+  build-deploy-preview:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        if: github.event.action != 'closed'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+          cache-dependency-path: ${{ env.YARN_LOCK_LOCATION }}
+      - name: Build Library
+        if: github.event.action != 'closed'
+        env:
+            VITE_IMPRINT_EMAIL: ${{ secrets.VITE_IMPRINT_EMAIL }}
+            VITE_IMPRINT_NAME: ${{ secrets.VITE_IMPRINT_NAME }}
+            VITE_IMPRINT_STREET: ${{ secrets.VITE_IMPRINT_STREET }}
+            VITE_IMPRINT_POSTAL_CODE: ${{ secrets.VITE_IMPRINT_POSTAL_CODE }}
+            VITE_IMPRINT_CITY: ${{ secrets.VITE_IMPRINT_CITY }}
+        run: yarn build
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+            source-dir: ./frontend/dist
+            custom-url: sense.michigg.de
