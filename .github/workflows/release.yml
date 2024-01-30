@@ -60,6 +60,18 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.NPM_LOCK_LOCATION }}
+      - name: Install Packages
+        run: |
+            cd frontend
+            npm ci
       - name: Build Library
         env:
           VITE_IMPRINT_EMAIL: ${{ secrets.VITE_IMPRINT_EMAIL }}
