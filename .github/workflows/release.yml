@@ -44,6 +44,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+            cd frontend
             git tag ${{ steps.releaseVersionUpdate.outputs.NEW_VERSION }}
             git add package.json package-lock.json
             git commit -m "🔖 release: Bump version to ${{ steps.releaseVersionUpdate.outputs.NEW_VERSION }}"
