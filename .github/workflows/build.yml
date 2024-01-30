@@ -103,6 +103,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.NPM_LOCK_LOCATION }}
       - name: Install Packages
+        if: github.event.action != 'closed'
         run: |
             cd frontend
             npm ci

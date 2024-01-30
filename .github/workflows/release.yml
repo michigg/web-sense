@@ -37,7 +37,9 @@ jobs:
           git config --global user.name "Github Actions on behalf of @${{ github.triggering_actor }}"
       - name: Bump Release Version
         id: releaseVersionUpdate
-        run: echo "NEW_VERSION=$(npm version ${{ inputs.releaseType }})" >> $GITHUB_OUTPUT
+        run: |
+            cd frontend
+            echo "NEW_VERSION=$(npm version ${{ inputs.releaseType }})" >> $GITHUB_OUTPUT
       - name: Push Changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
