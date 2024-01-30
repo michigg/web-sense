@@ -102,6 +102,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: ${{ env.NPM_LOCK_LOCATION }}
+      - name: Install Packages
+        run: |
+            cd frontend
+            npm ci
       - name: Build Library
         if: github.event.action != 'closed'
         env:
