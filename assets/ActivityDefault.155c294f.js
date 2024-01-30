@@ -1,1 +1,0 @@
-import{d as e,o as s,c as a,w as o,g as p,i as r}from"./index.77bf456f.js";import{L as c}from"./LogListTaskStepItem.63842a8c.js";const u=e({__name:"ActivityDefault",props:{taskStep:null},setup(t){return(l,n)=>(s(),a(r,{class:"measurement-preview"},{default:o(()=>[p(c,{"log-task-step":t.taskStep},null,8,["log-task-step"])]),_:1}))}});export{u as default};
