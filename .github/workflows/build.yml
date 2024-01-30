@@ -35,6 +35,7 @@ jobs:
       - name: Install Packages
         run: |
             cd frontend
+            yarn cache clean
             yarn ci
       - name: Run Linter
         run: |
