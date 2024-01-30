@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   lint:
-    if: ${{ github.event.action != 'closed' && ! contains(github.event.pull_request.labels.*.name, ':bookmark: release') }}
+    if: ${{ github.event.action != 'closed' && ! contains(github.event.pull_request.labels.*.name, 'release') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -42,7 +42,7 @@ jobs:
             npm run lint
 
   unit-testing:
-    if: ${{ github.event.action != 'closed' && ! contains(github.event.pull_request.labels.*.name, ':bookmark: release') }}
+    if: ${{ github.event.action != 'closed' && ! contains(github.event.pull_request.labels.*.name, 'release') }}
     needs: [ lint ]
     runs-on: ubuntu-latest
     steps:
@@ -64,7 +64,7 @@ jobs:
             npm run test:unit -- --coverage
 
   e2e-testing:
-    if: ${{ github.event.action != 'closed' && ! contains(github.event.pull_request.labels.*.name, ':bookmark: release') }}
+    if: ${{ github.event.action != 'closed' && ! contains(github.event.pull_request.labels.*.name, 'release') }}
     needs: [ lint ]
     runs-on: ubuntu-latest
     steps:
@@ -90,7 +90,7 @@ jobs:
             wait-on: http://localhost:4173/
 
   build-deploy-preview:
-    if: ${{ ! contains(github.event.pull_request.labels.*.name, ':bookmark: release') }}
+    if: ${{ ! contains(github.event.pull_request.labels.*.name, 'release') }}
     runs-on: ubuntu-latest
     environment: staging
     steps:
