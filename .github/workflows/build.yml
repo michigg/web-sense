@@ -13,7 +13,7 @@ on:
 
 env:
     NODE_VERSION: '20.x'
-    YARN_LOCK_LOCATION: 'frontend/yarn.lock'
+    NPM_LOCK_LOCATION: 'frontend/package-lock.json'
 
 concurrency:
     group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
@@ -30,17 +30,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-          cache-dependency-path: ${{ env.YARN_LOCK_LOCATION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.NPM_LOCK_LOCATION }}
       - name: Install Packages
         run: |
             cd frontend
-            yarn cache clean
-            yarn ci
+            npm ci
       - name: Run Linter
         run: |
             cd frontend
-            yarn lint
+            npm run lint
 
   unit-testing:
     if: ${{ github.event.action != 'closed' }}
@@ -53,16 +52,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-          cache-dependency-path: ${{ env.YARN_LOCK_LOCATION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.NPM_LOCK_LOCATION }}
       - name: Install Packages
         run: |
             cd frontend
-            yarn ci
+            npm ci
       - name: Run Unit Tests
         run:  |
             cd frontend
-            yarn test:unit --coverage
+            npm run test:unit -- --coverage
 
   e2e-testing:
     if: ${{ github.event.action != 'closed' }}
@@ -75,18 +74,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-          cache-dependency-path: ${{ env.YARN_LOCK_LOCATION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.NPM_LOCK_LOCATION }}
       - name: Install Packages
         run: |
             cd frontend
-            yarn ci
+            npm ci
       - name: Run Unit Tests
         uses: cypress-io/github-action@v6
         with:
             browser: chrome
-            build: yarn build
-            start: yarn preview
+            build: npm run build
+            start: npm run preview
             working-directory: frontend
             wait-on: http://localhost:4173/
 
@@ -101,8 +100,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-          cache-dependency-path: ${{ env.YARN_LOCK_LOCATION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.NPM_LOCK_LOCATION }}
       - name: Build Library
         if: github.event.action != 'closed'
         env:
@@ -113,7 +112,7 @@ jobs:
             VITE_IMPRINT_CITY: ${{ secrets.VITE_IMPRINT_CITY }}
         run: |
             cd frontend
-            yarn build
+            npm run build
       - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1
         with:

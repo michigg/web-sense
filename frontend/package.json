@@ -11,8 +11,7 @@
     "test:e2e:ci:firefox": "start-server-and-test dev http-get://127.0.0.1:4173/ 'cypress run --e2e'",
     "test:e2e:ci:chrome": "start-server-and-test dev http-get://127.0.0.1:4173/ 'cypress run --e2e --browser chrome'",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false --skipLibCheck",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "ci": "yarn install --non-interactive --frozen-lockfile"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "browserslist": [
     "> 1%",

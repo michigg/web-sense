@@ -21,7 +21,7 @@ permissions:
 
 env:
   NODE_VERSION: '20.x'
-  YARN_LOCK_LOCATION: 'frontend/yarn.lock'
+  NPM_LOCK_LOCATION: 'frontend/package-lock.json'
 
 jobs:
   release:
@@ -37,7 +37,7 @@ jobs:
           git config --global user.name "Github Actions on behalf of @${{ github.triggering_actor }}"
       - name: Bump Release Version
         id: releaseVersionUpdate
-        run: echo "NEW_VERSION=$(yarn version ${{ inputs.releaseType }})" >> $GITHUB_OUTPUT
+        run: echo "NEW_VERSION=$(npm version ${{ inputs.releaseType }})" >> $GITHUB_OUTPUT
       - name: Push Changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -87,7 +87,7 @@ jobs:
           VITE_IMPRINT_CITY: ${{ secrets.VITE_IMPRINT_CITY }}
         run: |
           cd frontend
-          yarn build
+          npm run build
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./frontend/dist
