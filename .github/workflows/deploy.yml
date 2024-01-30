@@ -1,0 +1,48 @@
+# Template used https://superface.ai/blog/npm-publish-gh-actions-changelog
+name: Deploy
+
+on:
+  pull_request: 
+    types:
+      - closed
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: '20.x'
+  NPM_LOCK_LOCATION: 'frontend/package-lock.json'
+
+jobs:
+  deploy:
+    if: ${{ contains(github.event.pull_request.labels.*.name, ':bookmark: release') }}
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.NPM_LOCK_LOCATION }}
+      - name: Install Packages
+        run: |
+            cd frontend
+            npm ci
+      - name: Build Library
+        env:
+          VITE_IMPRINT_EMAIL: ${{ secrets.VITE_IMPRINT_EMAIL }}
+          VITE_IMPRINT_NAME: ${{ secrets.VITE_IMPRINT_NAME }}
+          VITE_IMPRINT_STREET: ${{ secrets.VITE_IMPRINT_STREET }}
+          VITE_IMPRINT_POSTAL_CODE: ${{ secrets.VITE_IMPRINT_POSTAL_CODE }}
+          VITE_IMPRINT_CITY: ${{ secrets.VITE_IMPRINT_CITY }}
+        run: |
+          cd frontend
+          npm run build
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./frontend/dist
+          clean-exclude: pr-preview/
+          force: false
