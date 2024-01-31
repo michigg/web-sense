@@ -26,7 +26,13 @@
       min="1"
       step="1"
     />
-    <p>App Version: {{ appVersion }}</p>
+    <p>
+      App Version: {{ appVersion }} (<a
+        href="https://github.com/michigg/web-sense/releases"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Changelog</a>)
+    </p>
     <RouterLink :to="{name: 'Imprint'}">
       Impressum
     </RouterLink>
