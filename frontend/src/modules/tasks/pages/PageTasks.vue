@@ -1,8 +1,8 @@
 <template>
-  <LayoutBase title="Aktivitäten">
+  <LayoutBase title="Missionen">
     <LoadingCard
       v-if="busy"
-      title="Aktivitäten werden geladen"
+      title="Missionen werden geladen"
     >
       Wir sind gerade dabei die verfügbaren Aufgaben zu laden. Haben Sie einen
       Moment geduld.
