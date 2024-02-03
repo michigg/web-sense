@@ -72,7 +72,7 @@ jobs:
               owner,
               repo,
               issue_number: result.data.number,
-              labels: [':bookmark: release']
+              labels: ['🔖 release']
             });
       - name: Release
         uses: softprops/action-gh-release@v1
