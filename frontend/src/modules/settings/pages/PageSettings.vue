@@ -26,7 +26,14 @@
       min="1"
       step="1"
     />
-    <p>App Version: {{ appVersion }}</p>
+    <p>
+      App Version: {{ appVersion }} (<a
+        href="https://github.com/michigg/web-sense/releases"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Changelog</a>)
+      <InstallButton />
+    </p>
     <RouterLink :to="{name: 'Imprint'}">
       Impressum
     </RouterLink>
@@ -37,6 +44,7 @@
 import LayoutBase from "@/shared/components/LayoutBase.vue"
 import SettingItem from "@/modules/settings/components/SettingItem.vue"
 import { InfoCard } from "@michigg/component-library"
+import InstallButton from "@/shared/components/InstallButton.vue";
 
 const appVersion = import.meta.env.PACKAGE_VERSION
 </script>
