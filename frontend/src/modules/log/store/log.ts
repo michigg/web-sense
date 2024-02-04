@@ -2,6 +2,7 @@ import { logDB } from "@/modules/log/models/logIDB"
 import { LogTask } from "@/modules/log/models/logTask"
 import { useContribute } from "@/modules/log/composables/useContribute"
 import { defineStore } from "pinia"
+import {Log} from "@influxdata/influxdb-client-browser"
 
 interface LogState {
   logs: Array<LogTask>;
@@ -64,6 +65,10 @@ export const useLogStore = defineStore("log", {
     },
     setLog (logs: Array<LogTask>) {
       this.logs = logs
+    },
+    async addSharedLog (sharedLog: LogTask) {
+      const newLog = LogTask.fromImport(sharedLog)
+      await this.addTaskResults({log: newLog, contribute: false})
     }
   }
 })

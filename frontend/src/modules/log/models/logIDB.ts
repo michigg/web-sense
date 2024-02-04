@@ -26,7 +26,8 @@ export interface IIDBLogTask {
   readonly steps: Array<IIDBLogTaskStep>
   readonly resultActivityComponentName: string | undefined
   readonly resultAggregationActivityComponentName: string | undefined
-  transmitted: boolean
+  transmitted: boolean,
+  imported: boolean
 }
 
 export interface LogDBConvertable {
@@ -83,7 +84,8 @@ export const logDB = {
       steps: logTask.steps,
       resultActivityComponentName: logTask.resultActivityComponentName,
       resultAggregationActivityComponentName: logTask.resultAggregationActivityComponentName,
-      transmitted: logTask.transmitted
+      transmitted: logTask.transmitted,
+      imported: logTask.imported
     }
   },
   async getTaskLogs (taskId?: number): Promise<Array<IIDBLogTask>> {
