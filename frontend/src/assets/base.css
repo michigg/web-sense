@@ -45,6 +45,7 @@
   --color-surface-3: hsl(var(--hue), 50%, 15%);
   --color-surface-success: hsl(var(--hue-success), 50%, 25%);
   --color-surface-success-hover: hsl(var(--hue-success), 50%, 30%);
+  --color-surface-button: var(--color-primary)
 }
 
 @media (prefers-color-scheme: light) {
@@ -67,6 +68,7 @@
     --color-surface-3: hsl(var(--hue), 100%, 65%);
     --color-surface-success: hsl(var(--hue-success), 65%, 60%);
     --color-surface-success-hover: hsl(var(--hue-success), 65%, 50%);
+    --color-surface-button: var(--color-primary)
   }
 }
 
