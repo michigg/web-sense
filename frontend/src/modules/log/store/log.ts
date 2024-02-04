@@ -45,7 +45,6 @@ export const useLogStore = defineStore("log", {
         throw Error("Messung konnte nicht gespeichert werden!")
       }
 
-      this.addLog(log)
       if (contribute) {
         try {
           const contribute = useContribute()
