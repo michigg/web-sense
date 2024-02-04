@@ -12,6 +12,7 @@ import type {
   ThingsboardConvertable
 } from "@/shared/composables/services/useThingsBoard"
 import { GeolocationData } from "@/modules/inputs/models/sensors/geolocation/geolocationData"
+import {LogTaskStepResult} from "@/modules/log/models/logTaskStepResult"
 
 export class LogTask
   implements InfluxDBConvertable, ThingsboardConvertable, LogDBConvertable {
@@ -34,7 +35,8 @@ export class LogTask
     steps: Array<LogTaskStep>,
     resultActivityComponentName: string | undefined,
     resultAggregationActivityComponentName: string | undefined,
-    transmitted = false
+    transmitted = false,
+    imported = false
   ) {
     this.pKey = pKey
     this.id = id
@@ -45,6 +47,7 @@ export class LogTask
     this.resultActivityComponentName = resultActivityComponentName
     this.resultAggregationActivityComponentName = resultAggregationActivityComponentName
     this.transmitted = transmitted
+    this.imported = imported
   }
 
   static fromResults (task: Task, stepsResults: Array<TaskStepResult>): LogTask {
@@ -84,11 +87,34 @@ export class LogTask
       idbLog.steps.map((step) => LogTaskStep.fromIDB(step)),
       idbLog.resultActivityComponentName,
       idbLog.resultAggregationActivityComponentName,
-      idbLog.transmitted
+      idbLog.transmitted,
+      idbLog.imported
     )
   }
 
-  toIDB (): IIDBLogTask {
+  static fromImport(json: LogTask) {
+    return new LogTask(
+      undefined,
+      json.id,
+      json.title,
+      json.checkInTimestamp,
+      GeolocationData.fromIDB(json.geolocation),
+      json.steps.map((step) => new LogTaskStep(
+        step.id,
+        step.title,
+        step.timestamp,
+        step.inputTypes,
+        step.results.map((result) => new LogTaskStepResult(result.metas, result.measurements)),
+        step.resultActivityComponentName
+      )),
+      json.resultActivityComponentName,
+      json.resultAggregationActivityComponentName,
+      true,
+      true
+    )
+  }
+
+  toIDB(): IIDBLogTask {
     // TODO: refactor
     if (this.pKey === undefined) {
       return {
@@ -99,7 +125,8 @@ export class LogTask
         steps: this.steps.map((step) => step.toIDB()),
         resultActivityComponentName: this.resultActivityComponentName,
         resultAggregationActivityComponentName: this.resultAggregationActivityComponentName,
-        transmitted: this.transmitted
+        transmitted: this.transmitted,
+        imported: this.imported
       }
     } else {
       return {
@@ -111,7 +138,8 @@ export class LogTask
         steps: this.steps.map((step) => step.toIDB()),
         resultActivityComponentName: this.resultActivityComponentName,
         resultAggregationActivityComponentName: this.resultAggregationActivityComponentName,
-        transmitted: this.transmitted
+        transmitted: this.transmitted,
+        imported: this.imported
       }
     }
   }
@@ -143,7 +171,9 @@ export class LogTask
       this.geolocation?.clone(),
       this.steps.map((step) => step.clone()),
       this.resultActivityComponentName,
-      this.resultAggregationActivityComponentName
+      this.resultAggregationActivityComponentName,
+      this.transmitted,
+      this.imported
     )
   }
 }
