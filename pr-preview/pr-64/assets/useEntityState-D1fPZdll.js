@@ -1,1 +1,0 @@
-import{r as s,n as t}from"./index-yB2zXo3B.js";function f(){const r=s(!1),e=s(),o=()=>{r.value=!1},a=()=>{r.value=!0},n=l=>{e.value=l},u=()=>{e.value=void 0};return{busy:t(r),error:t(e),setIdle:o,setBusy:a,setError:n,clearError:u}}export{f as u};
