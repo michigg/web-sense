@@ -4,6 +4,7 @@ export interface Sensor {
   readonly key: InputType
   readonly availableIconKey: string
   readonly unavailableIconKey: string
+  readonly sensorPath?: string
   isAvailable: boolean
   isActive: boolean
   isCalibrated: boolean
