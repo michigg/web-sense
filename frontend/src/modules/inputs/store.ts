@@ -8,6 +8,7 @@ import { defineStore } from "pinia"
 import {NetworkSensor} from "@/modules/inputs/models/sensors/network/Sensor"
 import {DeviceMotionSensor} from "@/modules/inputs/models/sensors/deviceMotion/Sensor"
 import {BatterySensor} from "@/modules/inputs/models/sensors/battery/Sensor"
+import {WebSenseAmbientLightSensor} from "@/modules/inputs/models/sensors/ambientLight/Sensor"
 
 interface SensorsState {
   sensors: Map<InputType, Sensor>;
@@ -24,6 +25,7 @@ export const useSensorStore = defineStore("sensorStore", {
         [InputType.NETWORK, new NetworkSensor()],
         [InputType.DEVICE_MOTION, new DeviceMotionSensor()],
         [InputType.BATTERY, new BatterySensor()],
+        [InputType.DEVICE_LIGHT, new WebSenseAmbientLightSensor()]
       ])
     }
   },
