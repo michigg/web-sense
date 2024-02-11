@@ -18,4 +18,6 @@ export enum InputType {
   // Proximity Events API https://www.webondevices.com/9-javascript-apis-accessing-device-sensors/#proximity-events-api
   PROXIMITY = "PROXIMITY",
   CAMERA = "CAMERA",
+  // VueUse https://vueuse.org/core/useNetwork/
+  NETWORK = "NETWORK",
 }
