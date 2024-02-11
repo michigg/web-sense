@@ -20,4 +20,6 @@ export enum InputType {
   CAMERA = "CAMERA",
   // VueUse https://vueuse.org/core/useNetwork/
   NETWORK = "NETWORK",
+  // VueUse https://vueuse.org/core/useDeviceMotion/
+  DEVICE_MOTION = "DEVICE_MOTION"
 }
