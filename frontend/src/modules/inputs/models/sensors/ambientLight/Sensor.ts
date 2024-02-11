@@ -2,9 +2,6 @@ import type { Sensor } from "@/modules/inputs/models/Sensor"
 import { InputType } from "@/modules/inputs/models/inputType"
 import {ref, type Ref} from "vue"
 
-const sensor = ref<any | undefined>()
-const illuminance = ref<number | undefined>
-const sensorError = ref<Error | undefined>
 export class WebSenseAmbientLightSensor implements Sensor {
   public readonly key: InputType = InputType.DEVICE_LIGHT
   public readonly availableIconKey: string = "bi-lamp"
@@ -13,6 +10,9 @@ export class WebSenseAmbientLightSensor implements Sensor {
   isActive: boolean
   isAvailable: boolean
   isCalibrated: boolean
+  static sensor = ref<any | undefined>()
+  static illuminance = ref<number | undefined>()
+  static sensorError = ref<Error | undefined>()
 
 
   constructor (
@@ -26,57 +26,58 @@ export class WebSenseAmbientLightSensor implements Sensor {
   }
 
   checkAvailability (): Promise<void> {
-    console.log("checkAvailability", sensor)
+    console.log("checkAvailability", WebSenseAmbientLightSensor.sensor)
     this.isAvailable = "AmbientLightSensor" in window
     return Promise.resolve(undefined)
   }
 
   getPermission (): Promise<PermissionState> {
-    console.log("getPermission", sensor)
+    console.log("getPermission", WebSenseAmbientLightSensor.sensor)
     if ("AmbientLightSensor" in window) {
-      sensor.value = new AmbientLightSensor()
+      WebSenseAmbientLightSensor.sensor.value = new AmbientLightSensor()
       return Promise.resolve("granted")
     }
     return Promise.resolve("denied")
   }
 
   useAmbientLightSensor() {
-    console.log("useAmbientLightSensor", sensor)
+    console.log("useAmbientLightSensor", WebSenseAmbientLightSensor.sensor)
     return {
-      illuminance,
-      error: sensorError
+      illuminance: WebSenseAmbientLightSensor.illuminance,
+      error: WebSenseAmbientLightSensor.sensorError
     }
   }
 
   watchIlluminance () {
-    console.log("wtf", sensor)
-    if (!sensor.value) {
-      sensorError.value = new Error('Ambilight sensor is not initialized!')
+    console.log("wtf", WebSenseAmbientLightSensor.sensor)
+    if (!WebSenseAmbientLightSensor.sensor.value) {
+      WebSenseAmbientLightSensor.sensorError.value = new Error('Ambilight sensor is not initialized!')
+      return
     }
-    sensor.value.addEventListener("reading", (event) => {
-      console.log("Current light level:", sensor.value.illuminance);
-      illuminance.value = sensor.value.illuminance
-      sensorError.value = undefined
+    WebSenseAmbientLightSensor.sensor.value.addEventListener("reading", () => {
+      console.log("Current light level:", WebSenseAmbientLightSensor.sensor.value.illuminance);
+      WebSenseAmbientLightSensor.illuminance.value = WebSenseAmbientLightSensor.sensor.value.illuminance
+      WebSenseAmbientLightSensor.sensorError.value = undefined
     });
-    sensor.value.addEventListener("error", (event) => {
+    WebSenseAmbientLightSensor.sensor.value.addEventListener("error", (event: {error: Error}) => {
       console.log(event.error.name, event.error.message);
-      sensorError.value = event.error
+      WebSenseAmbientLightSensor.sensorError.value = event.error
     });
-    sensor.value.start();
+    WebSenseAmbientLightSensor.sensor.value.start();
   }
 
   stopWatch() {
-    if (!sensor.value) {
+    if (!WebSenseAmbientLightSensor.sensor.value) {
       return
     }
-    sensor.value.stop()
+    WebSenseAmbientLightSensor.sensor.value.stop()
   }
 
   /**
    * Reads current illuminance value from AmbientLightSensor
    */
   getIlluminance (): number {
-    return sensor.value.illuminance
+    return WebSenseAmbientLightSensor.sensor.value.illuminance
   }
 
   clone (): Sensor {
