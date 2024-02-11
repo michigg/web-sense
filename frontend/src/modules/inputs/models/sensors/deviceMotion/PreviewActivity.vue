@@ -2,40 +2,40 @@
   <h2>Device Motion Sensor Results</h2>
   <BaseList>
     <KeyValueListItem
-      key-data="accelerationIncludingGravity.x (m/s^2)"
-      :value-data="accelerationIncludingGravity?.x"
+      key-data="accelGrav.x (m/s^2)"
+      :value-data="toFixedDecimals(accelerationIncludingGravity?.x)"
     />
     <KeyValueListItem
-      key-data="accelerationIncludingGravity.y (m/s^2)"
-      :value-data="accelerationIncludingGravity?.y"
+      key-data="accelGrav.y (m/s^2)"
+      :value-data="toFixedDecimals(accelerationIncludingGravity?.y)"
     />
     <KeyValueListItem
-      key-data="accelerationIncludingGravity.z (m/s^2)"
-      :value-data="accelerationIncludingGravity?.z"
+      key-data="accelGrav.z (m/s^2)"
+      :value-data="toFixedDecimals(accelerationIncludingGravity?.z)"
     />
     <KeyValueListItem
-      key-data="acceleration.x (m/s^2)"
-      :value-data="acceleration?.x"
+      key-data="accel.x (m/s^2)"
+      :value-data="toFixedDecimals(acceleration?.x)"
     />
     <KeyValueListItem
-      key-data="acceleration.y (m/s^2)"
-      :value-data="acceleration?.y"
+      key-data="accel.y (m/s^2)"
+      :value-data="toFixedDecimals(acceleration?.y)"
     />
     <KeyValueListItem
-      key-data="acceleration.z (m/s^2)"
-      :value-data="acceleration?.z"
+      key-data="accel.z (m/s^2)"
+      :value-data="toFixedDecimals(acceleration?.z)"
     />
     <KeyValueListItem
-      key-data="rotationRate.alpha (degrees per seconds)"
-      :value-data="rotationRate?.alpha"
+      key-data="rotRate.alpha (deg/s)"
+      :value-data="toFixedDecimals(rotationRate?.alpha)"
     />
     <KeyValueListItem
-      key-data="rotationRate.beta (degrees per seconds)"
-      :value-data="rotationRate?.beta"
+      key-data="rotRate.beta (deg/s)"
+      :value-data="toFixedDecimals(rotationRate?.beta)"
     />
     <KeyValueListItem
-      key-data="rotationRate.gamma (degrees per seconds)"
-      :value-data="rotationRate?.gamma"
+      key-data="rotRate.gamma (deg/s)"
+      :value-data="toFixedDecimals(rotationRate?.gamma)"
     />
     <KeyValueListItem
       key-data="interval"
@@ -62,6 +62,14 @@ const {
   rotationRate,
   interval
 } = deviceMotionSensor.getDeviceMotion()
+
+const toFixedDecimals = (value?: number | null) => {
+  if (!value) return
+  return value.toLocaleString('de-DE', {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3
+  })
+}
 </script>
 
 <style scoped></style>
