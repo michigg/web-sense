@@ -21,7 +21,7 @@ const props = defineProps<{
 }>()
 
 const ambientLightSensor = props.sensor as WebSenseAmbientLightSensor
-const {illuminance, error} = ambientLightSensor.useAmbientLightSensor()
+const { illuminance, error } = ambientLightSensor.useAmbientLightSensor()
 onMounted(async () => {
   await ambientLightSensor.getPermission()
   ambientLightSensor.watchIlluminance()
