@@ -14,19 +14,25 @@
     />
     <slot>
       <LMarker :lat-lng="[lat, lng]" />
+      <LCircle :lat-lng="[lat, lng]" :radius="accuracy" />
     </slot>
   </LMap>
 </template>
 
 <script lang="ts" setup>
 import "leaflet/dist/leaflet.css"
-import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet"
+import {LMap, LTileLayer, LMarker, LCircle} from "@vue-leaflet/vue-leaflet"
 
 import { ref } from "vue"
 
 const props = withDefaults(
-  defineProps<{ lat: number; lng: number; initialZoom?: number }>(),
-  { initialZoom: 17 }
+  defineProps<{
+    lat: number,
+    lng: number ,
+    accuracy?: number
+    initialZoom?: number
+  }>(),
+  { initialZoom: 17, accuracy: undefined }
 )
 const zoom = ref(props.initialZoom)
 </script>

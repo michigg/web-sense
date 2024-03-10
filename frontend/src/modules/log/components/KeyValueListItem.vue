@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 defineProps<{
   keyData: string;
-  valueData: number | string | boolean;
+  valueData?: number | string | boolean;
 }>()
 </script>
 

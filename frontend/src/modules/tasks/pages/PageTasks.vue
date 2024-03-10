@@ -18,6 +18,7 @@
         :task-input-types="task.getInputs()"
       />
     </BaseList>
+    <RouterLink :to="{name: 'Sensors'}">Sensor Liste</RouterLink>
   </LayoutBase>
 </template>
 
