@@ -11,7 +11,15 @@
     v-else
     :title="`Messung ${logElement.title}`"
   >
-    <small>MId: {{ logElement.pKey }}. TId: {{ logElement.id }}</small>
+    <div class="info-line">
+      <small>MId: {{ logElement.pKey }}. TId: {{ logElement.id }}</small>
+      <ShareButton
+        :title="`Messung ${logElement.title}`"
+        text="Hier ist eine spannede Messung von mir. Lade sie doch mal in WebSense und sieh sie dir mal an!"
+        :file-name="`measurement-${logElement.pKey}-${logElement.id}.txt`"
+        :json="logElement"
+      />
+    </div>
     <LogTransmissionAction
       v-if="isBackendConfigured"
       :transmitted="logElement.transmitted"
@@ -47,6 +55,7 @@ import { useLogRoutes } from "@/modules/log/composables/useLogRoutes"
 import DynamicResult from "@/modules/log/components/DynamicResult.vue"
 import { BaseCard, LoadingCard, BaseButton } from "@michigg/component-library"
 import { useAppConfig } from "@/modules/settings/composables/useAppConfig"
+import ShareButton from "@/shared/components/ShareButton.vue"
 
 const {
   logElement,
@@ -62,10 +71,13 @@ const deleteLogAndRouteToMeasurements = async () => {
 const { isBackendConfigured } = useAppConfig()
 </script>
 <style scoped>
-small {
+.info-line {
   align-self: flex-end;
-  padding: 0.25rem 1rem;
   width: auto;
+  padding: 0.25rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
 .delete-box {
