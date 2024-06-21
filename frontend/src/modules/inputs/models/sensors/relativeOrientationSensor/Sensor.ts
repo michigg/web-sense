@@ -16,7 +16,7 @@ const {
   currentSensorValue,
   getPermission,
   checkAvailability,
-  start,
+  start: relativeOrientationSensorStart,
   stop,
   error
 } = useRelativeOrientationSensor()
@@ -51,7 +51,7 @@ export class WebSenseRelativeOrientationSensor implements Sensor {
   }
 
   start(options?: OrientationSensorOptions) {
-    start(options)
+    relativeOrientationSensorStart(options)
     return {
       currentSensorValue,
       error

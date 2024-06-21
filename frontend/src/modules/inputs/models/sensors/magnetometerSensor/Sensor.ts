@@ -13,8 +13,8 @@ const {
   currentSensorValue,
   getPermission,
   checkAvailability,
-  start,
-  stop,
+  start: magnetometerSensorStart,
+  stop: magnetometerSensorStop,
   error
 } = useMagnetometerSensor()
 
@@ -48,7 +48,7 @@ export class WebSenseMagnetometerSensor implements Sensor {
   }
 
   start(options?: { frequency: number}) {
-    start(options)
+    magnetometerSensorStart(options)
     return {
       currentSensorValue,
       error
@@ -56,7 +56,7 @@ export class WebSenseMagnetometerSensor implements Sensor {
   }
 
   stop() {
-    stop()
+    magnetometerSensorStop()
   }
 
   clone(): Sensor {

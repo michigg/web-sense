@@ -24,6 +24,7 @@
   "dependencies": {
     "@influxdata/influxdb-client-browser": "^1.33.2",
     "@michigg/component-library": "^0.3.1",
+    "@types/motion-sensors-polyfill": "^0.3.4",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "@vueuse/core": "^10.11.0",
     "axios": "^1.7.2",
@@ -44,6 +45,7 @@
     "@types/node": "^20.14.7",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",

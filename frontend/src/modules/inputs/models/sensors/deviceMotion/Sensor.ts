@@ -1,6 +1,5 @@
 import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {InputType} from "@/modules/inputs/models/inputType"
-import {useNetwork} from '@vueuse/core'
 import {useDeviceMotion} from '@vueuse/core'
 
 export class DeviceMotionSensor implements Sensor {

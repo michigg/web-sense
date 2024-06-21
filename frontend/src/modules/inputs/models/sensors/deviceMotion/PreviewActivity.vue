@@ -1,5 +1,15 @@
 <template>
   <h2>Device Motion Sensor Results</h2>
+  <p>
+    Source:
+    <a
+      href="https://vueuse.org/core/useDeviceMotion/#usedevicemotion"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      https://vueuse.org/core/useDeviceMotion/#usedevicemotion
+    </a>
+  </p>
   <BaseList>
     <KeyValueListItem
       key-data="accelGrav.x (m/s^2)"

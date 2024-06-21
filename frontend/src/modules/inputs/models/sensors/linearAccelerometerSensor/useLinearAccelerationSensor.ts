@@ -10,8 +10,8 @@ export interface AccelerometerValues {
 
 
 const INPUT_TYPE_KEY: InputType = InputType.LINEAR_ACCELERATION
-const AVAILABLE_ICON_KEY: string = 'bi-phone-flip'
-const UNAVAILABLE_ICON_KEY: string = 'bi-phone-flip'
+const AVAILABLE_ICON_KEY: string = 'bi-arrows-move'
+const UNAVAILABLE_ICON_KEY: string = 'bi-arrows-move'
 const SENSOR_PATH: string = 'linearAccelerometerSensor'
 const isActive = ref(false)
 const isAvailable = ref(false)

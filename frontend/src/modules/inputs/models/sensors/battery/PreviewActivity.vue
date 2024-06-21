@@ -1,5 +1,15 @@
 <template>
   <h2>Battery Sensor Results</h2>
+  <p>
+    Source:
+    <a
+      href="https://vueuse.org/core/useBattery/#usebattery"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      https://vueuse.org/core/useBattery/#usebattery
+    </a>
+  </p>
   <BaseList>
     <KeyValueListItem
       key-data="isSupported"

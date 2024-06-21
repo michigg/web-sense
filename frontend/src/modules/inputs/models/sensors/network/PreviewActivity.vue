@@ -1,5 +1,15 @@
 <template>
   <h2>Network Sensor Results</h2>
+  <p>
+    Source:
+    <a
+      href="https://vueuse.org/core/useNetwork/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      https://vueuse.org/core/useNetwork/
+    </a>
+  </p>
   <BaseList>
     <KeyValueListItem
       key-data="isSupported"

@@ -1,6 +1,5 @@
 import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {InputType} from "@/modules/inputs/models/inputType"
-import {useAccelerometerSensor} from "@/modules/inputs/models/sensors/accelerometerSensor/useAccelerometerSensor"
 import {useGravitySensor} from "@/modules/inputs/models/sensors/gravitySensor/useGravitySensor"
 
 const {
@@ -14,8 +13,8 @@ const {
   currentSensorValue,
   getPermission,
   checkAvailability,
-  start,
-  stop,
+  start: gravitySensorStart,
+  stop: gravitySensorStop,
   error
 } = useGravitySensor()
 
@@ -49,7 +48,7 @@ export class WebSenseGravitySensor implements Sensor {
   }
 
   start(options?: { frequency: number}) {
-    start(options)
+    gravitySensorStart(options)
     return {
       currentSensorValue,
       error
@@ -57,7 +56,7 @@ export class WebSenseGravitySensor implements Sensor {
   }
 
   stop() {
-    stop()
+    gravitySensorStop()
   }
 
   clone(): Sensor {

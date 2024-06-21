@@ -14,7 +14,7 @@ const {
   currentSensorValue,
   getPermission,
   checkAvailability,
-  start,
+  start: absoluteOrientationSensorStart,
   stop,
   error
 } = useAbsoluteOrientationSensor()
@@ -49,7 +49,7 @@ export class WebSenseAbsoluteOrientationSensor implements Sensor {
   }
 
   start(options?: OrientationSensorOptions) {
-    start(options)
+    absoluteOrientationSensorStart(options)
     return {
       currentSensorValue,
       error

@@ -1,6 +1,17 @@
 <template>
-  <h2>Ambilight Sensor Results</h2>
-  <BaseList>
+  <p>
+    Source:
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/API/AmbientLightSensor"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      https://developer.mozilla.org/en-US/docs/Web/API/AmbientLightSensor
+    </a>
+  </p>
+  <h2>Sensor Results</h2>
+  <ErrorCard :error="error" />
+  <BaseList v-if="illuminance">
     <KeyValueListItem
       key-data="illuminance"
       :value-data="illuminance"
@@ -10,10 +21,10 @@
 
 <script lang="ts" setup>
 import type {Sensor} from "@/modules/inputs/models/Sensor"
-import {BaseList} from "@michigg/component-library"
+import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
 import type {WebSenseAmbientLightSensor} from "@/modules/inputs/models/sensors/ambientLight/Sensor"
-import {onMounted, onUnmounted, ref} from "vue"
+import {onMounted, onUnmounted} from "vue"
 
 // Access sensor
 const props = defineProps<{

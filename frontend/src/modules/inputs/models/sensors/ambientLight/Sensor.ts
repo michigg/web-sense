@@ -1,6 +1,6 @@
-import type { Sensor } from "@/modules/inputs/models/Sensor"
-import { InputType } from "@/modules/inputs/models/inputType"
-import {ref, type Ref} from "vue"
+import type {Sensor} from "@/modules/inputs/models/Sensor"
+import {InputType} from "@/modules/inputs/models/inputType"
+import {ref} from "vue"
 
 export class WebSenseAmbientLightSensor implements Sensor {
   public readonly key: InputType = InputType.DEVICE_LIGHT

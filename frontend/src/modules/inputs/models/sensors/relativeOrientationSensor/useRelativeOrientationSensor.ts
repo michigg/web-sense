@@ -51,8 +51,9 @@ export function useRelativeOrientationSensor() {
 
   const getPermission = async (): Promise<PermissionState> => {
     const permissionStatuses = await Promise.all([
-      navigator.permissions.query({ name: "accelerometer" }),
-      navigator.permissions.query({ name: "gyroscope" }),
+      // Need to fix types here cause typescript lacks of new permission values
+      navigator.permissions.query({ name: "accelerometer" as PermissionName }) ,
+      navigator.permissions.query({ name: "gyroscope" as PermissionName }),
     ])
     const permissionGranted = permissionStatuses.every((value) => value.state === 'granted')
     return Promise.resolve(permissionGranted ? 'granted' : 'denied')
@@ -74,10 +75,10 @@ export function useRelativeOrientationSensor() {
       const [x, y, z, w] = sensor.value?.quaternion || [0, 0, 0, 0]
       currentSensorValue.value = { x, y, z, w }
     };
-    sensor.value.onerror = (event) => {
+    sensor.value.onerror = (event: Event) => {
       console.error('RelativeOrientationSensor failed', error)
       error.value = new Error('Der Sensor kann nicht gelesen werden.')
-      if (event.error.name === "NotReadableError") {
+      if ((event as ErrorEvent).error.name === "NotReadableError") {
         error.value = new Error('Der Sensor ist nicht verfügbar.')
       }
     }

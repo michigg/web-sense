@@ -9,8 +9,8 @@ export interface GravityValues {
 }
 
 const INPUT_TYPE_KEY: InputType = InputType.GRAVITY
-const AVAILABLE_ICON_KEY: string = 'bi-phone-flip'
-const UNAVAILABLE_ICON_KEY: string = 'bi-phone-flip'
+const AVAILABLE_ICON_KEY: string = 'bi-chevron-double-down'
+const UNAVAILABLE_ICON_KEY: string = 'bi-chevron-double-down'
 const SENSOR_PATH: string = 'gravitySensor'
 const isActive = ref(false)
 const isAvailable = ref(false)

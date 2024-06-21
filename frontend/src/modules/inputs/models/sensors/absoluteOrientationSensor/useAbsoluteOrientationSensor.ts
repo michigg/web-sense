@@ -81,7 +81,7 @@ export function useAbsoluteOrientationSensor() {
       console.error('AbsoluteOrientationSensor failed', error)
       error.value = new Error('Der Sensor kann nicht gelesen werden.')
       if (event.error.name === "NotReadableError") {
-        error.value = new Error('Der Sensor ist nicht verfügbar.')
+        error.value = new Error('Der Sensor kann nicht gelesen werden.')
       }
     }
     sensor.value.start()

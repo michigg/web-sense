@@ -15,8 +15,8 @@ const {
   currentSensorValue,
   getPermission,
   checkAvailability,
-  start,
-  stop,
+  start: linearAccelerationSensorStart,
+  stop: linearAccelerationSensorStop,
   error
 } = useLinearAccelerationSensor()
 
@@ -50,7 +50,7 @@ export class WebSenseLinearAccelerationSensor implements Sensor {
   }
 
   start(options?: { frequency: number}) {
-    start(options)
+    linearAccelerationSensorStart(options)
     return {
       currentSensorValue,
       error
@@ -58,7 +58,7 @@ export class WebSenseLinearAccelerationSensor implements Sensor {
   }
 
   stop() {
-    stop()
+    linearAccelerationSensorStop()
   }
 
   clone(): Sensor {

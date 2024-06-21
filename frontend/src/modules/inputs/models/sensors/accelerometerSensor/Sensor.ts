@@ -13,8 +13,8 @@ const {
   currentSensorValue,
   getPermission,
   checkAvailability,
-  start,
-  stop,
+  start: accelerometerSensorStart,
+  stop: accelerometerSensorStop,
   error
 } = useAccelerometerSensor()
 
@@ -48,7 +48,7 @@ export class WebSenseAccelerometerSensor implements Sensor {
   }
 
   start(options?: { frequency: number}) {
-    start(options)
+    accelerometerSensorStart(options)
     return {
       currentSensorValue,
       error
@@ -56,7 +56,7 @@ export class WebSenseAccelerometerSensor implements Sensor {
   }
 
   stop() {
-    stop()
+    accelerometerSensorStop()
   }
 
   clone(): Sensor {
