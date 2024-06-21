@@ -1,8 +1,8 @@
 import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {InputType} from "@/modules/inputs/models/inputType"
 import {
-  useRelativeOrientationSensor,
-  type OrientationSensorOptions
+  type OrientationSensorOptions,
+  useRelativeOrientationSensor
 } from "@/modules/inputs/models/sensors/relativeOrientationSensor/useRelativeOrientationSensor"
 
 const {
@@ -10,9 +10,7 @@ const {
   availableIconKey,
   unavailableIconKey,
   sensorPath,
-  isActive,
   isAvailable,
-  isCalibrated,
   currentSensorValue,
   getPermission,
   checkAvailability,

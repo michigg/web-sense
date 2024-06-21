@@ -1,6 +1,5 @@
 import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {InputType} from "@/modules/inputs/models/inputType"
-import {useGravitySensor} from "@/modules/inputs/models/sensors/gravitySensor/useGravitySensor"
 import {useGyroscopeSensor} from "@/modules/inputs/models/sensors/gyroscopeSensor/useGyroscopeSensor"
 
 const {
@@ -8,9 +7,7 @@ const {
   availableIconKey,
   unavailableIconKey,
   sensorPath,
-  isActive,
   isAvailable,
-  isCalibrated,
   currentSensorValue,
   getPermission,
   checkAvailability,

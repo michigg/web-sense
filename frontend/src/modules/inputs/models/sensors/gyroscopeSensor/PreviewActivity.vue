@@ -32,7 +32,6 @@ import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
 import {WebSenseGravitySensor} from "@/modules/inputs/models/sensors/gravitySensor/Sensor"
-import {c} from "vite/dist/node/types.d-aGj9QkWt"
 
 // Access sensor
 const props = defineProps<{

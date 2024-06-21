@@ -14,7 +14,10 @@
     />
     <slot>
       <LMarker :lat-lng="[lat, lng]" />
-      <LCircle :lat-lng="[lat, lng]" :radius="accuracy" />
+      <LCircle
+        :lat-lng="[lat, lng]"
+        :radius="accuracy"
+      />
     </slot>
   </LMap>
 </template>

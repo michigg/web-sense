@@ -1,5 +1,5 @@
 <template>
-  <ErrorCard :error="error"/>
+  <ErrorCard :error="error || micError" />
   <LoadingCard
     v-if="busy"
     title="Sensorvorschau wird geladen"

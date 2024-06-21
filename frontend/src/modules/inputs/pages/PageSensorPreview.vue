@@ -6,8 +6,7 @@
     <LoadingCard
       v-if="!sensor || !previewActivity"
       title="Sensorvorschau wird geladen"
-    >
-    </LoadingCard>
+    />
   </LayoutBase>
   <LayoutBase
     v-else

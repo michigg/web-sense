@@ -10,7 +10,7 @@ export class WebSenseAmbientLightSensor implements Sensor {
   isActive: boolean
   isAvailable: boolean
   isCalibrated: boolean
-  static sensor = ref<any | undefined>()
+  static sensor = ref<never | undefined>()
   static illuminance = ref<number | undefined>()
   static sensorError = ref<Error | undefined>()
 
