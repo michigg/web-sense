@@ -1,1 +1,0 @@
-import{d as s,o,e as n,a,t,b as l,_ as r}from"./index-CxXxhLfe.js";const c={class:"key-value-list-item"},p={class:"value"},_=s({__name:"KeyValueListItem",props:{keyData:{},valueData:{type:[Number,String,Boolean]}},setup(i){return(e,u)=>(o(),n("li",c,[a("span",null,t(e.keyData)+":",1),l(),a("span",p,t(e.valueData),1)]))}}),d=r(_,[["__scopeId","data-v-0bb2dfef"]]);export{d as K};
