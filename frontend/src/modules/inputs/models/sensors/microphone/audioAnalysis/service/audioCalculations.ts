@@ -53,7 +53,7 @@ export const AudioCalculations = {
     maxDB: number;
     averageDB: number;
   } {
-    console.log(spectrumList)
+    console.log('Spectrum List', spectrumList)
     const cleanedSpectrumList =
       AudioCalculationBasicConversion.removeFirstMeasurementsByDuration(
         spectrumList,
