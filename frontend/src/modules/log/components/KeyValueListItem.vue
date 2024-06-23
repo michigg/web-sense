@@ -5,9 +5,11 @@
 </template>
 
 <script lang="ts" setup>
+import type {Quaternion} from "@/modules/inputs/models/sensors/relativeOrientationSensor/useRelativeOrientationSensor"
+
 defineProps<{
   keyData: string;
-  valueData?: number | string | boolean;
+  valueData?: number | string | boolean | Quaternion;
 }>()
 </script>
 

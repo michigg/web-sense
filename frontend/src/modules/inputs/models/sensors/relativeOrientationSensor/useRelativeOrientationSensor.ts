@@ -8,12 +8,7 @@ export interface OrientationSensorOptions {
   referenceFrame?: OrientationSensorLocalCoordinateSystem | undefined; // defaults to "device"
 }
 
-export interface DeviceOrientation {
-  x: number,
-  y: number,
-  z: number,
-  w: number
-}
+export type Quaternion  = [number, number, number, number]
 
 const INPUT_TYPE_KEY: InputType = InputType.RELATIVE_ORIENTATION
 const AVAILABLE_ICON_KEY: string = 'bi-phone-flip'
@@ -23,7 +18,7 @@ const isActive = ref(false)
 const isAvailable = ref(false)
 const isCalibrated = ref(false)
 const sensor = ref<RelativeOrientationSensor | undefined>()
-const currentSensorValue = ref<DeviceOrientation>()
+const currentSensorValue = ref<Quaternion>()
 const error = ref<Error | undefined>()
 
 export function useRelativeOrientationSensor() {
@@ -72,8 +67,7 @@ export function useRelativeOrientationSensor() {
     console.log( sensor.value)
     sensor.value.onreading = () => {
       console.log('reading')
-      const [x, y, z, w] = sensor.value?.quaternion || [0, 0, 0, 0]
-      currentSensorValue.value = { x, y, z, w }
+      currentSensorValue.value = sensor.value?.quaternion
     };
     sensor.value.onerror = (event: Event) => {
       console.error('RelativeOrientationSensor failed', error)
@@ -85,6 +79,7 @@ export function useRelativeOrientationSensor() {
     sensor.value.start()
     isActive.value = true
   }
+
   const stop = () => {
     if (!sensor.value) {
       // Nothing to do
