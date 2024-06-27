@@ -10,6 +10,7 @@ import { InputType } from "@/modules/inputs/models/inputType"
 export class GeolocationSensor implements Sensor {
   static META_KEY = "geolocation"
   readonly key: InputType = InputType.GEOLOCATION
+  readonly sensorPath = 'geolocation'
   isAvailable: boolean
   isActive: boolean
   isCalibrated: boolean

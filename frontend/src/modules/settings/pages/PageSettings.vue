@@ -34,6 +34,9 @@
       >Changelog</a>)
       <InstallButton />
     </p>
+    <RouterLink :to="{name: 'Sensors'}">
+      Sensor Liste
+    </RouterLink>
     <RouterLink :to="{name: 'Imprint'}">
       Impressum
     </RouterLink>

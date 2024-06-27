@@ -12,6 +12,7 @@ export class MicSensor implements Sensor {
   readonly key: InputType = InputType.MIC
   readonly availableIconKey: string = "bi-mic"
   readonly unavailableIconKey: string = "bi-mic"
+  readonly sensorPath = 'microphone'
   isAvailable = false
   isActive = false
   isCalibrated = false

@@ -60,14 +60,28 @@ export const AudioCalculationBasicConversion = {
       ).toFixed(9)
     )
   },
+  /**
+   * Calculates the duration in millis that each data point represents.
+   *
+   * @param sampleRate the sample rate (how many samples per second) in which the measurement was recorded
+   * @param bufferSize the buffer size (samples that are cached before processing)
+   */
   _getMeasurementDurationInMs (sampleRate: number, bufferSize: number): number {
     return Number(((bufferSize / sampleRate) * 1000).toFixed(0))
   },
+  /**
+   * Discard the measurements that where made while the first <code>durationMs</code>. Default 1,5s.
+   *
+   * @param array the measurements that where made
+   * @param sampleRate the sample rate of the measurements
+   * @param bufferSize the buffer size of the measurements
+   * @param durationMs the duration in milliseconds that shall be discarded
+   */
   removeFirstMeasurementsByDuration (
     array: number[] | number[][],
     sampleRate: number,
     bufferSize: number,
-    durationMs = 1500
+    durationMs = 1500 // For backwards compatibility with old phones we discard 1,5s of the measurement, because meyda returns multiple arrays filled with zeros
   ): number[] | number[][] {
     const measurementDurationMs = this._getMeasurementDurationInMs(
       sampleRate,

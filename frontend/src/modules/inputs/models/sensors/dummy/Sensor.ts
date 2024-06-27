@@ -5,6 +5,7 @@ export class DummySensor implements Sensor {
   public readonly key: InputType = InputType.DUMMY
   public readonly availableIconKey: string = "bi-camera"
   public readonly unavailableIconKey: string = "bi-camera"
+  public readonly sensorPath = 'dummy'
   isActive: boolean
   isAvailable: boolean
   isCalibrated: boolean
