@@ -10,7 +10,7 @@
     </a>
   </p>
   <h2>Sensor Results</h2>
-  <ErrorCard :error="error"/>
+  <ErrorCard :error="error" />
   <BaseList v-if="currentSensorValue">
     <KeyValueListItem
       key-data="Quaternion"
