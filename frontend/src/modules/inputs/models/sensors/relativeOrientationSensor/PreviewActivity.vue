@@ -29,18 +29,18 @@ import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
 import { type WebSenseRelativeOrientationSensor} from "@/modules/inputs/models/sensors/relativeOrientationSensor/Sensor"
 import type {Quaternion} from "@/modules/inputs/models/sensors/relativeOrientationSensor/useRelativeOrientationSensor"
-import OrientationAnimation from "@/modules/inputs/models/sensors/relativeOrientationSensor/OrientationAnimation.vue"
+import OrientationAnimation from "@/shared/components/OrientationAnimation.vue"
 
 // Access sensor
 const props = defineProps<{
   sensor: Sensor
 }>()
 
-const accelerometerSensor = props.sensor as WebSenseRelativeOrientationSensor
+const relativeOrientationSensor = props.sensor as WebSenseRelativeOrientationSensor
 const {
   currentSensorValue,
   error
-} = accelerometerSensor.start({ frequency: 60 })
+} = relativeOrientationSensor.start({ frequency: 60 })
 </script>
 
 <style scoped></style>

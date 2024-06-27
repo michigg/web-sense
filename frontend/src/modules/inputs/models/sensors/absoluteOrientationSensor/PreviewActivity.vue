@@ -10,25 +10,17 @@
     </a>
   </p>
   <h2>Sensor Results</h2>
-  <ErrorCard :error="error" />
+  <ErrorCard :error="error"/>
   <BaseList v-if="currentSensorValue">
     <KeyValueListItem
-      key-data="accelGrav.x (m/s^2)"
-      :value-data="toFixedDecimals(currentSensorValue.x)"
-    />
-    <KeyValueListItem
-      key-data="accelGrav.y (m/s^2)"
-      :value-data="toFixedDecimals(currentSensorValue.y)"
-    />
-    <KeyValueListItem
-      key-data="accelGrav.z (m/s^2)"
-      :value-data="toFixedDecimals(currentSensorValue.z)"
-    />
-    <KeyValueListItem
-      key-data="accel.x (m/s^2)"
-      :value-data="toFixedDecimals(currentSensorValue.w)"
+      key-data="Quaternion"
+      :value-data="(currentSensorValue as Quaternion | undefined)"
     />
   </BaseList>
+  <OrientationAnimation
+    v-if="currentSensorValue"
+    :quaternion="(currentSensorValue as Quaternion)"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -36,6 +28,8 @@ import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
 import type {WebSenseAbsoluteOrientationSensor} from "@/modules/inputs/models/sensors/absoluteOrientationSensor/Sensor"
+import type {Quaternion} from "@/modules/inputs/models/sensors/absoluteOrientationSensor/useAbsoluteOrientationSensor"
+import OrientationAnimation from "@/shared/components/OrientationAnimation.vue"
 
 // Access sensor
 const props = defineProps<{
@@ -46,15 +40,7 @@ const absoluteOrientationSensor = props.sensor as WebSenseAbsoluteOrientationSen
 const {
   currentSensorValue,
   error
-} = absoluteOrientationSensor.start({ frequency: 60, referenceFrame: 'device'})
-
-const toFixedDecimals = (value?: number | null) => {
-  if (!value) return
-  return value.toLocaleString('de-DE', {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3
-  })
-}
+} = absoluteOrientationSensor.start({frequency: 60, referenceFrame: 'device'})
 </script>
 
 <style scoped></style>

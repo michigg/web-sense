@@ -62,9 +62,7 @@ export function useRelativeOrientationSensor() {
     if (sensor.value) {
       stop()
     }
-    console.info('options', options)
     sensor.value = new RelativeOrientationSensor(options)
-    console.log( sensor.value)
     sensor.value.onreading = () => {
       console.log('reading')
       currentSensorValue.value = sensor.value?.quaternion

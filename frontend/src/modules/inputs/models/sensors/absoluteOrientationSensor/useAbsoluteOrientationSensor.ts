@@ -9,12 +9,7 @@ export interface OrientationSensorOptions {
   referenceFrame?: OrientationSensorLocalCoordinateSystem | undefined; // defaults to "device"
 }
 
-export interface DeviceOrientation {
-  x: number,
-  y: number,
-  z: number,
-  w: number
-}
+export type Quaternion  = [number, number, number, number]
 
 const INPUT_TYPE_KEY: InputType = InputType.ABSOLUTE_ORIENTATION
 const AVAILABLE_ICON_KEY: string = 'bi-phone-flip'
@@ -24,7 +19,7 @@ const isActive = ref(false)
 const isAvailable = ref(false)
 const isCalibrated = ref(false)
 const sensor = ref<AbsoluteOrientationSensor | undefined>()
-const currentSensorValue = ref<DeviceOrientation>()
+const currentSensorValue = ref<Quaternion>()
 const error = ref<Error | undefined>()
 
 export function useAbsoluteOrientationSensor() {
@@ -53,9 +48,9 @@ export function useAbsoluteOrientationSensor() {
 
   const getPermission = async (): Promise<PermissionState> => {
     const permissionStatuses = await Promise.all([
-      navigator.permissions.query(<{name: string}>{ name: "accelerometer" }),
-      navigator.permissions.query({ name: "magnetometer" }),
-      navigator.permissions.query({ name: "gyroscope" }),
+      navigator.permissions.query({ name: "accelerometer" as PermissionName }),
+      navigator.permissions.query({ name: "magnetometer" as PermissionName }),
+      navigator.permissions.query({ name: "gyroscope" as PermissionName }),
     ])
     const permissionGranted = permissionStatuses.every((value) => value.state === 'granted')
     return Promise.resolve(permissionGranted ? 'granted' : 'denied')
@@ -74,13 +69,12 @@ export function useAbsoluteOrientationSensor() {
     console.log(sensor.value)
     sensor.value.onreading = () => {
       console.log('reading')
-      const [x, y, z, w] = sensor.value?.quaternion || [0, 0, 0, 0]
-      currentSensorValue.value = {x, y, z, w}
+      currentSensorValue.value = sensor.value?.quaternion
     };
-    sensor.value.onerror = (event) => {
+    sensor.value.onerror = (event: Event) => {
       console.error('AbsoluteOrientationSensor failed', error)
       error.value = new Error('Der Sensor kann nicht gelesen werden.')
-      if (event.error.name === "NotReadableError") {
+      if ((event as ErrorEvent).error.name === "NotReadableError") {
         error.value = new Error('Der Sensor kann nicht gelesen werden.')
       }
     }
