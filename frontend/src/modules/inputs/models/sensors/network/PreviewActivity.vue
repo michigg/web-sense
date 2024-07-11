@@ -63,15 +63,15 @@
 </template>
 
 <script lang="ts" setup>
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {BaseList} from "@michigg/component-library"
 import type {NetworkSensor} from "@/modules/inputs/models/sensors/network/Sensor"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
-import {computed} from "vue"
+import {computed, onUnmounted} from "vue"
+import type {AbstractSensorType} from "@/modules/inputs/models/sensors/abstractSensor"
 
 // Access sensor
 const props = defineProps<{
-  sensor: Sensor
+  sensor: AbstractSensorType
 }>()
 
 const networkSensor = props.sensor as NetworkSensor
@@ -106,6 +106,10 @@ const offlineAtDate = computed(() => {
     second: '2-digit',
     timeZoneName: 'longOffset'
   })
+})
+
+onUnmounted(async () => {
+  await networkSensor.stop()
 })
 </script>
 

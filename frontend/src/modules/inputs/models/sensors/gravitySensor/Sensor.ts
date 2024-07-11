@@ -1,63 +1,64 @@
-import type {Sensor} from "@/modules/inputs/models/Sensor"
-import {InputType} from "@/modules/inputs/models/inputType"
-import {useGravitySensor} from "@/modules/inputs/models/sensors/gravitySensor/useGravitySensor"
+import { InputType } from "@/modules/inputs/models/inputType"
+import { AbstractSensor } from "@/modules/inputs/models/sensors/abstractSensor"
+import { GravitySensor } from "motion-sensors-polyfill/src/motion-sensors"
 
-const {
-  key,
-  availableIconKey,
-  unavailableIconKey,
-  sensorPath,
-  isAvailable,
-  currentSensorValue,
-  getPermission,
-  checkAvailability,
-  start: gravitySensorStart,
-  stop: gravitySensorStop,
-  error
-} = useGravitySensor()
+export interface GravityValues {
+  x?: number,
+  y?: number,
+  z?: number
+}
+export interface GravitySensorOptions { frequency?: number }
 
-export class WebSenseGravitySensor implements Sensor {
-  public readonly key: InputType = key
-  public readonly availableIconKey: string = availableIconKey
-  public readonly unavailableIconKey: string = unavailableIconKey
-  public readonly sensorPath = sensorPath
-  isActive: boolean
-  isAvailable: boolean
-  isCalibrated: boolean
-
-  constructor(
-    isActive = false,
-    isAvailable = false,
-    isCalibrated = false
-  ) {
-    this.isActive = isActive
-    this.isAvailable = isAvailable
-    this.isCalibrated = isCalibrated
+export class WebSenseGravitySensor extends AbstractSensor<GravitySensor, GravityValues, GravitySensorOptions>{
+  constructor() {
+    super(
+      InputType.GRAVITY,
+      'bi-chevron-double-down',
+      'gravitySensor',
+      ['accelerometer'] as unknown as PermissionName[]
+    )
   }
 
-  async checkAvailability(): Promise<void> {
-    await checkAvailability()
-    this.isAvailable = isAvailable.value
+  _getAvailability(): Promise<boolean> {
+    if (!("Accelerometer" in window)) {
+      return Promise.resolve(false)
+    }
+    try {
+      new GravitySensor();
+      return Promise.resolve(true)
+    } catch (error) {
+      if (!(error instanceof Error)) {
+        console.error('Unknown error', error)
+        return Promise.resolve(false)
+      }
+      if (error.name === "ReferenceError") {
+        console.error("Sensor is not supported by the User Agent.");
+      }
+    }
+    return Promise.resolve(false)
+  }
+
+  _startSensor(options?: GravitySensorOptions): Promise<void> {
+    this.sensor.value = new GravitySensor(options)
+    this.sensor.value.onreading = () => {
+      this.currentSensorValue.value = {
+        x: this.sensor.value?.x,
+        y: this.sensor.value?.y,
+        z: this.sensor.value?.z
+      }
+    };
+    this.sensor.value.onerror = (event: Event) => {
+      this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
+      if ((event as ErrorEvent).error.name === "NotReadableError") {
+        this.error.value = new Error('Der Sensor ist nicht verfügbar.')
+      }
+    }
+    this.sensor.value.start()
     return Promise.resolve()
   }
 
-  async getPermission(): Promise<PermissionState> {
-    return Promise.resolve(await getPermission())
-  }
-
-  start(options?: { frequency: number}) {
-    gravitySensorStart(options)
-    return {
-      currentSensorValue,
-      error
-    }
-  }
-
-  stop() {
-    gravitySensorStop()
-  }
-
-  clone(): Sensor {
-    return new WebSenseGravitySensor(this.isActive, this.isAvailable, this.isCalibrated)
+  _stopSensor(): Promise<void> {
+    this.sensor.value?.stop()
+    return Promise.resolve()
   }
 }

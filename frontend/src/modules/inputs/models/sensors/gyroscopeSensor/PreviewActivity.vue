@@ -28,21 +28,20 @@
 </template>
 
 <script lang="ts" setup>
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
-import {WebSenseGravitySensor} from "@/modules/inputs/models/sensors/gravitySensor/Sensor"
+import type {AbstractSensorType} from "@/modules/inputs/models/sensors/abstractSensor"
+import type {WebSenseGyroscopeSensor} from "@/modules/inputs/models/sensors/gyroscopeSensor/Sensor"
+import {onUnmounted} from "vue"
 
 // Access sensor
 const props = defineProps<{
-  sensor: Sensor
+  sensor: AbstractSensorType
 }>()
 
-const gravitySensor = props.sensor as WebSenseGravitySensor
-const {
-  currentSensorValue,
-  error
-} = gravitySensor.start({ frequency: 60 })
+const gyroscopeSensor = props.sensor as WebSenseGyroscopeSensor
+gyroscopeSensor.start()
+const {currentSensorValue, error} = gyroscopeSensor
 
 const toFixedDecimals = (value?: number | null) => {
   if (!value) return
@@ -51,6 +50,10 @@ const toFixedDecimals = (value?: number | null) => {
     maximumFractionDigits: 3
   })
 }
+
+onUnmounted(async () => {
+  await gyroscopeSensor.stop()
+})
 </script>
 
 <style scoped></style>

@@ -1,66 +1,62 @@
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {InputType} from "@/modules/inputs/models/inputType"
-import {
-  type OrientationSensorOptions,
-  useRelativeOrientationSensor
-} from "@/modules/inputs/models/sensors/relativeOrientationSensor/useRelativeOrientationSensor"
+import {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"
+import {RelativeOrientationSensor} from "motion-sensors-polyfill/src/motion-sensors"
 
-const {
-  key,
-  availableIconKey,
-  unavailableIconKey,
-  sensorPath,
-  isAvailable,
-  currentSensorValue,
-  getPermission,
-  checkAvailability,
-  start: relativeOrientationSensorStart,
-  stop,
-  error
-} = useRelativeOrientationSensor()
 
-export class WebSenseRelativeOrientationSensor implements Sensor {
-  public readonly key: InputType = key
-  public readonly availableIconKey: string = availableIconKey
-  public readonly unavailableIconKey: string = unavailableIconKey
-  public readonly sensorPath = sensorPath
-  isActive: boolean
-  isAvailable: boolean
-  isCalibrated: boolean
+export type Quaternion  = [number, number, number, number]
+type OrientationSensorLocalCoordinateSystem = "device" | "screen";
+export interface OrientationSensorOptions {
+  frequency?: number | undefined;
+  referenceFrame?: OrientationSensorLocalCoordinateSystem | undefined; // defaults to "device"
+}
 
-  constructor(
-    isActive = false,
-    isAvailable = false,
-    isCalibrated = false
-  ) {
-    this.isActive = isActive
-    this.isAvailable = isAvailable
-    this.isCalibrated = isCalibrated
+export class WebSenseRelativeOrientationSensor extends AbstractSensor<RelativeOrientationSensor, Quaternion, OrientationSensorOptions> {
+  constructor() {
+    super(
+      InputType.RELATIVE_ORIENTATION,
+      'bi-phone-flip',
+      'relativeOrientationSensor',
+      ['accelerometer', 'gyroscope'] as unknown as PermissionName[]
+    )
   }
 
-  async checkAvailability(): Promise<void> {
-    await checkAvailability()
-    this.isAvailable = isAvailable.value
+  _getAvailability(): Promise<boolean> {
+    if (!("RelativeOrientationSensor" in window)) {
+      return Promise.resolve(false)
+    }
+    try {
+      new RelativeOrientationSensor();
+      return Promise.resolve(true)
+    } catch (error) {
+      if (!(error instanceof Error)) {
+        console.error('Unknown error', error)
+        return Promise.resolve(false)
+      }
+      if (error.name === "ReferenceError") {
+        console.error("Sensor is not supported by the User Agent.");
+      }
+    }
+    return Promise.resolve(false)
+  }
+
+  _startSensor(options?: OrientationSensorOptions | undefined): Promise<void> {
+    this.sensor.value = new RelativeOrientationSensor(options)
+    this.sensor.value.onreading = () => {
+      this.currentSensorValue.value = this.sensor.value?.quaternion
+    };
+    this.sensor.value.onerror = (event: Event) => {
+      this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
+      console.error('RelativeOrientationSensor failed', this.error)
+      if ((event as ErrorEvent).error.name === "NotReadableError") {
+        this.error.value = new Error('Der Sensor ist nicht verfügbar.')
+      }
+    }
+    this.sensor.value.start()
     return Promise.resolve()
   }
 
-  async getPermission(): Promise<PermissionState> {
-    return Promise.resolve(await getPermission())
-  }
-
-  start(options?: OrientationSensorOptions) {
-    relativeOrientationSensorStart(options)
-    return {
-      currentSensorValue,
-      error
-    }
-  }
-
-  stop() {
-    stop()
-  }
-
-  clone(): Sensor {
-    return new WebSenseRelativeOrientationSensor(this.isActive, this.isAvailable, this.isCalibrated)
+  _stopSensor(): Promise<void> {
+    this.sensor.value?.stop()
+    return Promise.resolve()
   }
 }

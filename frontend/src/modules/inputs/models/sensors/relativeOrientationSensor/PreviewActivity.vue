@@ -24,23 +24,28 @@
 </template>
 
 <script lang="ts" setup>
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
-import { type WebSenseRelativeOrientationSensor} from "@/modules/inputs/models/sensors/relativeOrientationSensor/Sensor"
-import type {Quaternion} from "@/modules/inputs/models/sensors/relativeOrientationSensor/useRelativeOrientationSensor"
+import {
+  type Quaternion,
+  type WebSenseRelativeOrientationSensor
+} from "@/modules/inputs/models/sensors/relativeOrientationSensor/Sensor"
 import OrientationAnimation from "@/shared/components/OrientationAnimation.vue"
+import type {AbstractSensorType} from "@/modules/inputs/models/sensors/abstractSensor"
+import {onUnmounted} from "vue"
 
 // Access sensor
 const props = defineProps<{
-  sensor: Sensor
+  sensor: AbstractSensorType
 }>()
 
 const relativeOrientationSensor = props.sensor as WebSenseRelativeOrientationSensor
-const {
-  currentSensorValue,
-  error
-} = relativeOrientationSensor.start({ frequency: 60 })
+relativeOrientationSensor.start({ frequency: 60 })
+const { currentSensorValue, error } = relativeOrientationSensor
+
+onUnmounted(async () => {
+  await relativeOrientationSensor.stop()
+})
 </script>
 
 <style scoped></style>

@@ -28,21 +28,20 @@
 </template>
 
 <script lang="ts" setup>
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
 import type {WebSenseAccelerometerSensor} from "@/modules/inputs/models/sensors/accelerometerSensor/Sensor"
+import type {AbstractSensorType} from "@/modules/inputs/models/sensors/abstractSensor"
+import {onUnmounted} from "vue"
 
 // Access sensor
 const props = defineProps<{
-  sensor: Sensor
+  sensor: AbstractSensorType
 }>()
 
 const accelerometerSensor = props.sensor as WebSenseAccelerometerSensor
-const {
-  currentSensorValue,
-  error
-} = accelerometerSensor.start({ frequency: 60 })
+accelerometerSensor.start({ frequency: 60 })
+const { currentSensorValue, error } = accelerometerSensor
 
 const toFixedDecimals = (value?: number | null) => {
   if (!value) return
@@ -51,6 +50,10 @@ const toFixedDecimals = (value?: number | null) => {
     maximumFractionDigits: 3
   })
 }
+
+onUnmounted(() => {
+  accelerometerSensor.stop()
+})
 </script>
 
 <style scoped></style>

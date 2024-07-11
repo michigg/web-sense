@@ -3,38 +3,31 @@
  */
 
 // https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Using_the_MediaStream_Recording_API
-import { MediaDeviceType } from "./MediaDeviceType"
-import type { Sensor } from "@/modules/inputs/models/Sensor"
-import { SensorError } from "@/modules/inputs/exceptions"
-import { InputType } from "@/modules/inputs/models/inputType"
+import {MediaDeviceType} from "./MediaDeviceType"
+import {SensorError} from "@/modules/inputs/exceptions"
+import {InputType} from "@/modules/inputs/models/inputType"
+import {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"
 
-export class MicSensor implements Sensor {
-  readonly key: InputType = InputType.MIC
-  readonly availableIconKey: string = "bi-mic"
-  readonly unavailableIconKey: string = "bi-mic"
-  readonly sensorPath = 'microphone'
-  isAvailable = false
-  isActive = false
-  isCalibrated = false
-  deviceId = ""
+export interface MicSensorOptions {
+  deviceId: string,
+}
 
-  audioContext: AudioContext | undefined
+export class MicSensor extends AbstractSensor<AudioContext, MediaStreamAudioSourceNode, MicSensorOptions> {
+  audioContext: AudioContext | undefined = undefined
   sourceAudioNode: MediaStreamAudioSourceNode | undefined = undefined
   readonly sampleRate: number = 48000 // 44100
   readonly bufferSize: number = 1024
 
-  constructor (audioContext: AudioContext | undefined = undefined) {
-    this.audioContext = audioContext
+  constructor() {
+    super(
+      InputType.MIC,
+      'bi-mic',
+      'microphone',
+      ['microphone'] as unknown as PermissionName[]
+    )
   }
 
-  async checkAvailability (): Promise<void> {
-    const audioInputDevices: Array<MediaDeviceInfo> =
-      await this.availableDevices()
-    this.isAvailable = audioInputDevices.length > 0
-    return Promise.resolve()
-  }
-
-  async availableDevices (): Promise<Array<MediaDeviceInfo>> {
+  async availableDevices(): Promise<Array<MediaDeviceInfo>> {
     if (
       !("mediaDevices" in navigator && "getUserMedia" in navigator.mediaDevices)
     ) {
@@ -48,9 +41,9 @@ export class MicSensor implements Sensor {
     return Promise.resolve(audioInputDevices)
   }
 
-  async getPermission (): Promise<PermissionState> {
+  async queryPermissions(): Promise<PermissionState> {
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true })
+      await navigator.mediaDevices.getUserMedia({audio: true})
       // return await navigator.permissions.query({ name: 'microphone' })
       return Promise.resolve("granted")
     } catch (e) {
@@ -58,9 +51,31 @@ export class MicSensor implements Sensor {
     }
   }
 
-  async activateInputDevice (
+  async activateInputDevice(
     deviceId = ""
   ): Promise<MediaStreamAudioSourceNode> {
+    await this._startSensor({deviceId})
+    const mediaStreamAudioSourceNode =  this.currentSensorValue.value
+    if (!mediaStreamAudioSourceNode) {
+      throw new Error('Microphone konnte nicht gestarted werden')
+    }
+    return mediaStreamAudioSourceNode
+  }
+
+  getSourceAudioNode() {
+    return this.currentSensorValue.value
+  }
+
+  async deactivateInputDevices(): Promise<void> {
+    await this._stopSensor()
+  }
+
+  async _getAvailability(): Promise<boolean> {
+    const audioInputDevices: Array<MediaDeviceInfo> = await this.availableDevices()
+    return Promise.resolve(audioInputDevices.length > 0)
+  }
+
+  async _startSensor({deviceId}: MicSensorOptions): Promise<void> {
     if (!this.audioContext) {
       // eslint-disable-next-line
       // @ts-ignore
@@ -70,37 +85,34 @@ export class MicSensor implements Sensor {
         sampleRate: this.sampleRate
       })
     }
-    if (this.sourceAudioNode) {
-      await this.deactivateInputDevices()
+    if (this.currentSensorValue.value) {
+      await this._stopSensor()
     }
     try {
       const audio: MediaTrackConstraints = {
         // TODO: both properties not supported in firefox
+        deviceId,
         sampleRate: this.sampleRate,
         sampleSize: this.bufferSize
       }
-      if (deviceId || this.deviceId) {
-        audio.deviceId = deviceId || this.deviceId
-      }
-      const stream = await navigator.mediaDevices.getUserMedia({ audio })
+      const stream = await navigator.mediaDevices.getUserMedia({audio})
       console.info(`[MIC]: Sample Rate ${this.sampleRate}`)
       console.info(`[MIC]: Buffer Size ${this.bufferSize}`)
-      this.sourceAudioNode = this.audioContext.createMediaStreamSource(stream)
-      return this.sourceAudioNode
+      // Source Audio Node
+      this.currentSensorValue.value = this.audioContext.createMediaStreamSource(stream)
     } catch (e) {
       throw new SensorError(
         `Mikrofon konnte nicht gestartet werden.\n Grund: ${e}`
       )
     }
+    return Promise.resolve()
   }
 
-  async deactivateInputDevices (): Promise<void> {
-    this.sourceAudioNode?.mediaStream
+  _stopSensor(): Promise<void> {
+    // Source Audio Node
+    this.currentSensorValue.value?.mediaStream
       .getAudioTracks()
       .forEach((track) => track.stop())
-  }
-
-  clone (): Sensor {
-    return new MicSensor(this.audioContext)
+    return Promise.resolve()
   }
 }

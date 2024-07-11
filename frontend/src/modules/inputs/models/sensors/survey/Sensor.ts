@@ -1,30 +1,25 @@
-import type { Sensor } from "@/modules/inputs/models/Sensor"
-import { InputType } from "@/modules/inputs/models/inputType"
+import {InputType} from "@/modules/inputs/models/inputType"
+import {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"
 
-export class SurveySensor implements Sensor {
-  public readonly key: InputType = InputType.SURVEY
-  public readonly availableIconKey: string = "bi-list-check"
-  public readonly unavailableIconKey: string = "bi-list-check"
-  isActive: boolean
-  isAvailable: boolean
-  isCalibrated: boolean
-
-  constructor (isActive = false, isAvailable = true, isCalibrated = true) {
-    this.isActive = isActive
-    this.isAvailable = isAvailable
-    this.isCalibrated = isCalibrated
+export class SurveySensor extends AbstractSensor<never, never, never> {
+  constructor() {
+    super(
+      InputType.SURVEY,
+      'bi-list-check',
+      'survey',
+      []
+    )
   }
 
-  checkAvailability (): Promise<void> {
-    this.isAvailable = true
-    return Promise.resolve(undefined)
+  _getAvailability(): Promise<boolean> {
+    return Promise.resolve(true)
   }
 
-  getPermission (): Promise<PermissionState> {
-    return Promise.resolve("granted")
+  _startSensor(_: never): Promise<void> {
+    return Promise.resolve()
   }
 
-  clone (): Sensor {
-    return new SurveySensor(this.isActive, this.isAvailable, this.isCalibrated)
+  _stopSensor(): Promise<void> {
+    return Promise.resolve()
   }
 }

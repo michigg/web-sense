@@ -20,26 +20,23 @@
 </template>
 
 <script lang="ts" setup>
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
 import type {WebSenseAmbientLightSensor} from "@/modules/inputs/models/sensors/ambientLight/Sensor"
-import {onMounted, onUnmounted} from "vue"
+import {onUnmounted} from "vue"
+import type {AbstractSensorType} from "@/modules/inputs/models/sensors/abstractSensor"
 
 // Access sensor
 const props = defineProps<{
-  sensor: Sensor
+  sensor: AbstractSensorType
 }>()
 
 const ambientLightSensor = props.sensor as WebSenseAmbientLightSensor
-const { illuminance, error } = ambientLightSensor.useAmbientLightSensor()
-onMounted(async () => {
-  await ambientLightSensor.getPermission()
-  ambientLightSensor.watchIlluminance()
-})
+ambientLightSensor.start()
+const { currentSensorValue: illuminance, error } = ambientLightSensor
 
 onUnmounted(() => {
-  ambientLightSensor.stopWatch()
+  ambientLightSensor.stop()
 })
 </script>
 

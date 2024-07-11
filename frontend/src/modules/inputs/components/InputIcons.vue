@@ -12,9 +12,7 @@
       <!-- TODO: use InputIcon component instead of custom implementation -->
       <BaseIconBadge
         class="input-icon-badge"
-        :icon-key="
-          input.isAvailable ? input.availableIconKey : input.unavailableIconKey
-        "
+        :icon-key="input.iconKey"
       />
     </li>
   </BaseInlineList>

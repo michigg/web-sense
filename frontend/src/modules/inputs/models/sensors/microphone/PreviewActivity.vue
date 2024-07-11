@@ -40,8 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import type {Sensor} from "@/modules/inputs/models/Sensor"
-import {onMounted, ref, watch} from "vue"
+import {ref, watch} from "vue"
 import {useEntityState} from "@/shared/composables/useEntityState"
 import {BaseList, ErrorCard, LoadingCard} from "@michigg/component-library"
 import type {MicSensor} from "@/modules/inputs/models/sensors/microphone/Sensor"
@@ -50,23 +49,14 @@ import {AudioCalculations} from "@/modules/inputs/models/sensors/microphone/audi
 import ButtonSoundAnimation from "@/shared/components/ButtonSoundAnimation.vue"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
 import ChartNoise from "@/shared/components/charts/ChartNoise.vue"
+import type {AbstractSensorType} from "@/modules/inputs/models/sensors/abstractSensor"
 
 // Access sensor
 const props = defineProps<{
-  sensor: Sensor
+  sensor: AbstractSensorType
 }>()
 
-const {busy, setBusy, setIdle, error, setError} = useEntityState()
-onMounted(async () => {
-  setBusy()
-  const micSensor = props.sensor as MicSensor
-  const permissionState = await micSensor.getPermission()
-  if (permissionState === 'denied') {
-    setError(new Error("Zugriff auf das Microphone verweigert."))
-    return
-  }
-  setIdle()
-})
+const {busy, error} = useEntityState()
 
 const analysisTimeInSeconds = ref(2)
 const {

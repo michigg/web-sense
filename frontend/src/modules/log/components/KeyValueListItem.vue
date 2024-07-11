@@ -1,6 +1,6 @@
 <template>
   <li class="key-value-list-item">
-    <span>{{ keyData }}:</span> <span class="value">{{ valueData }}</span>
+    <span>{{ keyData }}:</span> <span class="value"><slot name="value">{{ valueData }}</slot></span>
   </li>
 </template>
 

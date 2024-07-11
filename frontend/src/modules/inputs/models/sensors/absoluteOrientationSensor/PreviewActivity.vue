@@ -24,23 +24,28 @@
 </template>
 
 <script lang="ts" setup>
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {BaseList, ErrorCard} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
-import type {WebSenseAbsoluteOrientationSensor} from "@/modules/inputs/models/sensors/absoluteOrientationSensor/Sensor"
-import type {Quaternion} from "@/modules/inputs/models/sensors/absoluteOrientationSensor/useAbsoluteOrientationSensor"
+import type {
+  Quaternion,
+  WebSenseAbsoluteOrientationSensor
+} from "@/modules/inputs/models/sensors/absoluteOrientationSensor/Sensor"
 import OrientationAnimation from "@/shared/components/OrientationAnimation.vue"
+import type {AbstractSensorType} from "@/modules/inputs/models/sensors/abstractSensor"
+import {onUnmounted} from "vue"
 
 // Access sensor
 const props = defineProps<{
-  sensor: Sensor
+  sensor: AbstractSensorType
 }>()
 
 const absoluteOrientationSensor = props.sensor as WebSenseAbsoluteOrientationSensor
-const {
-  currentSensorValue,
-  error
-} = absoluteOrientationSensor.start({frequency: 60, referenceFrame: 'device'})
+absoluteOrientationSensor.start({frequency: 60, referenceFrame: 'device'})
+const { currentSensorValue, error } = absoluteOrientationSensor
+
+onUnmounted(() => {
+  absoluteOrientationSensor.stop()
+})
 </script>
 
 <style scoped></style>

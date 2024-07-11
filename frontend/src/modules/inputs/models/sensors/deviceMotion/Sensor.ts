@@ -1,37 +1,52 @@
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import {InputType} from "@/modules/inputs/models/inputType"
-import {useDeviceMotion} from '@vueuse/core'
+import {type DeviceMotionOptions, useDeviceMotion} from '@vueuse/core'
+import {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"
+import {ref, type Ref} from "vue"
 
-export class DeviceMotionSensor implements Sensor {
-  public readonly key: InputType = InputType.DEVICE_MOTION
-  public readonly availableIconKey: string = "bi-phone-flip"
-  public readonly unavailableIconKey: string = "bi-phone-flip"
-  public readonly sensorPath = 'deviceMotion'
-  isActive: boolean
-  isAvailable: boolean
-  isCalibrated: boolean
+export interface DeviceMotionSensorData {
+  interval: Ref<number>
+  accelerationIncludingGravity: Ref<DeviceMotionEventAcceleration | null>
+  acceleration: Ref<DeviceMotionEventAcceleration | null>
+  rotationRate: Ref<DeviceMotionEventRotationRate | null>
+}
 
-  constructor(isActive = false, isAvailable = false, isCalibrated = false) {
-    this.isActive = isActive
-    this.isAvailable = isAvailable
-    this.isCalibrated = isCalibrated
-  }
-
-  checkAvailability(): Promise<void> {
-    const {interval} = useDeviceMotion()
-    this.isAvailable = interval.value > 0
-    return Promise.resolve(undefined)
-  }
-
-  getPermission(): Promise<PermissionState> {
-    return Promise.resolve("granted")
+export class DeviceMotionSensor extends AbstractSensor<never, DeviceMotionSensorData, DeviceMotionOptions> {
+  constructor() {
+    super(
+      InputType.DEVICE_MOTION,
+      'bi-phone-flip',
+      'deviceMotion',
+      []
+    )
   }
 
   getDeviceMotion() {
     return useDeviceMotion()
   }
 
-  clone(): Sensor {
-    return new DeviceMotionSensor(this.isActive, this.isAvailable, this.isCalibrated)
+  _getAvailability(): Promise<boolean> {
+    const {interval} = useDeviceMotion()
+    return Promise.resolve(interval.value > 0)
+  }
+
+  _startSensor(options?: DeviceMotionOptions | undefined): Promise<void> {
+    const { interval, accelerationIncludingGravity, acceleration, rotationRate} = useDeviceMotion(options)
+    this.currentSensorValue.value = {
+      interval,
+      acceleration,
+      accelerationIncludingGravity,
+      rotationRate
+    }
+    return Promise.resolve()
+  }
+
+  _stopSensor(): Promise<void> {
+    this.currentSensorValue.value = {
+      interval: ref(-1),
+      acceleration: ref(null),
+      accelerationIncludingGravity: ref(null),
+      rotationRate: ref(null)
+    }
+    return Promise.resolve()
   }
 }

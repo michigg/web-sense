@@ -3,14 +3,14 @@
     <IconStateListElement
       v-for="[key, input] in inputs"
       :key="key"
-      :icon-key="input.isAvailable ? input.availableIconKey : input.unavailableIconKey"
+      :icon-key="input.iconKey"
       :label="input.key.toUpperCase()"
-      :fail="!input.isAvailable"
-      :success="input.isAvailable"
+      :fail="!input.isAvailable.value"
+      :success="input.isAvailable.value"
       data-test="sensor-list-element"
     >
       <template
-        v-if="input.isAvailable"
+        v-if="input.isAvailable.value"
         #postfix
       >
         <RouterLink :to="{ name: 'SensorPreview', params: { inputType: input.key.toUpperCase()}}">

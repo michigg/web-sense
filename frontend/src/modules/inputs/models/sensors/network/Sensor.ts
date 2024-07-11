@@ -1,37 +1,41 @@
-import type { Sensor } from "@/modules/inputs/models/Sensor"
-import { InputType } from "@/modules/inputs/models/inputType"
-import { useNetwork } from '@vueuse/core'
+import {InputType} from "@/modules/inputs/models/inputType"
+import {type ConfigurableWindow, type NetworkState, useNetwork} from '@vueuse/core'
+import {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"
+import {ref} from "vue"
 
-export class NetworkSensor implements Sensor {
-  public readonly key: InputType = InputType.NETWORK
-  public readonly availableIconKey: string = "bi-router"
-  public readonly unavailableIconKey: string = "bi-router"
-  public readonly sensorPath = 'network'
-  isActive: boolean
-  isAvailable: boolean
-  isCalibrated: boolean
 
-  constructor (isActive = false, isAvailable = false, isCalibrated = false) {
-    this.isActive = isActive
-    this.isAvailable = isAvailable
-    this.isCalibrated = isCalibrated
+export class NetworkSensor extends AbstractSensor<string, NetworkState, ConfigurableWindow> {
+  constructor() {
+    const {isSupported} = useNetwork()
+    super(
+      InputType.NETWORK,
+      'bi-router',
+      'network',
+      [] as unknown as PermissionName[],
+      isSupported,
+      ref(false),
+      ref(false)
+    )
   }
 
-  checkAvailability (): Promise<void> {
-    const { isSupported } = useNetwork()
-    this.isAvailable = isSupported.value
-    return Promise.resolve(undefined)
-  }
-
-  getPermission (): Promise<PermissionState> {
-    return Promise.resolve("granted")
-  }
-
-  getNetwork () {
+  getNetwork() {
     return useNetwork()
   }
 
-  clone (): Sensor {
-    return new NetworkSensor(this.isActive, this.isAvailable, this.isCalibrated)
+  _getAvailability(): Promise<boolean> {
+    const {isSupported} = useNetwork()
+    return Promise.resolve(isSupported.value)
+  }
+
+  _startSensor(options?: ConfigurableWindow): Promise<void> {
+    this.currentSensorValue.value = useNetwork(options)
+    this.sensor.value = 'Network Sensor Set'
+    return Promise.resolve()
+  }
+
+  _stopSensor(): Promise<void> {
+    this.currentSensorValue.value = undefined
+    this.sensor.value = undefined
+    return Promise.resolve()
   }
 }

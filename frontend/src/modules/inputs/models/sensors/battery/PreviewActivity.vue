@@ -12,17 +12,42 @@
   </p>
   <BaseList>
     <KeyValueListItem
-      key-data="isSupported"
-      :value-data="isSupported"
-    />
-    <KeyValueListItem
       key-data="level"
       :value-data="level"
-    />
+    >
+      <template #value>
+        <span>
+          {{ level }}
+          <BaseIcon
+            v-if="level >= 0.99"
+            icon-key="bi-battery-full"
+          />
+          <BaseIcon
+            v-else-if="level > 0.20"
+            icon-key="bi-battery-half"
+          />
+          <BaseIcon
+            v-else
+            icon-key="bi-battery"
+          />
+        </span>
+      </template>
+    </KeyValueListItem>
     <KeyValueListItem
       key-data="charging"
       :value-data="charging"
-    />
+    >
+      <template #value>
+        <span v-if="charging">
+          yes
+          <BaseIcon icon-key="bi-battery-charging" />
+        </span>
+        <span v-else>
+          no
+          <BaseIcon icon-key="bi-battery-full" />
+        </span>
+      </template>
+    </KeyValueListItem>
     <KeyValueListItem
       key-data="chargingTime (s)"
       :value-data="chargingTime"
@@ -35,24 +60,28 @@
 </template>
 
 <script lang="ts" setup>
-import type {Sensor} from "@/modules/inputs/models/Sensor"
-import {BaseList} from "@michigg/component-library"
+import {BaseList, BaseIcon} from "@michigg/component-library"
 import KeyValueListItem from "@/modules/log/components/KeyValueListItem.vue"
-import type {BatterySensor} from "@/modules/inputs/models/sensors/battery/Sensor"
+import type {BatterySensor, BatterySensorData} from "@/modules/inputs/models/sensors/battery/Sensor"
+import type {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"
+import {onUnmounted, toRefs} from "vue"
 
 // Access sensor
 const props = defineProps<{
-  sensor: Sensor
+  sensor: AbstractSensor<unknown, unknown, unknown>
 }>()
 
 const batterySensor = props.sensor as BatterySensor
 const {
-  isSupported,
   level,
   charging,
   chargingTime,
-  dischargingTime
-} = batterySensor.getBattery()
+  dischargingTime,
+} = toRefs(batterySensor.currentSensorValue.value as BatterySensorData)
+
+onUnmounted(() => {
+  batterySensor.stop()
+})
 </script>
 
 <style scoped></style>

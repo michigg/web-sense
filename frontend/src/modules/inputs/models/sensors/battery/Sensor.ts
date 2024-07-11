@@ -1,37 +1,46 @@
-import type { Sensor } from "@/modules/inputs/models/Sensor"
-import { InputType } from "@/modules/inputs/models/inputType"
-import { useBattery } from '@vueuse/core'
+import {InputType} from "@/modules/inputs/models/inputType"
+import {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"
+import {useBattery} from "@vueuse/core"
+import {type Ref, ref} from "vue"
 
-export class BatterySensor implements Sensor {
-  public readonly key: InputType = InputType.BATTERY
-  public readonly availableIconKey: string = "bi-battery-full"
-  public readonly unavailableIconKey: string = "bi-battery-full"
-  public readonly sensorPath = 'battery'
-  isActive: boolean
-  isAvailable: boolean
-  isCalibrated: boolean
+const {isSupported, charging, chargingTime, dischargingTime, level} = useBattery()
+export type BatterySensorData = {
+  charging: Ref<boolean>,
+  chargingTime: Ref<number>,
+  dischargingTime: Ref<number>,
+  level: Ref<number>
+}
 
-  constructor (isActive = false, isAvailable = false, isCalibrated = false) {
-    this.isActive = isActive
-    this.isAvailable = isAvailable
-    this.isCalibrated = isCalibrated
+export class BatterySensor extends AbstractSensor<unknown, BatterySensorData, unknown> {
+  constructor() {
+    super(
+      InputType.BATTERY,
+      'bi-battery-full',
+      'battery',
+      [],
+      isSupported,
+      ref(false),
+      ref(false)
+    )
+    this.currentSensorValue.value = {
+      charging,
+      chargingTime,
+      dischargingTime,
+      level
+    }
   }
 
-  checkAvailability (): Promise<void> {
-    const { isSupported } = useBattery()
-    this.isAvailable = isSupported.value
-    return Promise.resolve(undefined)
+  _getAvailability(): Promise<boolean> {
+    return Promise.resolve(isSupported.value);
   }
 
-  getPermission (): Promise<PermissionState> {
-    return Promise.resolve("granted")
+  _stopSensor(): Promise<void> {
+    // Nothing to do here
+    return Promise.resolve()
   }
 
-  getBattery () {
-    return useBattery()
-  }
-
-  clone (): Sensor {
-    return new BatterySensor(this.isActive, this.isAvailable, this.isCalibrated)
+  _startSensor(_: unknown): Promise<void> {
+    // Nothing to do here
+    return Promise.resolve()
   }
 }
