@@ -1,1 +1,0 @@
-import{r as s,q as t}from"./index-Cs5H5E-P.js";function f(){const r=s(!1),e=s(),o=()=>{r.value=!1},a=()=>{r.value=!0},u=l=>{e.value=l},n=()=>{e.value=void 0};return{busy:t(r),error:t(e),setIdle:o,setBusy:a,setError:u,clearError:n}}export{f as u};
