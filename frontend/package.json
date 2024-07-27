@@ -1,6 +1,6 @@
 {
   "name": "websense",
-  "version": "0.19.2",
+  "version": "0.20.0",
   "license": "MIT",
   "scripts": {
     "dev": "vite --port 4173",
