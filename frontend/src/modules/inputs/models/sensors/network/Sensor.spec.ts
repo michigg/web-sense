@@ -1,6 +1,6 @@
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest"
 import {type NetworkState, useNetwork} from "@vueuse/core"
-import {computed, ref} from "vue"
+import {ref} from "vue"
 import {NetworkSensor} from "@/modules/inputs/models/sensors/network/Sensor"
 
 describe("NetworkSensor", () => {

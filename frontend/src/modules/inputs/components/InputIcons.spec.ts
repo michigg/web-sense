@@ -1,6 +1,5 @@
 import {flushPromises, mount, VueWrapper} from "@vue/test-utils"
 import InputIcons from "@/modules/inputs/components/InputIcons.vue"
-import type { Sensor } from "@/modules/inputs/models/Sensor"
 import { SurveySensor } from "@/modules/inputs/models/sensors/survey/Sensor"
 import { MicSensor } from "@/modules/inputs/models/sensors/microphone/Sensor"
 import { GeolocationSensor } from "@/modules/inputs/models/sensors/geolocation/Sensor"

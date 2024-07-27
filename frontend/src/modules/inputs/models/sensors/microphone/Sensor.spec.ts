@@ -1,6 +1,6 @@
 import { MicSensor } from "./Sensor"
 import { EmptyEnumerateDeviceMock, EnumerateAudioDeviceMock, GetUserMediaMock } from "../__mocks__/media"
-import {beforeEach, describe, expect, it, vi} from "vitest"
+import {beforeEach, describe, expect, it} from "vitest"
 
 describe("MicSensor", () => {
   let sensor: MicSensor
