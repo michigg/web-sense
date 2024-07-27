@@ -72,7 +72,8 @@
 
 :root {
   /* Shadows */
-  --shadow-inset-md: inset 0 0.125rem .5rem hsl(var(--hue) 100% 10%)
+  --shadow-inset-md: inset 0 0.125rem .5rem hsl(var(--hue) 100% 10%);
+  --color-surface-button: var(--color-primary);
 }
 
 @font-face {

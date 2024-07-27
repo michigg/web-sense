@@ -8,10 +8,11 @@
     data-test="list-element"
   >
     <span class="tw-font-bold">{{ label }}</span>
-    <span>
+    <span class="icon">
       <slot />
       <BaseIcon :icon-key="iconKey" />
     </span>
+    <slot name="postfix" />
   </BaseListElement>
 </template>
 
@@ -37,8 +38,12 @@ withDefaults(
 .icon-state-list-element {
   display: flex;
   justify-content: space-between;
-  gap: 2rem;
+  gap: var(--space-sm);
   background-color: var(--color-surface-1);
+}
+
+.icon {
+  margin-inline-start: auto;
 }
 
 .success {

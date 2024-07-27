@@ -43,7 +43,7 @@ export class MicAnalyzer {
       // START Analyze
       this.analyzer = Meyda.createMeydaAnalyzer({
         audioContext: this.mic.audioContext,
-        source: this.mic.sourceAudioNode,
+        source: this.mic.getSourceAudioNode(),
         sampleRate: this.mic.sampleRate,
         bufferSize: this.mic.bufferSize,
         windowingFunction: this.analysisConfig.windowingFunction,

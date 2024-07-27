@@ -1,6 +1,6 @@
 import { MicSensor } from "./Sensor"
 import { EmptyEnumerateDeviceMock, EnumerateAudioDeviceMock, GetUserMediaMock } from "../__mocks__/media"
-import { beforeEach, describe, expect, it } from "vitest"
+import {beforeEach, describe, expect, it} from "vitest"
 
 describe("MicSensor", () => {
   let sensor: MicSensor
@@ -18,9 +18,9 @@ describe("MicSensor", () => {
       configurable: true
     })
 
-    expect(sensor.isAvailable).toBe(false)
+    expect(sensor.isAvailable.value).toBe(false)
     await sensor.checkAvailability()
-    expect(sensor.isAvailable).toBe(true)
+    expect(sensor.isAvailable.value).toBe(true)
   })
 
   it("returns false if sensors is available", async () => {
@@ -33,6 +33,6 @@ describe("MicSensor", () => {
     })
 
     await sensor.checkAvailability()
-    expect(sensor.isAvailable).toBe(false)
+    expect(sensor.isAvailable.value).toBe(false)
   })
 })

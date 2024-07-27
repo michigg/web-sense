@@ -5,16 +5,14 @@
       v-for="[key, input] in inputs"
       :key="key"
       :class="[
-        input != null && input.isAvailable ? 'text-success' : 'text-danger',
+        input.isAvailable.value ? 'text-success' : 'text-danger',
         'input-icon',
       ]"
     >
       <!-- TODO: use InputIcon component instead of custom implementation -->
       <BaseIconBadge
         class="input-icon-badge"
-        :icon-key="
-          input.isAvailable ? input.availableIconKey : input.unavailableIconKey
-        "
+        :icon-key="input.iconKey"
       />
     </li>
   </BaseInlineList>
