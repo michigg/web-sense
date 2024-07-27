@@ -1,7 +1,6 @@
 import type {ShallowRef} from "vue"
 import {onMounted, type Ref, ref, shallowRef} from "vue"
 import {useRoute} from "vue-router"
-import type {Sensor} from "@/modules/inputs/models/Sensor"
 import type {InputType} from "@/modules/inputs/models/inputType"
 import {useSensorStore} from "@/modules/inputs/store"
 import type {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"

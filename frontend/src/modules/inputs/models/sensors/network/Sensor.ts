@@ -12,7 +12,7 @@ export class NetworkSensor extends AbstractSensor<string, NetworkState, Configur
       'bi-router',
       'network',
       [] as unknown as PermissionName[],
-      isSupported,
+      ref(isSupported.value),
       ref(false),
       ref(false)
     )

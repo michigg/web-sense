@@ -55,7 +55,7 @@ export class WebSenseAccelerometerSensor extends AbstractSensor<Accelerometer, A
       console.error('AbsoluteOrientationSensor failed', event)
       this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
       if ((event as ErrorEvent).error.name === "NotReadableError") {
-        this.error.value = new Error('Der Sensor ist nicht verfügbar.')
+        this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
       }
     }
     this.sensor.value.start()

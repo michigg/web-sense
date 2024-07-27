@@ -5,7 +5,7 @@
       v-for="[key, input] in inputs"
       :key="key"
       :class="[
-        input != null && input.isAvailable ? 'text-success' : 'text-danger',
+        input.isAvailable.value ? 'text-success' : 'text-danger',
         'input-icon',
       ]"
     >

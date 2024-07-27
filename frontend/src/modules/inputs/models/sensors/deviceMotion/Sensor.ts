@@ -30,7 +30,7 @@ export class DeviceMotionSensor extends AbstractSensor<never, DeviceMotionSensor
   }
 
   _startSensor(options?: DeviceMotionOptions | undefined): Promise<void> {
-    const { interval, accelerationIncludingGravity, acceleration, rotationRate} = useDeviceMotion(options)
+    const {interval, accelerationIncludingGravity, acceleration, rotationRate} = useDeviceMotion(options)
     this.currentSensorValue.value = {
       interval,
       acceleration,

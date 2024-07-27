@@ -29,13 +29,13 @@ export class WebSenseAbsoluteOrientationSensor extends AbstractSensor<AbsoluteOr
       return Promise.resolve(true)
     } catch (error) {
       if (!(error instanceof Error)) {
-        console.error('Unknown error', error)
+        this.logError('Unknown error', error)
         return Promise.resolve(false)
       }
       if (error.name === "ReferenceError") {
-        console.error("Sensor is not supported by the User Agent.");
+        this.logError('Sensor is not supported by the User Agent.')
       }
-      console.error('Unknown error', error)
+      this.logError('Unknown error', error)
     }
     return Promise.resolve(false)
   }
@@ -51,7 +51,7 @@ export class WebSenseAbsoluteOrientationSensor extends AbstractSensor<AbsoluteOr
       this.currentSensorValue.value = this.sensor.value?.quaternion
     };
     this.sensor.value.onerror = (event: Event) => {
-      console.error(event)
+      this.logError('Sensor reading error', event)
       this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
       if ((event as ErrorEvent).error.name === "NotReadableError") {
         this.error.value = new Error('Der Sensor kann nicht gelesen werden.')

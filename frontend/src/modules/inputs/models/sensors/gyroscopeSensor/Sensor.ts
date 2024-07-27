@@ -48,10 +48,10 @@ export class WebSenseGyroscopeSensor extends AbstractSensor<Gyroscope, Gyroscope
       }
     }
     this.sensor.value.onerror = (event: Event) => {
-      console.error(event)
-      this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
+      this.logError((event as ErrorEvent).error)
+      this.error.value = new Error('Der Sensor ist nicht verfügbar.')
       if ((event as ErrorEvent).error.name === "NotReadableError") {
-        this.error.value = new Error('Der Sensor ist nicht verfügbar.')
+        this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
       }
     }
     this.sensor.value.start()

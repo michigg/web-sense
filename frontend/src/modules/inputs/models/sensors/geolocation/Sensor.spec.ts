@@ -16,19 +16,20 @@ describe("GeolocationSensor", () => {
     sensor = new GeolocationSensor()
   })
 
-  it("returns true if sensors is available", async () => {
-    expect(sensor.isAvailable).toBe(false)
-    await sensor.checkAvailability()
-    expect(sensor.isAvailable).toBe(true)
-  })
+  describe('isAvailable', () => {
+    it('isAvailable - set to false if GeolocationSensor not in navigator', async () => {
+      delete navigator.geolocation
 
-  it("returns false if sensors is available", async () => {
-    Object.defineProperty(window, "navigator", {
-      value: {},
-      configurable: true
+      await sensor.checkAvailability()
+
+      expect(sensor.isAvailable.value).toBeFalsy()
     })
+    it('isAvailable - set to true if GeolocationSensor in navigator', async () => {
+      Object.defineProperty(navigator, "geolocation", {})
 
-    await sensor.checkAvailability()
-    expect(sensor.isAvailable).toBe(false)
+      await sensor.checkAvailability()
+
+      expect(sensor.isAvailable.value).toBeTruthy()
+    })
   })
 })

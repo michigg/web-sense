@@ -20,7 +20,7 @@ export class WebSenseGravitySensor extends AbstractSensor<GravitySensor, Gravity
   }
 
   _getAvailability(): Promise<boolean> {
-    if (!("Accelerometer" in window)) {
+    if (!("GravitySensor" in window)) {
       return Promise.resolve(false)
     }
     try {
@@ -48,9 +48,10 @@ export class WebSenseGravitySensor extends AbstractSensor<GravitySensor, Gravity
       }
     };
     this.sensor.value.onerror = (event: Event) => {
-      this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
+      this.logError((event as ErrorEvent).error)
+      this.error.value = new Error('Der Sensor ist nicht verfügbar.')
       if ((event as ErrorEvent).error.name === "NotReadableError") {
-        this.error.value = new Error('Der Sensor ist nicht verfügbar.')
+        this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
       }
     }
     this.sensor.value.start()

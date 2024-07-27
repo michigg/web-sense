@@ -45,10 +45,10 @@ export class WebSenseRelativeOrientationSensor extends AbstractSensor<RelativeOr
       this.currentSensorValue.value = this.sensor.value?.quaternion
     };
     this.sensor.value.onerror = (event: Event) => {
-      this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
-      console.error('RelativeOrientationSensor failed', this.error)
+      this.logError((event as ErrorEvent).error)
+      this.error.value = new Error('Der Sensor ist nicht verfügbar.')
       if ((event as ErrorEvent).error.name === "NotReadableError") {
-        this.error.value = new Error('Der Sensor ist nicht verfügbar.')
+        this.error.value = new Error('Der Sensor kann nicht gelesen werden.')
       }
     }
     this.sensor.value.start()

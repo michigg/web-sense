@@ -16,7 +16,7 @@ export abstract class AbstractSensor<SensorType, SensorDataType, SensorOptionsTy
   readonly error = ref<Error | undefined>()
   readonly hasReading = computed<boolean>(() => !!this.currentSensorValue.value)
 
-  constructor(
+  protected constructor(
     key: InputType,
     iconKey: string,
     sensorPath: string,
@@ -38,6 +38,7 @@ export abstract class AbstractSensor<SensorType, SensorDataType, SensorOptionsTy
 
   async checkAvailability(): Promise<void> {
     this.isAvailable.value = await this._getAvailability()
+    this.logDebug(`Sensor is ${this.isAvailable.value ? '' : 'NOT '}available`)
   }
 
   async queryPermissions(): Promise<PermissionState> {

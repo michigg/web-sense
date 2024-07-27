@@ -15,7 +15,7 @@ export class WebSenseAmbientLightSensor extends AbstractSensor<AmbientLightSenso
     )
   }
 
-  getPermission (): Promise<PermissionState> {
+  queryPermissions (): Promise<PermissionState> {
     try {
       if ("AmbientLightSensor" in window) {
         new AmbientLightSensor()
@@ -31,7 +31,7 @@ export class WebSenseAmbientLightSensor extends AbstractSensor<AmbientLightSenso
     return Promise.resolve("AmbientLightSensor" in window)
   }
 
-  _startSensor(_: never): Promise<void> {
+  _startSensor(): Promise<void> {
     this.sensor.value = new AmbientLightSensor()
     this.sensor.value.addEventListener("reading", () => {
       const illuminance = this.sensor.value.illuminance

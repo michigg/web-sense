@@ -15,7 +15,7 @@ export class DummySensor extends AbstractSensor<never, never, never> {
     return Promise.resolve(false)
   }
 
-  _startSensor(_: never): Promise<void> {
+  _startSensor(): Promise<void> {
     return Promise.reject(new Error("DummySensor not implemented"))
   }
 

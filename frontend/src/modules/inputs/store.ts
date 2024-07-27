@@ -69,10 +69,27 @@ export function useSensorStore() {
   const getSensorTypes = computed<InputType[]>(() => Array.from(sensors.keys()))
 
   const checkAvailability = async () => {
+    console.time('[SensorStore]: checkAvailability')
     for (const sensor of sensors.values()) {
       await sensor.checkAvailability()
-      console.debug(`[SensorsStore]: Sensor ${sensor.key} is ${sensor.isAvailable.value ? '' : 'not '}available`)
     }
+    console.timeEnd('[SensorStore]: checkAvailability')
+    printSensors()
+  }
+
+  const printSensors = () => {
+    console.table(
+      Array.from(sensors.values())
+        .map(
+          sensor => ({
+            key: sensor.key,
+            sensorPath: sensor.sensorPath,
+            isAvailable: sensor.isAvailable.value,
+            isActive: sensor.isActive.value,
+            isCalibrated: sensor.isCalibrated.value,
+          }))
+        .sort((a, b) => a.key.localeCompare(b.key))
+    )
   }
 
   return {

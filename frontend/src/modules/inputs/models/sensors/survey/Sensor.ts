@@ -15,7 +15,7 @@ export class SurveySensor extends AbstractSensor<never, never, never> {
     return Promise.resolve(true)
   }
 
-  _startSensor(_: never): Promise<void> {
+  _startSensor(): Promise<void> {
     return Promise.resolve()
   }
 
