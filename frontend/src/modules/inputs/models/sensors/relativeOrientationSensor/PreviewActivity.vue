@@ -10,10 +10,11 @@
     </a>
   </p>
   <h2>Sensor Results</h2>
+  <RecordButton :sensor="relativeOrientationSensor" />
   <ErrorCard :error="error" />
   <BaseList v-if="currentSensorValue">
     <KeyValueListItem
-      key-data="Quaternion"
+      :key-data="ResultValueKey.QUATERNION"
       :value-data="(currentSensorValue as Quaternion | undefined)"
     />
   </BaseList>
@@ -33,6 +34,8 @@ import {
 import OrientationAnimation from "@/shared/components/OrientationAnimation.vue"
 import type {AbstractSensorType} from "@/modules/inputs/models/sensors/abstractSensor"
 import {onUnmounted} from "vue"
+import RecordButton from "@/modules/inputs/components/RecordButton.vue"
+import {ResultValueKey} from "@/modules/inputs/models/sensors/resultValueKeys"
 
 // Access sensor
 const props = defineProps<{
@@ -46,6 +49,8 @@ const { currentSensorValue, error } = relativeOrientationSensor
 onUnmounted(async () => {
   await relativeOrientationSensor.stop()
 })
+
+
 </script>
 
 <style scoped></style>

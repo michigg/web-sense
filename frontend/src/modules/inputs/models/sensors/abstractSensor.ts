@@ -1,5 +1,11 @@
 import {computed, type Ref, ref} from "vue"
 import type {InputType} from "@/modules/inputs/models/inputType"
+import {useLogging} from "@/shared/composables/useLogging"
+import {Result} from "@/modules/tasks/models/result"
+import {Task} from "@/modules/tasks/models/task"
+import {TaskStep} from "@/modules/tasks/models/taskStep"
+
+const { logDebug } = useLogging('Sensor', 'oklch(70% 0.173 150)')
 
 export type AbstractSensorType = AbstractSensor<unknown, unknown, unknown>
 export abstract class AbstractSensor<SensorType, SensorDataType, SensorOptionsType> {
@@ -12,6 +18,7 @@ export abstract class AbstractSensor<SensorType, SensorDataType, SensorOptionsTy
   readonly isCalibrated: Ref<boolean>
   readonly sensor = ref<SensorType | undefined>()
   readonly currentSensorValue = ref<SensorDataType>()
+  readonly currentResult = ref<Result>()
   readonly lastReadingDate = ref<Date>(new Date(0))
   readonly error = ref<Error | undefined>()
   readonly hasReading = computed<boolean>(() => !!this.currentSensorValue.value)
@@ -92,6 +99,25 @@ export abstract class AbstractSensor<SensorType, SensorDataType, SensorOptionsTy
     }
   }
 
+  getSensorTask() {
+     return new Task(
+      -1,
+      this.key,
+      `${this.key} - Test Messung`,
+      {},
+      [
+        new TaskStep(
+          this.key,
+          this.key,
+          this.key,
+          [],
+          '',
+          [this.key]
+        )
+      ]
+    )
+  }
+
   logError(msg: string, e?: unknown): void {
     console.error(`[Sensor]:[${this.key}]: ${msg}`, e)
   }
@@ -101,6 +127,6 @@ export abstract class AbstractSensor<SensorType, SensorDataType, SensorOptionsTy
   }
 
   logDebug(msg: string): void {
-    console.debug(`[Sensor]:[${this.key}]: ${msg}`)
+    logDebug(`[${this.key}]: ${msg}`)
   }
 }

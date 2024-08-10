@@ -1,6 +1,9 @@
 import {InputType} from "@/modules/inputs/models/inputType"
 import {AbstractSensor} from "@/modules/inputs/models/sensors/abstractSensor"
 import { AbsoluteOrientationSensor } from "motion-sensors-polyfill/src/motion-sensors"
+import type {OrientationSensorOptions} from "@/modules/inputs/models/sensors/relativeOrientationSensor/Sensor"
+import {Result} from "@/modules/tasks/models/result"
+import {ResultValueKey} from "@/modules/inputs/models/sensors/resultValueKeys"
 
 
 export type Quaternion = [number, number, number, number]
@@ -46,9 +49,16 @@ export class WebSenseAbsoluteOrientationSensor extends AbstractSensor<AbsoluteOr
   }
 
   _startSensor(options: OrientationSensorOptions | undefined): Promise<void> {
-    this.sensor.value = new AbsoluteOrientationSensor(options)
-    this.sensor.value.onreading = () => {
-      this.currentSensorValue.value = this.sensor.value?.quaternion
+    const absoluteOrientationSensor = new AbsoluteOrientationSensor(options)
+    this.sensor.value = absoluteOrientationSensor
+    absoluteOrientationSensor.onreading = () => {
+      this.currentSensorValue.value = absoluteOrientationSensor.quaternion
+      const result = new Result(undefined, undefined, this.sensor.value.timestamp)
+      result.metas.set(ResultValueKey.FREQUENCY_ABSOLUTE_ORIENTATION_SENSOR, options?.frequency || 'Hardware definiert!')
+      result.metas.set(ResultValueKey.REFERENCE_FRAME, options?.referenceFrame || 'device')
+      result.measurements.set(ResultValueKey.QUATERNION, this.sensor.value?.quaternion)
+      this.currentResult.value = result
+      this.lastReadingDate.value = new Date()
     };
     this.sensor.value.onerror = (event: Event) => {
       this.logError('Sensor reading error', event)

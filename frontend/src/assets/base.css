@@ -1,4 +1,5 @@
 @import "@michigg/component-library/dist/style.css";
+@import '@lion5/component-library/dist/style.css';
 
 @tailwind base;
 @tailwind components;

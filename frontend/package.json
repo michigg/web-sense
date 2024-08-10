@@ -37,7 +37,8 @@
     "pinia": "^2.2.0",
     "three": "^0.167.0",
     "vue": "^3.4.34",
-    "vue-router": "^4.4.0"
+    "vue-router": "^4.4.0",
+    "@lion5/component-library": "^0.15.3"
   },
   "devDependencies": {
     "@pinia/testing": "^0.1.4",
