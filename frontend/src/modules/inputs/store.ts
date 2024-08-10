@@ -16,6 +16,9 @@ import {WebSenseRelativeOrientationSensor} from "@/modules/inputs/models/sensors
 import {WebSenseGyroscopeSensor} from "@/modules/inputs/models/sensors/gyroscopeSensor/Sensor"
 import {WebSenseLinearAccelerationSensor} from "@/modules/inputs/models/sensors/linearAccelerometerSensor/Sensor"
 import {WebSenseMagnetometerSensor} from "@/modules/inputs/models/sensors/magnetometerSensor/Sensor"
+import {useLogging} from "@/shared/composables/useLogging"
+
+const { logTable } = useLogging('SensorStore', 'oklch(70% 0.173 150)')
 
 const sensors: Map<InputType, Raw<AbstractSensorType>> = new Map([
   [InputType.DUMMY, markRaw(new DummySensor())] as [InputType, Raw<AbstractSensorType>],
