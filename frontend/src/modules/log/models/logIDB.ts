@@ -2,10 +2,11 @@ import { openDB } from "idb"
 import type { DBSchema, IDBPDatabase } from "idb"
 import type { InputType } from "@/modules/inputs/models/inputType"
 import type { GeolocationData } from "@/modules/inputs/models/sensors/geolocation/geolocationData"
+import type {ResultValueKey} from "@/modules/inputs/models/sensors/resultValueKeys"
 
 export interface IIDBLogTaskStepResult {
-  readonly metas: Map<string, number | string | boolean>
-  readonly measurements: Map<string, number | string | boolean>
+  readonly metas: Map<ResultValueKey, number | string | boolean>
+  readonly measurements: Map<ResultValueKey, number | string | boolean>
 }
 
 export interface IIDBLogTaskStep {

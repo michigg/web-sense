@@ -1,26 +1,27 @@
 import type { Result } from "@/modules/tasks/models/result"
 import { toRaw, unref } from "vue"
 import type { IIDBLogTaskStepResult } from "@/modules/log/models/logIDB"
+import type {ResultValueKey} from "@/modules/inputs/models/sensors/resultValueKeys"
 
 export class LogTaskStepResult {
-  readonly metas: Map<string, number | string | boolean>
-  readonly measurements: Map<string, number | string | boolean>
+  readonly metas: Map<ResultValueKey, number | string | boolean>
+  readonly measurements: Map<ResultValueKey, number | string | boolean>
 
   constructor (
-    metas: Map<string, number | string | boolean>,
-    measurements: Map<string, number | string | boolean>
+    metas: Map<ResultValueKey, number | string | boolean>,
+    measurements: Map<ResultValueKey, number | string | boolean>
   ) {
     this.metas = metas
     this.measurements = measurements
   }
 
   static fromTaskResult (taskResult: Result) {
-    const unwrappedMetas = new Map<string, number | string | boolean>()
+    const unwrappedMetas = new Map<ResultValueKey, number | string | boolean>()
     for (const [key, value] of taskResult.metas) {
       unwrappedMetas.set(key, toRaw(unref(value)))
     }
 
-    const unwrappedMeasurements = new Map<string, number | string | boolean>()
+    const unwrappedMeasurements = new Map<ResultValueKey, number | string | boolean>()
     for (const [key, value] of taskResult.measurements) {
       toRaw(unref(value))
       unwrappedMeasurements.set(key, toRaw(unref(value)))
